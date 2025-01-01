@@ -10,7 +10,7 @@ import circleInfoSvg from "../../icons/gravity-ui/circle-info.svg.js"
 import overlapSvg from "../../icons/material-design-icons/overlap.svg.js"
 import {FilterPropertyConfig, FilterSchemas, FilterType} from "../../context/controllers/compositor/parts/filter-manager.js"
 
-export const OmniFilters = shadow_component(use => {
+export let OmniFilters = shadow_component(use => {
 	use.watch(() => use.context.state)
 	use.styles([styles, tooltipStyles, css`
 		#icon-container {
@@ -19,31 +19,31 @@ export const OmniFilters = shadow_component(use => {
 		}
 	`])
 
-	const controllers = use.context.controllers
-	const filtersManager = controllers.compositor.managers.filtersManager
-	const [filterPreviews, setFilterPreviews, getFilterPreviews] = use.state<{type: FilterType, canvas: PIXI.ICanvas, uid: number}[]>([])
+	let controllers = use.context.controllers
+	let filtersManager = controllers.compositor.managers.filtersManager
+	let [filterPreviews, setFilterPreviews, getFilterPreviews] = use.state<{type: FilterType, canvas: PIXI.ICanvas, uid: number}[]>([])
 
-	const selectedImageOrVideoEffect = use.context.state.selected_effect?.kind === "video" || use.context.state.selected_effect?.kind === "image"
+	let selectedImageOrVideoEffect = use.context.state.selected_effect?.kind === "video" || use.context.state.selected_effect?.kind === "image"
 		? use.context.state.effects.find(effect => effect.id === use.context.state.selected_effect!.id)! as ImageEffect | VideoEffect
 		: null
 
 	use.mount(() => {
 		filtersManager.createFilterPreviews((preview) => setFilterPreviews([...getFilterPreviews(), preview]))
-		const dispose = filtersManager.onChange(() => use.rerender())
+		let dispose = filtersManager.onChange(() => use.rerender())
 		return () => dispose()
 	})
 
-	const imageAndVideoEffects = () => use.context.state.effects.filter(effect => effect.kind === "image" || effect.kind === "video") as VideoEffect[] | ImageEffect[]
-	const renderEffectSelectionDropdown = () => {
+	let imageAndVideoEffects = () => use.context.state.effects.filter(effect => effect.kind === "image" || effect.kind === "video") as VideoEffect[] | ImageEffect[]
+	let renderEffectSelectionDropdown = () => {
 		return html`
 			<div class=dropdown>
 				<div class=flex>
 					<sl-select
 						value=${selectedImageOrVideoEffect?.id ?? "none"}
 						@sl-change=${(event: Event) => {
-							const target = event.target as HTMLSelectElement
-							const effectId = target.value
-							const effect = use.context.state.effects.find(effect => effect.id === effectId)
+							let target = event.target as HTMLSelectElement
+							let effectId = target.value
+							let effect = use.context.state.effects.find(effect => effect.id === effectId)
 							controllers.timeline.set_selected_effect(effect, use.context.state)
 						}}
 						id="clip"
@@ -58,19 +58,19 @@ export const OmniFilters = shadow_component(use => {
 		`
 	}
 
-	const renderDropdownInfo = () => {
+	let renderDropdownInfo = () => {
 		return Tooltip(
 			circleInfoSvg,
 			html`<p>Select video or image either from dropdown menu here, timeline or scene</p>`
 		)
 	}
 
-	const renderControl = (
+	let renderControl = (
 		filterType: FilterType,
 		propertyPath: string[],
 		config: FilterPropertyConfig
 	): TemplateResult => {
-		const label = propertyPath.join(".");
+		let label = propertyPath.join(".");
 		switch (config.type) {
 			case "number":
 				return html`
@@ -128,7 +128,7 @@ export const OmniFilters = shadow_component(use => {
 			case "choice":
 				// Normalize options: if it's an array, map each string to { value, label }
 				// if it's an object, use Object.entries.
-				const normalizedOptions = Array.isArray(config.options)
+				let normalizedOptions = Array.isArray(config.options)
 					? config.options.map(option => ({ value: option, label: option }))
 					: Object.entries(config.options).map(
 							([value, label]) => ({ value, label })
@@ -181,8 +181,8 @@ export const OmniFilters = shadow_component(use => {
 		}
 	}
 
-	const renderFilterOptions = (type: FilterType): TemplateResult => {
-		const { ...params } = FilterSchemas[type] as typeof FilterSchemas[typeof type]
+	let renderFilterOptions = (type: FilterType): TemplateResult => {
+		let { ...params } = FilterSchemas[type] as typeof FilterSchemas[typeof type]
 		return html`
 			${Object.entries(params).map(([propertyName, config]) =>
 				renderControl(type, [propertyName], config)
@@ -190,7 +190,7 @@ export const OmniFilters = shadow_component(use => {
 		`
 	}
 
-	const renderFilters = () => {
+	let renderFilters = () => {
 		return filterPreviews.map(({type, canvas}) => {
 			return html`
 			<div class=filter>
