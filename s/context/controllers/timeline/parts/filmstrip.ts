@@ -31,12 +31,12 @@ export class Filmstrip {
 	}
 
 	async #load_video_for_filmstrip() {
-		const file = await this.media.get_file(this.effect.file_hash)
+		var file = await this.media.get_file(this.effect.file_hash)
 		if(file) {
 			this.#video.src = URL.createObjectURL(file)
 			this.#video.load()
 			this.#video.addEventListener("seeked", () => {
-				const res = this.#resolve
+				var res = this.#resolve
 				if(res)
 					res(true)
 			})
@@ -44,7 +44,7 @@ export class Filmstrip {
 	}
 
 	dispose() {
-		for(const url of this.#filmstrip_frames) {
+		for(var url of this.#filmstrip_frames) {
 			URL.revokeObjectURL(url)
 		}
 	}
@@ -54,7 +54,7 @@ export class Filmstrip {
 			if(this.#is_file_ready) {
 				resolve(true)
 			} else {
-					const interval = setInterval(() => {
+					var interval = setInterval(() => {
 					if(this.#is_file_ready) {
 						resolve(true)
 						clearInterval(interval)
@@ -65,11 +65,11 @@ export class Filmstrip {
 	}
 
 	async #init_filmstrip() {
-		const file = await this.media.get_file(this.effect.file_hash)
+		var file = await this.media.get_file(this.effect.file_hash)
 		if(file) {
 			this.#is_file_ready = true
 			this.frames_count = this.effect.frames
-			const placeholders = this.#generate_filmstrip_placeholders(this.effect.frames)
+			var placeholders = this.#generate_filmstrip_placeholders(this.effect.frames)
 			this.#filmstrip_frames = placeholders
 		}
 	}
@@ -84,13 +84,13 @@ export class Filmstrip {
 	}
 
 	#get_filmstrip_frame_at(effect: VideoEffect, position: number, zoom: number) {
-		const width_of_frame_if_all_frames = effect.duration * Math.pow(2, zoom) / this.#filmstrip_frames.length
+		var width_of_frame_if_all_frames = effect.duration * Math.pow(2, zoom) / this.#filmstrip_frames.length
 		let start_at_filmstrip = (position) / width_of_frame_if_all_frames
 		return Math.floor(start_at_filmstrip)
 	}
 
 	#generate_filmstrip_placeholders(frames: number) {
-		const new_arr = []
+		var new_arr = []
 		for(let i = 0; i <= frames - 1; i++) {
 			new_arr.push(`${window.location.origin}/assets/loading.svg`)
 		}
@@ -115,7 +115,7 @@ export class Filmstrip {
 
 	*#yield_loading_placeholders(frame_count: number, normalized_left: number, effect: VideoEffect, zoom: number) {
 		for(let i = 0; i<= frame_count; i+=1) {
-			const position = normalized_left + this.#width_of_frame * i
+			var position = normalized_left + this.#width_of_frame * i
 			if(position <= this.effect_width) {
 				yield {url: this.#filmstrip_frames[this.#get_filmstrip_frame_at(effect, position, zoom)], normalized_left, i}
 			}
@@ -126,7 +126,7 @@ export class Filmstrip {
 		this.#video.currentTime = +(this.#video_fps_in_ms * this.#get_filmstrip_frame_at(effect, Number(position.toFixed(2)), zoom) / 1000).toFixed(2)
 		await new Promise((r) => this.#resolve = r)
 		this.#ctx?.drawImage(this.#video, 0, 0, 150, 50)
-		const url = this.#canvas.toDataURL("image/webp", 0.5)
+		var url = this.#canvas.toDataURL("image/webp", 0.5)
 		URL.revokeObjectURL(this.#filmstrip_frames[this.#get_filmstrip_frame_at(effect, position, zoom)])
 		if(this.#get_filmstrip_frame_at(effect, position, zoom) <= this.#filmstrip_frames.length) {
 			return this.#filmstrip_frames[this.#get_filmstrip_frame_at(effect, position, zoom)] = url
@@ -139,32 +139,32 @@ export class Filmstrip {
 		i:number
 	}>{
 		await this.#file_ready()
-		const timeline_width = timeline.clientWidth ? timeline.clientWidth : 2000
-		const frame_count = this.effect_width < timeline_width ? this.effect_width / this.#width_of_frame : timeline_width / this.#width_of_frame
-		const effect_left = calculate_start_position((effect.start_at_position - effect.start), zoom)
-		const normalized_left = Math.floor((timeline.scrollLeft - effect_left) / this.#width_of_frame) * this.#width_of_frame < 0
+		var timeline_width = timeline.clientWidth ? timeline.clientWidth : 2000
+		var frame_count = this.effect_width < timeline_width ? this.effect_width / this.#width_of_frame : timeline_width / this.#width_of_frame
+		var effect_left = calculate_start_position((effect.start_at_position - effect.start), zoom)
+		var normalized_left = Math.floor((timeline.scrollLeft - effect_left) / this.#width_of_frame) * this.#width_of_frame < 0
 			? 0
 			: Math.floor((timeline.scrollLeft - effect_left) / this.#width_of_frame) * this.#width_of_frame
-		const scroll_move_is_bigger_than_width_of_frame = Math.abs(normalized_left - this.effect_last_offset_left_position) >= Math.floor(this.#width_of_frame)
-		const should_load_new_filmstrip_frames = force_recalculate ?? scroll_move_is_bigger_than_width_of_frame
+		var scroll_move_is_bigger_than_width_of_frame = Math.abs(normalized_left - this.effect_last_offset_left_position) >= Math.floor(this.#width_of_frame)
+		var should_load_new_filmstrip_frames = force_recalculate ?? scroll_move_is_bigger_than_width_of_frame
 
 		if(should_load_new_filmstrip_frames) {
 
-			for(const placeholder of this.#yield_loading_placeholders(frame_count, normalized_left, effect, zoom))
+			for(var placeholder of this.#yield_loading_placeholders(frame_count, normalized_left, effect, zoom))
 				yield placeholder
 
-			const is_left = this.#is_scrolling_left(timeline.scrollLeft)
-			const count = is_left ? 0 : frame_count
+			var is_left = this.#is_scrolling_left(timeline.scrollLeft)
+			var count = is_left ? 0 : frame_count
 
 			for(let i = is_left ? frame_count : 0; is_left ? i >= count : i <= count; is_left ? i -= 1 : i += 1) {
-				const position = normalized_left + this.#width_of_frame * i
+				var position = normalized_left + this.#width_of_frame * i
 				if(position <= this.effect_width) {
-					const filmstrip = this.#filmstrip_frames[this.#get_filmstrip_frame_at(effect, position, zoom)]
-					const filmstrip_is_already_drawn = filmstrip !== `${window.location.origin}/assets/loading.svg` && filmstrip
+					var filmstrip = this.#filmstrip_frames[this.#get_filmstrip_frame_at(effect, position, zoom)]
+					var filmstrip_is_already_drawn = filmstrip !== `${window.location.origin}/assets/loading.svg` && filmstrip
 					if(filmstrip_is_already_drawn) {
 						yield {url: filmstrip, normalized_left, i: Math.floor(i)}
 					} else {
-						const url = await this.#draw_filmstrip_frame_and_get_its_url(effect, position, zoom)
+						var url = await this.#draw_filmstrip_frame_and_get_its_url(effect, position, zoom)
 						if(url)
 							yield {url, normalized_left, i: Math.floor(i)}
 					}
