@@ -5,7 +5,7 @@ import {MediaPlayer} from "./view.js"
 import {shadow_view} from "../../../../context/context.js"
 import videoPlayerSvg from "../../../../icons/carbon-icons/video-player.svg.js"
 
-export const MediaPlayerPanel = panel({
+export let MediaPlayerPanel = panel({
 	label: "Player",
 	icon: videoPlayerSvg,
 	view: shadow_view(use => ({}: any) => {
