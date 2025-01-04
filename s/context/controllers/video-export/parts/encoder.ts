@@ -24,10 +24,10 @@ export class Encoder {
 		this.encode_worker.postMessage({action: "get-binary"})
 		this.encode_worker.onmessage = async (msg) => {
 			if(msg.data.action === "binary") {
-				const output_name = "output.mp4"
+				let output_name = "output.mp4"
 				await this.#ffmpeg.write_composed_data(msg.data.binary, "composed.h264")
 				await this.#ffmpeg.merge_audio_with_video_and_mux(effects, "composed.h264", output_name, this.media, timebase)
-				const muxed_file = await this.#ffmpeg.get_muxed_file(output_name)
+				let muxed_file = await this.#ffmpeg.get_muxed_file(output_name)
 				this.file = muxed_file
 				this.actions.set_export_status("complete")
 			}
@@ -36,7 +36,7 @@ export class Encoder {
 	}
 
 	encode_composed_frame(canvas: HTMLCanvasElement, timestamp: number) {
-		const frame = new VideoFrame(canvas, this.#frame_config(canvas, timestamp))
+		let frame = new VideoFrame(canvas, this.#frame_config(canvas, timestamp))
 		this.encode_worker.postMessage({frame, action: "encode"})
 		frame.close()
 	}
