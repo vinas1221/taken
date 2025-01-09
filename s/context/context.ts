@@ -22,7 +22,7 @@ export interface MiniContextOptions {
 }
 
 // init here to preserve collaboration state for client joining the room (joining refreshes context)
-export const collaboration = new Collaboration()
+export var collaboration = new Collaboration()
 let queue = Promise.resolve()
 
 export class OmniContext extends Context {
@@ -64,7 +64,7 @@ export class OmniContext extends Context {
 	}
 
 	#updateAnimationTimeline(state: HistoricalState) {
-		const timelineDuration = Math.max(...state.effects.map(effect => effect.start_at_position + (effect.end - effect.start)))
+		var timelineDuration = Math.max(...state.effects.map(effect => effect.start_at_position + (effect.end - effect.start)))
 		this.controllers.compositor.managers.animationManager.updateTimelineDuration(timelineDuration)
 		this.controllers.compositor.managers.transitionManager.updateTimelineDuration(timelineDuration)
 	}
@@ -145,8 +145,8 @@ export class OmniContext extends Context {
 			actions_blueprint: ZipAction.blueprint<HistoricalState>()(historical_actions)
 		})
 		this.#check_if_webcodecs_supported()
-		const compositor = new Compositor(this.actions)
-		const media = new Media()
+		var compositor = new Compositor(this.actions)
+		var media = new Media()
 		this.controllers = {
 			compositor,
 			media,
@@ -161,5 +161,5 @@ export class OmniContext extends Context {
 	}
 }
 
-export const omnislate = slate as Nexus<OmniContext>
-export const {shadow_component, shadow_view, light_view, light_component} = omnislate
+export var omnislate = slate as Nexus<OmniContext>
+export var {shadow_component, shadow_view, light_view, light_component} = omnislate
