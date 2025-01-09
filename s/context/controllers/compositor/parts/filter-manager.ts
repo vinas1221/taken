@@ -5,7 +5,7 @@ import {Actions} from "../../../actions.js"
 import {ImageEffect, VideoEffect} from "../../../types.js"
 
 //@ts-ignore
-const filters = {...PIXI, ...PIXI.filters}
+var filters = {...PIXI, ...PIXI.filters}
 export interface Filter {
 	targetEffectId: string
 	type: FilterType
@@ -18,11 +18,11 @@ export class FiltersManager {
 
 	selectedFilterForEffect(effect: VideoEffect | ImageEffect | null, type: FilterType) {
 		if(!effect) return
-		const object = this.#getObject(effect)
+		var object = this.#getObject(effect)
 		if(object) {
 			if(object.filters instanceof Array) {
 				//@ts-ignore
-				const haveFilter = object.filters.find(filter => filter.name === type)
+				var haveFilter = object.filters.find(filter => filter.name === type)
 				if(haveFilter) {
 					return true
 				} else return false
@@ -31,8 +31,8 @@ export class FiltersManager {
 	}
 
 	#getObject(effect: VideoEffect | ImageEffect) {
-		const videoObject = this.compositor.managers.videoManager.get(effect.id)?.sprite
-		const imageObject = this.compositor.managers.imageManager.get(effect.id)?.sprite
+		var videoObject = this.compositor.managers.videoManager.get(effect.id)?.sprite
+		var imageObject = this.compositor.managers.imageManager.get(effect.id)?.sprite
 		if(videoObject) {
 			return videoObject
 		} else if(imageObject) {
@@ -45,7 +45,7 @@ export class FiltersManager {
 		type: FilterType,
 		recreate?: boolean
 	) {
-		const object = this.#getObject(effect)
+		var object = this.#getObject(effect)
 		if (!object) {
 			return
 		}
@@ -56,14 +56,14 @@ export class FiltersManager {
 		if(object.filters instanceof Array === false)
 			object.filters = []
 
-		const alreadyHasThisFilter = object.filters.find(
+		var alreadyHasThisFilter = object.filters.find(
 			(f: any) => f.name === type
 		)
 
 		if (alreadyHasThisFilter) {
 			this.removeFilterFromEffect(effect, type, recreate)
 		} else {
-			const filter = new filters[type]()
+			var filter = new filters[type]()
 			filter.name = type
 			object.filters = [...object.filters, filter]
 			if (!recreate) {
@@ -80,7 +80,7 @@ export class FiltersManager {
 		type: FilterType,
 		recreate?: boolean
 	) {
-		const object = this.#getObject(effect)!
+		var object = this.#getObject(effect)!
 		if (!recreate) {
 			this.actions.remove_filter(effect, type)
 		}
@@ -97,14 +97,14 @@ export class FiltersManager {
 		propertyPath: string | string[],
 		value: any
 	) {
-		const object = this.#getObject(effect)!
+		var object = this.#getObject(effect)!
 		if (Array.isArray(object.filters)) {
-			const filter = object.filters.find(
+			var filter = object.filters.find(
 				(f: any) =>
 					f.name === filterName
 			)
 			if (filter) {
-				const keys = Array.isArray(propertyPath) ? propertyPath : [propertyPath]
+				var keys = Array.isArray(propertyPath) ? propertyPath : [propertyPath]
 				let target = filter
 				for (let i = 0; i < keys.length - 1; i++) {
 					target = (target as any)[keys[i]]
@@ -120,17 +120,17 @@ export class FiltersManager {
 	}
 
 	async createFilterPreviews(onCreatedPreview: ({canvas, type, uid}: {canvas: PIXI.ICanvas, type: FilterType, uid: number}) => void) {
-		const webp = await fetch("/assets/filter-preview.webp")
-		for(const schema in FilterSchemas) {
-			const texture = await PIXI.Assets.load({src: webp.url, format: webp.type, loadParser: 'loadTextures'})
-			const image = new PIXI.Sprite(texture)
+		var webp = await fetch("/assets/filter-preview.webp")
+		for(var schema in FilterSchemas) {
+			var texture = await PIXI.Assets.load({src: webp.url, format: webp.type, loadParser: 'loadTextures'})
+			var image = new PIXI.Sprite(texture)
 			image.filters = []
-			const s = schema as FilterType
+			var s = schema as FilterType
 			// temporal hack to avoid errors with not working filters
 			try {
-				const filter = new filters[s](image)
+				var filter = new filters[s](image)
 				image.filters = [...image.filters, filter]
-				const canvas = this.compositor.app.renderer.extract.canvas(image)
+				var canvas = this.compositor.app.renderer.extract.canvas(image)
 				onCreatedPreview({canvas, type: s, uid: filter.uid})
 			} catch(e) {}
 		}
@@ -231,7 +231,7 @@ export interface FilterSchema {
 	[property: string]: FilterPropertyConfig
 }
 
-export const FilterSchemas: Record<FilterType, FilterSchema> = {
+export var FilterSchemas: Record<FilterType, FilterSchema> = {
 	MotionBlurFilter: {
 		velocity: {
 			type: "object",
