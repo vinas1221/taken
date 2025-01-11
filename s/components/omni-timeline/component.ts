@@ -18,40 +18,40 @@ import {TransitionIndicator} from "./views/indicators/add-transition.js"
 import {ProposalIndicator} from "./views/indicators/proposal-indicator.js"
 import {calculate_timeline_width} from "./utils/calculate_timeline_width.js"
 
-export const OmniTimeline = shadow_component(use => {
+export let OmniTimeline = shadow_component(use => {
 	use.styles(styles)
 	use.watch(() => use.context.state)
-	const state = use.context.state
-	const effectTrim = use.context.controllers.timeline.effectTrimHandler
-	const effectDrag = use.context.controllers.timeline.effectDragHandler
-	const playheadDrag = use.context.controllers.timeline.playheadDragHandler
+	let state = use.context.state
+	let effectTrim = use.context.controllers.timeline.effectTrimHandler
+	let effectDrag = use.context.controllers.timeline.effectDragHandler
+	let playheadDrag = use.context.controllers.timeline.playheadDragHandler
 
 	use.mount(() => {
-		const layout = document.querySelector("construct-editor")?.shadowRoot?.querySelector(".layout") as HTMLElement
+		let layout = document.querySelector("construct-editor")?.shadowRoot?.querySelector(".layout") as HTMLElement
 		if(layout) {layout.style.borderRadius = "10px"}
 		window.addEventListener("pointermove", augmented_dragover)
 		return () => removeEventListener("pointermove", augmented_dragover)
 	})
 
-	const playheadDragOver = (event: PointerEvent) => {
-		const timeline = use.shadow.querySelector(".timeline-relative")
-		const bounds = timeline?.getBoundingClientRect()
+	let playheadDragOver = (event: PointerEvent) => {
+		let timeline = use.shadow.querySelector(".timeline-relative")
+		let bounds = timeline?.getBoundingClientRect()
 		if(bounds) {
-			const x = event.clientX - bounds?.left
+			let x = event.clientX - bounds?.left
 			if(x >= 0) {
 				playheadDrag.move(x)
 			} else playheadDrag.move(0)
 		}
 	}
 
-	const effect_drag_over = (event: PointerEvent) => {
-		const timeline = use.shadow.querySelector(".timeline-relative")
-		const bounds = timeline?.getBoundingClientRect()
-		const path = event.composedPath()
-		const indicator = path.find(e => (e as HTMLElement).className === "indicator-area") as HTMLElement | undefined
+	let effect_drag_over = (event: PointerEvent) => {
+		let timeline = use.shadow.querySelector(".timeline-relative")
+		let bounds = timeline?.getBoundingClientRect()
+		let path = event.composedPath()
+		let indicator = path.find(e => (e as HTMLElement).className === "indicator-area") as HTMLElement | undefined
 		if(bounds) {
-			const x = event.clientX - bounds.left
-			const y = event.clientY - bounds.top
+			let x = event.clientX - bounds.left
+			let y = event.clientY - bounds.top
 			effectDrag.move({
 				coordinates: [x >= 0 ? x : 0, y >= 0 ? y : 0],
 				indicator: indicator
@@ -70,8 +70,8 @@ export const OmniTimeline = shadow_component(use => {
 		effect_drag_over(event)
 	}
 
-	const render_tracks = () => repeat(use.context.state.tracks, ((_track, i) => Track([i], {attrs: {part: "add-track-indicator"}})))
-	const render_effects = () => repeat(use.context.state.effects, (effect) => effect.id, (effect) => {
+	let render_tracks = () => repeat(use.context.state.tracks, ((_track, i) => Track([i], {attrs: {part: "add-track-indicator"}})))
+	let render_effects = () => repeat(use.context.state.effects, (effect) => effect.id, (effect) => {
 		if(effect.kind === "audio") {
 			return AudioEffect([effect, use.element])
 		}
@@ -86,9 +86,9 @@ export const OmniTimeline = shadow_component(use => {
 		}
 	})
 
-	const noEffects = use.context.state.effects.length === 0
+	let noEffects = use.context.state.effects.length === 0
 
-	const renderTimelineInfo = () => {
+	let renderTimelineInfo = () => {
 		return noEffects ? html`
 			<div class=timeline-info>
 				<h3>Your timeline is empty</h3>
@@ -97,7 +97,7 @@ export const OmniTimeline = shadow_component(use => {
 		` : null
 	}
 
-	const timeline = use.defer(() => use.shadow.querySelector(".timeline-relative")) as GoldElement ?? use.element
+	let timeline = use.defer(() => use.shadow.querySelector(".timeline-relative")) as GoldElement ?? use.element
 
 	return StateHandler(Op.all(
 		use.context.helpers.ffmpeg.is_loading.value,
