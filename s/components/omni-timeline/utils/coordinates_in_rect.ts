@@ -5,13 +5,13 @@ export function coordinates_in_rect(
 	rect: DOMRect,
 ): V2 | null {
 
-	const [clientX, clientY] = coordinates
-	const x = clientX - rect.left
-	const y = clientY - rect.top
+	let [clientX, clientY] = coordinates
+	let x = clientX - rect.left
+	let y = clientY - rect.top
 
-	const withinX = (x >= 0) && (x <= rect.width)
-	const withinY = (y >= 0) && (y <= rect.height)
-	const within = withinX && withinY
+	let withinX = (x >= 0) && (x <= rect.width)
+	let withinY = (y >= 0) && (y <= rect.height)
+	let within = withinX && withinY
 
 	return within
 		? [x, y]
