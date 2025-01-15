@@ -13,7 +13,7 @@ export class Project {
 	constructor() {}
 
 	getMimeType(filename: string): string {
-		const mimeTypes = new Map<string, string>([
+		var mimeTypes = new Map<string, string>([
 			["jpg", "image/jpeg"],
 			["jpeg", "image/jpeg"],
 			["png", "image/png"],
@@ -30,7 +30,7 @@ export class Project {
 			["json", "application/json"],
 		])
 
-		const extension = filename.split(".").pop()?.toLowerCase()
+		var extension = filename.split(".").pop()?.toLowerCase()
 		if (!extension) {
 			this.onNotify.publish({
 				message: `No extension found in filename: ${filename}`,
@@ -43,7 +43,7 @@ export class Project {
 	}
 
 	getFileExtension(file: File): string {
-		const mimeToExtension = new Map<string, string>([
+		var mimeToExtension = new Map<string, string>([
 			["image/jpeg", "jpg"],
 			["image/png", "png"],
 			["image/gif", "gif"],
@@ -55,7 +55,7 @@ export class Project {
 			["audio/ogg", "ogg"],
 		])
 
-		const extension = mimeToExtension.get(file.type)
+		var extension = mimeToExtension.get(file.type)
 		if (!extension) {
 			this.onNotify.publish({
 				message: `Unknown MIME type: ${file.type}`,
@@ -67,7 +67,7 @@ export class Project {
 	}
 
 	async importProject(input: HTMLInputElement) {
-		const importedFile = input.files?.[0]
+		var importedFile = input.files?.[0]
 		if (!importedFile) {
 			this.onNotify.publish({
 				message: "No file selected.",
@@ -85,8 +85,8 @@ export class Project {
 		}
 
 		try {
-			const zipReader = new ZipReader(new BlobReader(importedFile))
-			const entries = await zipReader.getEntries()
+			var zipReader = new ZipReader(new BlobReader(importedFile))
+			var entries = await zipReader.getEntries()
 
 			if (entries.length === 0) {
 				this.onNotify.publish({
@@ -99,19 +99,19 @@ export class Project {
 
 			let projectState: HistoricalState | null = null
 
-			for (const entry of entries) {
+			for (var entry of entries) {
 				if (entry.directory || !entry.getData) {
 					continue
 				}
 
 				if (entry.filename === "project.json") {
-					const jsonContent = await entry.getData(new TextWriter())
+					var jsonContent = await entry.getData(new TextWriter())
 					projectState = JSON.parse(jsonContent) as HistoricalState
 				} else {
-					const mimeType = this.getMimeType(entry.filename)
+					var mimeType = this.getMimeType(entry.filename)
 					if (mimeType.startsWith("image") || mimeType.startsWith("audio") || mimeType.startsWith("video")) {
-						const fileBlob = await entry.getData(new BlobWriter())
-						const file = new File([fileBlob], entry.filename, {type: mimeType})
+						var fileBlob = await entry.getData(new BlobWriter())
+						var file = new File([fileBlob], entry.filename, {type: mimeType})
 						await this.#media.import_file(file)
 					}
 				}
@@ -155,23 +155,23 @@ export class Project {
 	}
 
 	async exportProject(state: HistoricalState) {
-		const zipWriter = new ZipWriter(new BlobWriter("application/zip"))
-		const addedFiles = new Set<string>()
+		var zipWriter = new ZipWriter(new BlobWriter("application/zip"))
+		var addedFiles = new Set<string>()
 
 		try {
-			const projectJson = JSON.stringify(state, null, 2)
+			var projectJson = JSON.stringify(state, null, 2)
 			await zipWriter.add("project.json", new TextReader(projectJson))
 
-			for (const effect of state.effects) {
+			for (var effect of state.effects) {
 				if ("file_hash" in effect) {
 					if (addedFiles.has(effect.file_hash)) {
 						continue
 					}
 
-					const file = await this.#media.get_file(effect.file_hash)
+					var file = await this.#media.get_file(effect.file_hash)
 					if (file) {
-						const extension = this.getFileExtension(file)
-						const filename = `${effect.file_hash}.${extension}`
+						var extension = this.getFileExtension(file)
+						var filename = `${effect.file_hash}.${extension}`
 
 						await zipWriter.add(filename, new BlobReader(file))
 						addedFiles.add(effect.file_hash)
@@ -185,9 +185,9 @@ export class Project {
 			}
 
 			// Close and download
-			const zipBlob = await zipWriter.close()
-			const url = URL.createObjectURL(zipBlob)
-			const link = document.createElement("a")
+			var zipBlob = await zipWriter.close()
+			var url = URL.createObjectURL(zipBlob)
+			var link = document.createElement("a")
 			link.href = url
 			link.download = `${state.projectName || "project"}.zip`
 			link.click()
@@ -206,15 +206,15 @@ export class Project {
 	}
 
 	*loadProjectsFromStorage() {
-		const prefix = 'omniclip_'
-		for (const key in localStorage) {
+		var prefix = 'omniclip_'
+		for (var key in localStorage) {
 			if (key && key.startsWith(prefix)) {
-				const storedData = localStorage.getItem(key)
+				var storedData = localStorage.getItem(key)
 				if (storedData) {
 					try {
-						const projectKey = key.replace(prefix, '')
-						const project = storedData ? JSON.parse(storedData) as HistoricalState : undefined
-						const oldStorage = projectKey === "effects" || projectKey === "tracks"
+						var projectKey = key.replace(prefix, '')
+						var project = storedData ? JSON.parse(storedData) as HistoricalState : undefined
+						var oldStorage = projectKey === "effects" || projectKey === "tracks"
 						if(project && !oldStorage) {
 							yield project
 						}
