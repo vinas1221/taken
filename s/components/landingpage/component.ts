@@ -51,8 +51,8 @@ export class LandingPage extends LitElement {
 
 	// Close transitions dropdown
 	closeTransitionsDropdown = (e: MouseEvent) => {
-		const dropdown = this.shadowRoot?.querySelector('.transitions-dropdown')
-		const moreButton = this.shadowRoot?.querySelector('.more-transitions')
+		let dropdown = this.shadowRoot?.querySelector('.transitions-dropdown')
+		let moreButton = this.shadowRoot?.querySelector('.more-transitions')
 		
 		if (dropdown && moreButton && 
 				!dropdown.contains(e.target as Node) && 
@@ -64,8 +64,8 @@ export class LandingPage extends LitElement {
 	}
 
 	menuClick = (e: MouseEvent) => {
-		const hamburger = e.composedPath().find(e => (e as HTMLElement).className === "menu-icon")
-		const navmenu = e.composedPath().find(e => (e as HTMLElement).className === "menu")
+		let hamburger = e.composedPath().find(e => (e as HTMLElement).className === "menu-icon")
+		let navmenu = e.composedPath().find(e => (e as HTMLElement).className === "menu")
 		if(hamburger)
 			return
 		if(!navmenu) {
@@ -75,10 +75,10 @@ export class LandingPage extends LitElement {
 	}
 
 	setCurrentTransition(e: Event) {
-		const target = e.currentTarget as HTMLElement
-		const index = target.getAttribute("data-index")
+		let target = e.currentTarget as HTMLElement
+		let index = target.getAttribute("data-index")
 		if(index) {
-			const transitionDuration = 3.492
+			let transitionDuration = 3.492
 			this.transitionsVideo!.currentTime = +index * transitionDuration
 			this.currentTransition = transitions[Math.floor(+index)]
 			this.requestUpdate()
@@ -99,15 +99,15 @@ export class LandingPage extends LitElement {
 	}
 
 	firstUpdated() {
-		const transitionDuration = 3.492
-		const video = this.shadowRoot?.querySelector(".transitions-video") as HTMLVideoElement
+		let transitionDuration = 3.492
+		let video = this.shadowRoot?.querySelector(".transitions-video") as HTMLVideoElement
 		this.transitionsVideo = video
 		this.interval = setInterval(() => {
-			const index = Math.floor(video.currentTime / transitionDuration)
+			let index = Math.floor(video.currentTime / transitionDuration)
 			this.currentTransition = transitions[index]
 			this.requestUpdate()
 		}, 100)
-		const path = this.getCurrentPath()
+		let path = this.getCurrentPath()
 		this.scrollIntoElementView(path)
 	}
 
@@ -117,7 +117,7 @@ export class LandingPage extends LitElement {
 
 	scrollIntoElementView(id: string) {
 		try {
-			const element = this.shadowRoot?.querySelector(`#${id}`)
+			let element = this.shadowRoot?.querySelector(`#${id}`)
 			element?.scrollIntoView({behavior: "smooth"})
 		} catch(e) {}
 	}
@@ -381,7 +381,7 @@ export class LandingPage extends LitElement {
 						
 						<div class="transitions-gallery">
 							${transitions.slice(0, 5).map((transition, i) => {
-								const paddedIndex = i.toString().padStart(3, '0');
+								let paddedIndex = i.toString().padStart(3, '0');
 								return html`
 									<div
 										@click=${this.setCurrentTransition}
@@ -396,8 +396,8 @@ export class LandingPage extends LitElement {
 								<div class="transitions-dropdown" ?data-open=${this.transitionsDropdownOpen}>
 									<div class="dropdown-grid">
 										${transitions.slice(5).map((transition, i) => {
-											const index = i + 5
-											const paddedIndex = index.toString().padStart(3, '0');
+											let index = i + 5
+											let paddedIndex = index.toString().padStart(3, '0');
 											return html`
 												<div
 													@click=${this.setCurrentTransition}
@@ -564,10 +564,10 @@ export class LandingPage extends LitElement {
 							<div class="code-preview">
 								<pre><code>
 // Create a video timeline programmatically
-const watermark = subtitle("omniclip")
-const xfade = crossfade(500)
+let watermark = subtitle("omniclip")
+let xfade = crossfade(500)
 
-const timeline = sequence(
+let timeline = sequence(
   video("opening-credits.mp4"),
   xfade,
   stack(
