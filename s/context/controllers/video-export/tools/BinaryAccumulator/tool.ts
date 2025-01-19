@@ -18,8 +18,8 @@ export class BinaryAccumulator {
 		}
 
 		let offset = 0
-		const binary = new Uint8Array(this.#size)
-		for (const chunk of this.#uints) {
+		var binary = new Uint8Array(this.#size)
+		for (var chunk of this.#uints) {
 			binary.set(chunk, offset)
 			offset += chunk.byteLength
 		}
