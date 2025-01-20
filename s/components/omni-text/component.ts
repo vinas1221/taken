@@ -11,18 +11,18 @@ import arrowupSvg from "../../icons/gravity-ui/arrowup.svg.js"
 import arrowdownSvg from "../../icons/gravity-ui/arrowdown.svg.js"
 import {convert_ms_to_hms} from "../omni-timeline/views/time-ruler/utils/convert_ms_to_hms.js"
 
-export const OmniText = shadow_component(use => {
+export let OmniText = shadow_component(use => {
 	use.styles(styles)
 	use.watch(() => use.context.state)
-	const manager = use.context.controllers.compositor.managers.textManager
-	const selectedText = use.context.state.effects.find(e => e.id === manager.selectedText?.id) as TextEffect | undefined
+	let manager = use.context.controllers.compositor.managers.textManager
+	let selectedText = use.context.state.effects.find(e => e.id === manager.selectedText?.id) as TextEffect | undefined
 
-	const [fonts, setFonts] = use.state<FontMetadata[]>([])
-	const [fontsDenied, setFontsDenied] = use.state<null | string>(null) // when user granted permission or not
+	let [fonts, setFonts] = use.state<FontMetadata[]>([])
+	let [fontsDenied, setFontsDenied] = use.state<null | string>(null) // when user granted permission or not
 
 	use.once(async () => {
 		try {
-			const fonts = await manager.getFonts((status, deniedStateText, fonts) => {
+			let fonts = await manager.getFonts((status, deniedStateText, fonts) => {
 				// listener for changes in permission
 				if(status === "denied") {
 					setFontsDenied(deniedStateText)
@@ -34,7 +34,7 @@ export const OmniText = shadow_component(use => {
 			})
 			setFonts(fonts)
 		} catch (e) {
-			const event = e as string
+			let event = e as string
 			setFontsDenied(event)
 		}
 	})
@@ -45,7 +45,7 @@ export const OmniText = shadow_component(use => {
 
 	use.mount(() => () => manager.destroy())
 
-	const renderFontStyles = () => {
+	let renderFontStyles = () => {
 		return html`
 			<div class="cnt">
 				<h3>Font</h3>
@@ -76,7 +76,7 @@ export const OmniText = shadow_component(use => {
 		`
 	}
 
-	const renderFillStyles = () => {
+	let renderFillStyles = () => {
 		return html`
 			<div class="cnt">
 				<div class=colors-cnt>
@@ -138,7 +138,7 @@ export const OmniText = shadow_component(use => {
 		`
 	}
 
-	const renderStrokeStyles = () => {
+	let renderStrokeStyles = () => {
 		return html`
 			<div class="cnt">
 				<sl-color-picker @sl-change=${manager.set_stroke_color} value=${selectedText?.stroke} label="Color" size="small">
@@ -163,7 +163,7 @@ export const OmniText = shadow_component(use => {
 		`
 	}
 
-	const renderLayoutStyles = () => {
+	let renderLayoutStyles = () => {
 		return html`
 			<div class="cnt">
 				<sl-input
@@ -183,7 +183,7 @@ export const OmniText = shadow_component(use => {
 		`
 	}
 
-	const renderDropShadowStyles = () => {
+	let renderDropShadowStyles = () => {
 		return html`
 			<div class="cnt">
 				<sl-checkbox @sl-change=${manager.toggle_drop_shadow} ?checked=${selectedText?.dropShadow ?? false}>Enable</sl-checkbox>
@@ -216,7 +216,7 @@ export const OmniText = shadow_component(use => {
 		`
 	}
 
-	const renderMultilineStyles = () => {
+	let renderMultilineStyles = () => {
 		return html`
 			<div class="cnt">
 				<sl-checkbox @sl-change=${manager.set_word_wrap} ?checked=${selectedText?.wordWrap ?? false}>Enable</sl-checkbox>
@@ -238,7 +238,7 @@ export const OmniText = shadow_component(use => {
 		`
 	}
 
-	const textEffects = use.context.state.effects.filter(e => e.kind === "text") as TextEffect[]
+	let textEffects = use.context.state.effects.filter(e => e.kind === "text") as TextEffect[]
 
 	return StateHandler(Op.all(
 		use.context.helpers.ffmpeg.is_loading.value,
@@ -246,8 +246,8 @@ export const OmniText = shadow_component(use => {
 		<div class="examples">
 			<sl-select
 				@sl-change=${(e: Event) => {
-					const id = (e.target as HTMLSelectElement).value
-					const effect = use.context.state.effects.find(e => e.id === id)
+					let id = (e.target as HTMLSelectElement).value
+					let effect = use.context.state.effects.find(e => e.id === id)
 					use.context.controllers.timeline.set_selected_effect(effect, use.context.state)
 				}}
 				placeholder="no text selected"
