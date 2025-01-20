@@ -1,6 +1,6 @@
 import {BinaryAccumulator} from "../../video-export/tools/BinaryAccumulator/tool.js"
 
-var binary_accumulator = new BinaryAccumulator()
+const binary_accumulator = new BinaryAccumulator()
 let getChunks = false
 
 async function handle_chunk(chunk: EncodedVideoChunk) {
@@ -19,7 +19,7 @@ async function handle_chunk(chunk: EncodedVideoChunk) {
 }
 
 // for later: https://github.com/gpac/mp4box.js/issues/243
-var config: VideoEncoderConfig = {
+const config: VideoEncoderConfig = {
 	codec: "avc1.640034",
 	avc: {format: "annexb"},
 	width: 1280,
@@ -29,7 +29,7 @@ var config: VideoEncoderConfig = {
 	bitrateMode: "quantizer" // add variable option to ui
 }
 
-var encoder = new VideoEncoder({
+const encoder = new VideoEncoder({
 	output: handle_chunk,
 	error: (e: any) => {
 		console.log(e.message)
@@ -51,7 +51,7 @@ self.addEventListener("message", async message => {
 		encoder.configure(config)
 	}
 	if(message.data.action === "encode") {
-		var frame = message.data.frame as VideoFrame
+		const frame = message.data.frame as VideoFrame
 		if(config.bitrateMode === "quantizer") {
 			// @ts-ignore
 			encoder.encode(frame, {avc: {quantizer: 35}})
