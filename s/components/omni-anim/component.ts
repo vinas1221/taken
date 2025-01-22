@@ -10,7 +10,7 @@ import circleInfoSvg from "../../icons/gravity-ui/circle-info.svg.js"
 import animationSvg from "../../icons/material-design-icons/animation.svg.js"
 import {AnimationFor, animationIn, animationNone, animationOut} from "../../context/controllers/compositor/parts/animation-manager.js"
 
-export const OmniAnim = shadow_component(use => {
+export let OmniAnim = shadow_component(use => {
 	use.styles([styles, tooltipStyles, css`
 		#icon-container {
 			position: relative;
@@ -19,36 +19,36 @@ export const OmniAnim = shadow_component(use => {
 	`])
 
 	use.watch(() => use.context.state)
-	const controllers = use.context.controllers
-	const [kind, setKind] = use.state<"in" | "out">("in")
-	const manager = use.context.controllers.compositor.managers.animationManager
+	let controllers = use.context.controllers
+	let [kind, setKind] = use.state<"in" | "out">("in")
+	let manager = use.context.controllers.compositor.managers.animationManager
 
-	const selectedImageOrVideoEffect = use.context.state.selected_effect?.kind === "video" || use.context.state.selected_effect?.kind === "image"
+	let selectedImageOrVideoEffect = use.context.state.selected_effect?.kind === "video" || use.context.state.selected_effect?.kind === "image"
 		? use.context.state.effects.find(effect => effect.id === use.context.state.selected_effect!.id)! as ImageEffect | VideoEffect
 		: null
 
 	use.mount(() => {
-		const dispose = manager.onChange(() => use.rerender())
+		let dispose = manager.onChange(() => use.rerender())
 		return () => dispose()
 	})
 
-	const getAnimationDuration = () => {
+	let getAnimationDuration = () => {
 		if(selectedImageOrVideoEffect) {
-			const effect = use.context.state.animations.find(a => a.targetEffect.id === selectedImageOrVideoEffect.id && a.type === kind && a.for === "Animation")
-			const duration = effect?.duration
+			let effect = use.context.state.animations.find(a => a.targetEffect.id === selectedImageOrVideoEffect.id && a.type === kind && a.for === "Animation")
+			let duration = effect?.duration
 			if(duration) {
 				return duration
 			} else return 520
 		} else return 520
 	}
 
-	const imageAndVideoEffects = () => use.context.state.effects.filter(effect => effect.kind === "image" || effect.kind === "video") as VideoEffect[] | ImageEffect[]
-	const duration = getAnimationDuration()
+	let imageAndVideoEffects = () => use.context.state.effects.filter(effect => effect.kind === "image" || effect.kind === "video") as VideoEffect[] | ImageEffect[]
+	let duration = getAnimationDuration()
 
-	const renderAnimationsIn = () => {
+	let renderAnimationsIn = () => {
 		return animationIn.map(animation => {
-			const [name, type] = animation.split("-")
-			const anim = {
+			let [name, type] = animation.split("-")
+			let anim = {
 				type: "in" as "in" | "out",
 				name: animation,
 				targetEffect: selectedImageOrVideoEffect!,
@@ -69,10 +69,10 @@ export const OmniAnim = shadow_component(use => {
 		`})
 	}
 
-	const renderAnimationsOut = () => {
+	let renderAnimationsOut = () => {
 		return animationOut.map(animation => {
-			const [name, type] = animation.split("-")
-			const anim = {
+			let [name, type] = animation.split("-")
+			let anim = {
 				type: "out" as "in" | "out",
 				name: animation,
 				targetEffect: selectedImageOrVideoEffect!,
@@ -93,7 +93,7 @@ export const OmniAnim = shadow_component(use => {
 		`})
 	}
 
-	const renderAnimationNone = (type: "in" | "out") => {
+	let renderAnimationNone = (type: "in" | "out") => {
 			return html`
 				<div
 					?data-selected=${type === "in"
@@ -110,14 +110,14 @@ export const OmniAnim = shadow_component(use => {
 				</div>
 		`}
 
-	const renderEffectSelectionDropdown = () => {
+	let renderEffectSelectionDropdown = () => {
 		return html`
 			<div class=flex>
 				<select
 					@change=${(event: Event) => {
-						const target = event.target as HTMLSelectElement
-						const effectId = target.value
-						const effect = use.context.state.effects.find(effect => effect.id === effectId)!
+						let target = event.target as HTMLSelectElement
+						let effectId = target.value
+						let effect = use.context.state.effects.find(effect => effect.id === effectId)!
 						controllers.timeline.set_selected_effect(effect, use.context.state)
 					}}
 					id="clip"
@@ -131,10 +131,10 @@ export const OmniAnim = shadow_component(use => {
 		`
 	}
 
-	const renderDurationSlider = () => {
-		const frameDuration = 1000 / use.context.state.timebase
-		const maxAnimationDuration = selectedImageOrVideoEffect ? (selectedImageOrVideoEffect.end - selectedImageOrVideoEffect.start) : 10000
-		const normalizeMaxAnimationDuration = Math.round(maxAnimationDuration / frameDuration) * frameDuration
+	let renderDurationSlider = () => {
+		let frameDuration = 1000 / use.context.state.timebase
+		let maxAnimationDuration = selectedImageOrVideoEffect ? (selectedImageOrVideoEffect.end - selectedImageOrVideoEffect.start) : 10000
+		let normalizeMaxAnimationDuration = Math.round(maxAnimationDuration / frameDuration) * frameDuration
 
 		return html`
 			<div class=duration-slider>
@@ -156,7 +156,7 @@ export const OmniAnim = shadow_component(use => {
 		`
 	}
 
-	const renderDropdownInfo = () => {
+	let renderDropdownInfo = () => {
 		return Tooltip(
 			circleInfoSvg,
 			html`<p>Select video or image either from dropdown menu here, timeline or scene</p>`
