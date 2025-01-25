@@ -5,13 +5,13 @@ export class FileSystemHelper {
 			//@ts-ignore
 		if (fileHandle.createWriter) {
 			//@ts-ignore
-			const writer = await fileHandle.createWriter()
+			let writer = await fileHandle.createWriter()
 			await writer.write(0, contents)
 			await writer.close()
 			return
 		}
 		// For Chrome 83 and later.
-		const writable = await fileHandle.createWritable()
+		let writable = await fileHandle.createWritable()
 		await writable.write(contents)
 		await writable.close()
 	}
@@ -27,7 +27,7 @@ export class FileSystemHelper {
 	async getFileHandle() {
 		// For Chrome 86 and later...
 		if ('showSaveFilePicker' in window) {
-			const handle = await self.showSaveFilePicker({
+			let handle = await self.showSaveFilePicker({
 				suggestedName: 'test.mp4',
 				types: [{
 					description: 'mp4 video',
@@ -46,7 +46,7 @@ export class FileSystemHelper {
 	getNewFileHandle() {
 		// For Chrome 86 and later...
 		if ('showSaveFilePicker' in window) {
-			const opts: SaveFilePickerOptions = {
+			let opts: SaveFilePickerOptions = {
 				types: [{
 					description: 'Text file',
 					accept: {'text/plain': ['.txt']},
@@ -55,7 +55,7 @@ export class FileSystemHelper {
 			return window.showSaveFilePicker(opts)
 		}
 		// For Chrome 85 and earlier...
-		const opts = {
+		let opts = {
 			type: 'save-file',
 			accepts: [{
 				description: 'Text file',
@@ -68,7 +68,7 @@ export class FileSystemHelper {
 	}
 
 	async verifyPermission(fileHandle: FileSystemFileHandle, withWrite: boolean) {
-		const opts: FileSystemHandlePermissionDescriptor = {
+		let opts: FileSystemHandlePermissionDescriptor = {
 			mode: undefined,
 			writable: false
 		}
@@ -88,10 +88,10 @@ export class FileSystemHelper {
 
 	#readFileLegacy(file: File) {
 		return new Promise((resolve) => {
-			const reader = new FileReader()
+			let reader = new FileReader()
 			reader.addEventListener('loadend', (e) => {
 			//@ts-ignore
-				const text = e.srcElement.result
+				let text = e.srcElement.result
 				resolve(text)
 			})
 			reader.readAsText(file)
