@@ -13,33 +13,33 @@
 // import alignCenterSvg from "../../icons/remix-icon/align-center.svg.js"
 // import {removeDuplicatesByKey} from "../../utils/remove-duplicates-by-key.js"
 
-// export const TextUpdater = shadow_view(use => (selected_effect: TextEffect) => {
+// export let TextUpdater = shadow_view(use => (selected_effect: TextEffect) => {
 // 	use.styles(styles)
 // 	use.watch(() => use.context.state)
-// 	const effect = use.context.state.effects.find(effect => effect.id === selected_effect.id) as TextEffect | undefined
+// 	let effect = use.context.state.effects.find(effect => effect.id === selected_effect.id) as TextEffect | undefined
 
-// 	const text_manager = use.context.controllers.compositor.managers.textManager
-// 	const compositor = use.context.controllers.compositor
+// 	let text_manager = use.context.controllers.compositor.managers.textManager
+// 	let compositor = use.context.controllers.compositor
 
-// 	const [opened, setOpened] = use.state({
+// 	let [opened, setOpened] = use.state({
 // 		text_align: false,
 // 		font_style: false
 // 	})
 
-// 	const [[x, y], setCoords] = use.state(() => {
-// 		const object = compositor.selectedElement
+// 	let [[x, y], setCoords] = use.state(() => {
+// 		let object = compositor.selectedElement
 // 		return [object?.x ?? 0, object?.y ?? 0 + (object?.height ?? 0)]
 // 	})
 
-// 	const [fonts, setFonts] = use.state<FontMetadata[]>([])
-// 	const [fontsDenied, setFontsDenied] = use.state<null | string>(null) // when user granted permission or not
+// 	let [fonts, setFonts] = use.state<FontMetadata[]>([])
+// 	let [fontsDenied, setFontsDenied] = use.state<null | string>(null) // when user granted permission or not
 
-// 	const canvasRect = compositor.app.stage.getBounds()
-// 	const scaleX = compositor.app.stage.width / canvasRect.width
-// 	const scaleY = compositor.app.stage.height / canvasRect.height
+// 	let canvasRect = compositor.app.stage.getBounds()
+// 	let scaleX = compositor.app.stage.width / canvasRect.width
+// 	let scaleY = compositor.app.stage.height / canvasRect.height
 
 // 	use.once(() => {
-// 		const active_object = compositor.selectedElement
+// 		let active_object = compositor.selectedElement
 // 		compositor.app.ticker.add(() => {
 // 			if(active_object) {
 // 				setCoords([active_object.x, active_object.y + active_object.height])
@@ -49,7 +49,7 @@
 
 // 	use.once(async () => {
 // 		try {
-// 			const fonts = await text_manager.getFonts((status, deniedStateText, fonts) => {
+// 			let fonts = await text_manager.getFonts((status, deniedStateText, fonts) => {
 // 				// listener for changes in permission
 // 				if(status === "denied") {
 // 					setFontsDenied(deniedStateText)
@@ -61,16 +61,16 @@
 // 			})
 // 			setFonts(fonts)
 // 		} catch (e) {
-// 			const event = e as string
+// 			let event = e as string
 // 			setFontsDenied(event)
 // 		}
 // 	})
 
 // 	use.mount(() => () => text_manager.destroy())
 
-// 	const update_compositor = () => use.context.controllers.compositor.compose_effects(use.context.state.effects, use.context.state.timecode)
+// 	let update_compositor = () => use.context.controllers.compositor.compose_effects(use.context.state.effects, use.context.state.timecode)
 
-// 	const renderWarningIfFontsAccessNotGranted = () => {
+// 	let renderWarningIfFontsAccessNotGranted = () => {
 // 		return html`
 // 			<div class="btn btn-primary tooltip">
 // 				${warningSvg}
