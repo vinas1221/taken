@@ -36,7 +36,7 @@ export class OmniManager extends LitElement {
 	projects: HistoricalState[] = []
 
 	loadProjects() {
-		for(let project of this.project.loadProjectsFromStorage()) {
+		for(const project of this.project.loadProjectsFromStorage()) {
 			if(project)
 				this.projects = [...this.projects, project]
 		}
@@ -58,7 +58,7 @@ export class OmniManager extends LitElement {
 	}
 
 	showToast(message: string, type: "error" | "warning" | "info") {
-		let toast = document.createElement("div")
+		const toast = document.createElement("div")
 		toast.textContent = message
 		toast.className = `toast ${type}`
 		document.body.appendChild(toast)
@@ -115,7 +115,7 @@ export class OmniManager extends LitElement {
 							<label for="fileInput" class="input-import">${documentImportSvg}</label>
 							<span>Import project</span>
 							<input type="file" id="fileInput" accept=".zip" @change=${async (e: Event) => {
-								let projectState = await this.project.importProject(e.target as HTMLInputElement)
+								const projectState = await this.project.importProject(e.target as HTMLInputElement)
 								if(projectState) {
 									this.projects.unshift(projectState)
 									this.requestUpdate()
