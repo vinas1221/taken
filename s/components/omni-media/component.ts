@@ -10,43 +10,43 @@ import {StateHandler} from "../../views/state-handler/view.js"
 import audioWaveSvg from "../../icons/material-design-icons/audio-wave.svg.js"
 import type {Audio, AudioFile, Image, ImageFile, Video, VideoFile} from "./types.js"
 
-export const OmniMedia = shadow_component((use) => {
+export let OmniMedia = shadow_component((use) => {
 	use.watch(() => use.context.state)
 	use.styles(styles)
-	const media_controller = use.context.controllers.media
-	const managers = use.context.controllers.compositor.managers
-	const [media, setMedia, getMedia] = use.state<(Video | Image | Audio)[]>([])
-	const [placeholders, setPlaceholders, getPlaceholders] = use.state<any[]>([])
-	const [dragActive, setDragActive] = use.state(false)
+	let media_controller = use.context.controllers.media
+	let managers = use.context.controllers.compositor.managers
+	let [media, setMedia, getMedia] = use.state<(Video | Image | Audio)[]>([])
+	let [placeholders, setPlaceholders, getPlaceholders] = use.state<any[]>([])
+	let [dragActive, setDragActive] = use.state(false)
 
 	use.mount(() => {
 		media_controller.getImportedFiles().then(async (media) => {
 			setPlaceholders(Array.apply(null, Array(media.length)))
-			const video_files = media.filter(({ kind }) => kind === "video") as VideoFile[]
-			const image_files = media.filter(({ kind }) => kind === "image") as ImageFile[]
-			const audio_files = media.filter(({ kind }) => kind === "audio") as AudioFile[]
-			const video_elements = await media_controller.create_video_elements(video_files)
-			const image_elements = media_controller.create_image_elements(image_files)
-			const audio_elements = media_controller.create_audio_elements(audio_files)
+			let video_files = media.filter(({ kind }) => kind === "video") as VideoFile[]
+			let image_files = media.filter(({ kind }) => kind === "image") as ImageFile[]
+			let audio_files = media.filter(({ kind }) => kind === "audio") as AudioFile[]
+			let video_elements = await media_controller.create_video_elements(video_files)
+			let image_elements = media_controller.create_image_elements(image_files)
+			let audio_elements = media_controller.create_audio_elements(audio_files)
 			setMedia([...getMedia(), ...video_elements, ...image_elements, ...audio_elements])
 			setPlaceholders([])
 		})
-		const unsub = media_controller.on_media_change(async (change) => {
+		let unsub = media_controller.on_media_change(async (change) => {
 			if(change.action === "added") {
-				const video_files = change.files.filter(({ kind }) => kind === "video") as VideoFile[]
-				const image_files = change.files.filter(({ kind }) => kind === "image") as ImageFile[]
-				const audio_files = change.files.filter(({ kind }) => kind === "audio") as AudioFile[]
-				const video_elements = await media_controller.create_video_elements(video_files)
-				const image_elements = media_controller.create_image_elements(image_files)
-				const audio_elements = media_controller.create_audio_elements(audio_files)
+				let video_files = change.files.filter(({ kind }) => kind === "video") as VideoFile[]
+				let image_files = change.files.filter(({ kind }) => kind === "image") as ImageFile[]
+				let audio_files = change.files.filter(({ kind }) => kind === "audio") as AudioFile[]
+				let video_elements = await media_controller.create_video_elements(video_files)
+				let image_elements = media_controller.create_image_elements(image_files)
+				let audio_elements = media_controller.create_audio_elements(audio_files)
 				setMedia([...getMedia(), ...video_elements, ...image_elements, ...audio_elements])
-				const placeholders = [...getPlaceholders()]
+				let placeholders = [...getPlaceholders()]
 				placeholders.pop()
 				setPlaceholders(placeholders)
 			}
 			if(change.action === "removed") {
 				change.files.forEach((file) => {
-					const filtered = getMedia().filter((a) => a.hash !== file.hash)
+					let filtered = getMedia().filter((a) => a.hash !== file.hash)
 					setMedia(filtered)
 				})
 			}
@@ -57,7 +57,7 @@ export const OmniMedia = shadow_component((use) => {
 		return () => unsub()
 	})
 
-	const video_on_pointer = {
+	let video_on_pointer = {
 		enter(video: HTMLVideoElement) {
 			video.play()
 		},
@@ -67,17 +67,17 @@ export const OmniMedia = shadow_component((use) => {
 		}
 	}
 
-	const handleDragLeave = (e: DragEvent) => {
+	let handleDragLeave = (e: DragEvent) => {
 		e.preventDefault()
 		e.stopPropagation()
-		const target = e.currentTarget as HTMLElement
-		const related = e.relatedTarget as HTMLElement
+		let target = e.currentTarget as HTMLElement
+		let related = e.relatedTarget as HTMLElement
 		if(!related || !target.contains(related)) {
 			setDragActive(false)
 		}
 	}
 
-	const handleDragOver = (e: DragEvent) => {
+	let handleDragOver = (e: DragEvent) => {
 		e.preventDefault()
 		e.stopPropagation()
 		if(!dragActive) {
@@ -85,20 +85,20 @@ export const OmniMedia = shadow_component((use) => {
 		}
 	}
 
-	const handleDrop = (e: DragEvent) => {
+	let handleDrop = (e: DragEvent) => {
 		e.preventDefault()
 		e.stopPropagation()
 		setDragActive(false)
 
 		if (e.dataTransfer?.files) {
-			const fileInput = use.shadow.querySelector("#import") as HTMLInputElement
+			let fileInput = use.shadow.querySelector("#import") as HTMLInputElement
 			fileInput.files = e.dataTransfer.files
-			const event = new Event("change", { bubbles: true })
+			let event = new Event("change", { bubbles: true })
 			fileInput.dispatchEvent(event)
 		}
 	}
 
-	const render_video_element = (video: Video) => {
+	let render_video_element = (video: Video) => {
 		return html`
 			<div class="media-card video-card">
 				<div
@@ -126,7 +126,7 @@ export const OmniMedia = shadow_component((use) => {
 		`
 	}
 
-	const render_image_element = (image: Image) => {
+	let render_image_element = (image: Image) => {
 		return html`
 			<div class="media-card image-card">
 				<div class="media-element">
@@ -150,7 +150,7 @@ export const OmniMedia = shadow_component((use) => {
 		`
 	}
 
-	const render_audio_element = (audio: Audio) => {
+	let render_audio_element = (audio: Audio) => {
 		return html`
 			<div class="media-card audio-card">
 				<div class="media-element audio">
