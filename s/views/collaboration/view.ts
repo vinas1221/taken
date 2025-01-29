@@ -11,25 +11,25 @@ import warningSvg from "../../icons/gravity-ui/warning.svg.js"
 import {collaboration, shadow_view} from "../../context/context.js"
 import collaborateSvg from "../../icons/gravity-ui/collaborate.svg.js"
 
-export let CollaborationManager = shadow_view((use) => () => {
+export const CollaborationManager = shadow_view((use) => () => {
 	use.styles(styles)
 
-	let [joiningOrCreatingInProgress, setJoiningOrCreatingInProgress] = use.state(false)
-	let [sessionError, setSessionError] = use.state<unknown>("")
-	let [inviteID, setInviteID] = use.state("")
-	let [isModalOpened, setIsModalOpened] = use.state(false)
-	let [hostInviteID, setHostInviteID] = use.state("")
-	let [isHost, setIsHost] = use.state(!!collaboration.host)
-	let [isClient, setIsClient, getIsClient] = use.state(!!collaboration.client)
-	let [numberOfCollaborators, setNumberOfCollaborators] = use.state(collaboration.numberOfConnectedUsers)
-	let [allow, setAllow] = use.state(true)
+	const [joiningOrCreatingInProgress, setJoiningOrCreatingInProgress] = use.state(false)
+	const [sessionError, setSessionError] = use.state<unknown>("")
+	const [inviteID, setInviteID] = use.state("")
+	const [isModalOpened, setIsModalOpened] = use.state(false)
+	const [hostInviteID, setHostInviteID] = use.state("")
+	const [isHost, setIsHost] = use.state(!!collaboration.host)
+	const [isClient, setIsClient, getIsClient] = use.state(!!collaboration.client)
+	const [numberOfCollaborators, setNumberOfCollaborators] = use.state(collaboration.numberOfConnectedUsers)
+	const [allow, setAllow] = use.state(true)
 	setIsClient(!!collaboration.client)
 
 	use.mount(() => {
-		let dispose2 = collaboration.onChange(() => use.rerender())
-		let locker = collaboration.onLock((v) => setAllow(v))
-		let dispose = collaboration.onNumberOfClientsChange(number => setNumberOfCollaborators(number))
-		let dispose1 = collaboration.onDisconnect(() => {
+		const dispose2 = collaboration.onChange(() => use.rerender())
+		const locker = collaboration.onLock((v) => setAllow(v))
+		const dispose = collaboration.onNumberOfClientsChange(number => setNumberOfCollaborators(number))
+		const dispose1 = collaboration.onDisconnect(() => {
 			setIsHost(false)
 			setHostInviteID("")
 			setNumberOfCollaborators(0)
@@ -46,10 +46,10 @@ export let CollaborationManager = shadow_view((use) => () => {
 		}
 	})
 
-	let createRoom = async () => {
+	const createRoom = async () => {
 		setJoiningOrCreatingInProgress(true)
 		try {
-			let host = await collaboration.createRoom()
+			const host = await collaboration.createRoom()
 			setIsHost(true)
 			setHostInviteID(host.invite)
 			setJoiningOrCreatingInProgress(false)
@@ -59,7 +59,7 @@ export let CollaborationManager = shadow_view((use) => () => {
 		}
 	}
 
-	let joinRoom = async () => {
+	const joinRoom = async () => {
 		setJoiningOrCreatingInProgress(true)
 		try {
 			await collaboration.joinRoom(inviteID)
@@ -72,9 +72,9 @@ export let CollaborationManager = shadow_view((use) => () => {
 		}
 	}
 
-	let noSession = !isHost && !isClient
+	const noSession = !isHost && !isClient
 
-	let renderHostModal = () => {
+	const renderHostModal = () => {
 		return renderModal(html`
 			<h3 class=host-title>You are <span class=host>${crownSvg} host</span> of a collaborative session</h3>
 			<span>Invite code: ${hostInviteID}</span>
@@ -101,7 +101,7 @@ export let CollaborationManager = shadow_view((use) => () => {
 		`)
 	}
 
-	let renderNoSessionModal = () => {
+	const renderNoSessionModal = () => {
 		return renderModal(
 			html`
 			<div>
@@ -117,7 +117,7 @@ export let CollaborationManager = shadow_view((use) => () => {
 		)
 	}
 
-	let renderModal = (content: TemplateResult): TemplateResult => {
+	const renderModal = (content: TemplateResult): TemplateResult => {
 		return html`
 			<div id="collaboration-modal" ?data-hidden=${!isModalOpened} class="modal">
 				<div class=flex>
