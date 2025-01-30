@@ -5,13 +5,13 @@ import {shadow_view} from "../../../../context/context.js"
 import {AddTrackIndicator} from "../indicators/add-track-indicator.js"
 import {getEffectsOnTrack} from "../../../../context/controllers/timeline/utils/get-effects-on-track.js"
 
-export let Track = shadow_view(use => (index :number) => {
+export const Track = shadow_view(use => (index :number) => {
 	use.styles(styles)
-	let track_effects = getEffectsOnTrack(use.context.state, index)
-	let isLocked = use.context.state.tracks.find((t, i) => i === index)?.locked
-	let isVisible = use.context.state.tracks.find((t, i) => i === index)?.visible
+	const track_effects = getEffectsOnTrack(use.context.state, index)
+	const isLocked = use.context.state.tracks.find((t, i) => i === index)?.locked
+	const isVisible = use.context.state.tracks.find((t, i) => i === index)?.visible
 
-	let if_text_on_track_styles = () => {
+	const if_text_on_track_styles = () => {
 		return track_effects.some(effect => effect.kind === "text") && !track_effects.some(effect => effect.kind !== "text")
 			? `height: 30px;`
 			: `height: 50px;`
