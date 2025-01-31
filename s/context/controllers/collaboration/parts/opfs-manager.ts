@@ -3,9 +3,9 @@ import {FileHandler} from "./file-handler"
 import type {file as File, dir as Dir, write as Write} from "opfs-tools"
 //@ts-ignore
 import * as opfs from 'https://cdn.jsdelivr.net/npm/opfs-tools@0.7.0/+esm'
-const file = opfs.file as typeof File
-const dir = opfs.dir as typeof Dir
-const write = opfs.write as typeof Write
+let file = opfs.file as typeof File
+let dir = opfs.dir as typeof Dir
+let write = opfs.write as typeof Write
 
 export {file, dir, write}
 
@@ -28,7 +28,7 @@ export class OPFSManager {
 	}
 
 	async createMetadataFile(videoFileName: string): Promise<void> {
-		const metadataFileName = `${videoFileName}.metadata.json`
+		let metadataFileName = `${videoFileName}.metadata.json`
 		await write(`/${metadataFileName}`, '[]')
 	}
 
@@ -49,18 +49,18 @@ export class OPFSManager {
 		metadataFileName: string,
 		chunkIndex: number
 	): Promise<Uint8Array> {
-		const metadata = await this.#readMetadata(metadataFileName)
-		const {offset, length} = metadata[chunkIndex]
-		const fileHandle = file(`/${fileName}`)
-		const reader = await fileHandle.createReader()
-		const arrayBuffer = await reader.read(length, {at: offset})
+		let metadata = await this.#readMetadata(metadataFileName)
+		let {offset, length} = metadata[chunkIndex]
+		let fileHandle = file(`/${fileName}`)
+		let reader = await fileHandle.createReader()
+		let arrayBuffer = await reader.read(length, {at: offset})
 		await reader.close()
 		return new Uint8Array(arrayBuffer)
 	}
 
 	async #readMetadata(metadataFileName: string): Promise<ChunkMetadata[]> {
-		const metadataFile = file(`/${metadataFileName}`)
-		const metadataText = await metadataFile.text()
+		let metadataFile = file(`/${metadataFileName}`)
+		let metadataText = await metadataFile.text()
 		return JSON.parse(metadataText)
 	}
 
@@ -77,7 +77,7 @@ export class OPFSManager {
 
 		this.#worker.addEventListener("message", (e) => {
 			if(e.data.action === "fileChunk") {
-				const chunk = e.data.chunk as Uint8Array
+				let chunk = e.data.chunk as Uint8Array
 				if(e.data.hash === fileHash)
 					this.fileHandler.sendChunk(chunk, e.data.hash, peer.cable.reliable)
 			}
@@ -94,7 +94,7 @@ export class OPFSManager {
 		metadataFileName: string,
 		metadata: ChunkMetadata[]
 	): Promise<void> {
-		const metadataFile = file(`/${metadataFileName}`)
+		let metadataFile = file(`/${metadataFileName}`)
 		await write(metadataFile.path, JSON.stringify(metadata))
 	}
 }
