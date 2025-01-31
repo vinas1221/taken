@@ -146,4 +146,4 @@ export interface Trak {
 	// TODO: Complete interface
 }
 export default mp4box as MP4Box;
-export const DataStreamx = mp4box.DataStream as XDataStream
+export let DataStreamx = mp4box.DataStream as XDataStream
