@@ -77,9 +77,9 @@ export const styles = css`
 		padding: 0.3em 1em;
 		border-radius: 5px;
 		box-shadow:
-			0 0 calc(var(--active) * 0.6em) calc(var(--active) * 0.1em) hsl(0 0% 61% / 0.75),
-			0 0.05em 0 0 hsl(0 calc(var(--active) * 0%) calc((var(--active) * 50%) + 30%)) inset,
-			0 -0.05em 0 0 hsl(0 calc(var(--active) * 0%) calc(var(--active) * 60%)) inset;
+			0 0 calc(let(--active) * 0.6em) calc(let(--active) * 0.1em) hsl(0 0% 61% / 0.75),
+			0 0.05em 0 0 hsl(0 calc(let(--active) * 0%) calc((let(--active) * 50%) + 30%)) inset,
+			0 -0.05em 0 0 hsl(0 calc(let(--active) * 0%) calc(let(--active) * 60%)) inset;
 		transition: all 0.3s ease;
 
 		&:disabled {
@@ -140,7 +140,7 @@ export const styles = css`
 	dialog {
 		width: 100%;
 		height: 100%;
-		background: radial-gradient(100% 100% at var(--g3-3-x-position) var(--g3-3-y-position), #ffffff -80%, transparent), radial-gradient(100% 100% at var(--g3-1-x-position) var(--g3-1-y-position), #000000 -71%, transparent), radial-gradient(100% 100% at var(--g3-2-x-position) var(--g3-2-y-position), #431eaf -52%, transparent), #000000;
+		background: radial-gradient(100% 100% at let(--g3-3-x-position) let(--g3-3-y-position), #ffffff -80%, transparent), radial-gradient(100% 100% at let(--g3-1-x-position) let(--g3-1-y-position), #000000 -71%, transparent), radial-gradient(100% 100% at let(--g3-2-x-position) let(--g3-2-y-position), #431eaf -52%, transparent), #000000;
 		border: none;
 		margin: auto;
 
@@ -415,10 +415,10 @@ export const exportOverlayStyles = css`
 	}
 
 	.export-container {
-		background-color: var(--sl-color-neutral-0);
-		color: var(--sl-color-neutral-900);
+		background-color: let(--sl-color-neutral-0);
+		color: let(--sl-color-neutral-900);
 		border-radius: 12px;
-		box-shadow: var(--sl-shadow-x-large);
+		box-shadow: let(--sl-shadow-x-large);
 		width: 100%;
 		max-width: 800px;
 		overflow: hidden;
@@ -468,11 +468,11 @@ export const exportOverlayStyles = css`
 	}
 
 	.status-icon.success {
-		color: var(--sl-color-success-600);
+		color: let(--sl-color-success-600);
 	}
 
 	.status-icon.error {
-		color: var(--sl-color-danger-600);
+		color: let(--sl-color-danger-600);
 	}
 
 	.progress-stats {
@@ -484,18 +484,18 @@ export const exportOverlayStyles = css`
 	.percentage {
 		font-size: 1.25rem;
 		font-weight: 600;
-		color: var(--sl-color-primary-600);
+		color: let(--sl-color-primary-600);
 	}
 
 	.status-text {
 		font-size: 1rem;
-		color: var(--sl-color-neutral-600);
+		color: let(--sl-color-neutral-600);
 	}
 
 	sl-progress-bar {
 		--height: 10px;
 		--border-radius: 9999px;
-		--track-color: var(--sl-color-neutral-200);
+		--track-color: let(--sl-color-neutral-200);
 	}
 
 	sl-progress-bar::part(base) {
