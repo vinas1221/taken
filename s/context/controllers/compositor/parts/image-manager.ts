@@ -13,7 +13,7 @@ export class ImageManager extends Map<string, {sprite: PIXI.Sprite, transformer:
 
 	async create_and_add_image_effect(image: Image, state: State) {
 		collaboration.broadcastMedia(image)
-		const effect: ImageEffect = {
+		let effect: ImageEffect = {
 			id: generate_id(),
 			kind: "image",
 			file_hash: image.hash,
@@ -36,16 +36,16 @@ export class ImageManager extends Map<string, {sprite: PIXI.Sprite, transformer:
 				}
 			}
 		}
-		const {position, track} = find_place_for_new_effect(state.effects, state.tracks)
+		let {position, track} = find_place_for_new_effect(state.effects, state.tracks)
 		effect.start_at_position = position!
 		effect.track = track
 		await this.add_image_effect(effect, image.file)
 	}
 
 	async add_image_effect(effect: ImageEffect, file: File, recreate?: boolean) {
-		const url = URL.createObjectURL(file)
-		const texture = await PIXI.Assets.load({src: url, format: file.type, loadParser: 'loadTextures'})
-		const sprite = new PIXI.Sprite(texture)
+		let url = URL.createObjectURL(file)
+		let texture = await PIXI.Assets.load({src: url, format: file.type, loadParser: 'loadTextures'})
+		let sprite = new PIXI.Sprite(texture)
 		sprite.x = effect.rect.position_on_canvas.x
 		sprite.y = effect.rect.position_on_canvas.y
 		sprite.scale.set(effect.rect.scaleX, effect.rect.scaleY)
@@ -55,7 +55,7 @@ export class ImageManager extends Map<string, {sprite: PIXI.Sprite, transformer:
 		sprite.cursor = "pointer"
 		sprite.filters = []
 		//@ts-ignore
-		const transformer = new PIXI.Transformer({
+		let transformer = new PIXI.Transformer({
 			boxRotationEnabled: true,
 			translateEnabled: false, // implemented my own translate which work with align guidelines
 			group: [sprite],
@@ -80,7 +80,7 @@ export class ImageManager extends Map<string, {sprite: PIXI.Sprite, transformer:
 	}
 
 	add_image_to_canvas(effect: ImageEffect) {
-		const image = this.get(effect.id)
+		let image = this.get(effect.id)
 		if(image) {
 			this.compositor.app.stage.addChild(image.sprite)
 			image.sprite.zIndex = omnislate.context.state.tracks.length - effect.track
@@ -89,7 +89,7 @@ export class ImageManager extends Map<string, {sprite: PIXI.Sprite, transformer:
 	}
 
 	remove_image_from_canvas(effect: ImageEffect) {
-		const image = this.get(effect.id)
+		let image = this.get(effect.id)
 		if(image) {
 			this.compositor.app.stage.removeChild(image.sprite)
 			this.compositor.app.stage.removeChild(image.transformer)
