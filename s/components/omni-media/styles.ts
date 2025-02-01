@@ -31,7 +31,7 @@ export const styles = css`
 		top: 0;
 		z-index: 10;
 		padding: 16px;
-		border-bottom: 1px solid var(--border-color);
+		border-bottom: 1px solid let(--border-color);
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -41,13 +41,13 @@ export const styles = css`
 		display: flex;
 		align-items: center;
 		gap: 8px;
-		background-color: var(--primary-color);
+		background-color: let(--primary-color);
 		color: white;
 		padding: 8px 16px;
 		border-radius: 6px;
 		font-weight: 500;
 		cursor: pointer;
-		transition: background-color var(--transition-speed) ease;
+		transition: background-color let(--transition-speed) ease;
 		user-select: none;
 	}
 
@@ -78,10 +78,10 @@ export const styles = css`
 
 	.media-card {
 		position: relative;
-		border-radius: var(--card-radius);
+		border-radius: let(--card-radius);
 		background-color: #252525;
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-		transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+		transition: transform let(--transition-speed) ease, box-shadow let(--transition-speed) ease;
 		display: flex;
 		flex-direction: column;
 	}
@@ -116,7 +116,7 @@ export const styles = css`
 	.audio-wave svg {
 		width: 50%;
 		height: 50%;
-		color: var(--primary-color);
+		color: let(--primary-color);
 		opacity: 0.7;
 	}
 
@@ -125,7 +125,7 @@ export const styles = css`
 		inset: 0;
 		background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%);
 		opacity: 0;
-		transition: opacity var(--transition-speed) ease;
+		transition: opacity let(--transition-speed) ease;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
@@ -163,7 +163,7 @@ export const styles = css`
 		backdrop-filter: blur(4px);
 		border: none;
 		cursor: pointer;
-		transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+		transition: background-color let(--transition-speed) ease, transform let(--transition-speed) ease;
 	}
 
 	.action-btn svg {
@@ -172,7 +172,7 @@ export const styles = css`
 	}
 
 	.add-btn {
-		color: var(--success-color);
+		color: let(--success-color);
 	}
 
 	.add-btn:hover {
@@ -181,7 +181,7 @@ export const styles = css`
 	}
 
 	.delete-btn {
-		color: var(--danger-color);
+		color: let(--danger-color);
 	}
 
 	.delete-btn:hover {
@@ -197,7 +197,7 @@ export const styles = css`
 	.media-name {
 		display: block;
 		font-size: 0.85rem;
-		color: var(--text-primary);
+		color: let(--text-primary);
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -225,7 +225,7 @@ export const styles = css`
 		width: 40px;
 		height: 40px;
 		opacity: 0.5;
-		color: var(--primary-color);
+		color: let(--primary-color);
 	}
 
 	@keyframes pulse {
@@ -242,7 +242,7 @@ export const styles = css`
 		justify-content: center;
 		padding-bottom: 48px;
 		text-align: center;
-		color: var(--text-secondary);
+		color: let(--text-secondary);
 		flex: 1;
 	}
 
@@ -259,7 +259,7 @@ export const styles = css`
 	.empty-text {
 		font-size: 1.2rem;
 		margin-bottom: 8px;
-		color: var(--text-primary);
+		color: let(--text-primary);
 	}
 
 	.empty-subtext {
@@ -278,7 +278,7 @@ export const styles = css`
 		z-index: 20;
 		opacity: 0;
 		pointer-events: none;
-		transition: opacity var(--transition-speed) ease;
+		transition: opacity let(--transition-speed) ease;
 	}
 
 	.drag-active .drag-message {
@@ -293,13 +293,13 @@ export const styles = css`
 		padding: 32px;
 		background-color: rgba(30, 30, 30, 0.8);
 		border-radius: 12px;
-		border: 2px dashed var(--primary-color);
+		border: 2px dashed let(--primary-color);
 	}
 
 	.drag-icon svg {
 		width: 48px;
 		height: 48px;
-		color: var(--primary-color);
+		color: let(--primary-color);
 		margin-bottom: 16px;
 	}
 
