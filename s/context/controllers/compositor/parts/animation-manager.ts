@@ -15,9 +15,9 @@ interface AnimationBase<T = AnimationIn | AnimationOut> {
 	for: AnimationFor
 }
 
-export var animationNone = "none" as var
-export var animationIn = ["slide-in", "fade-in", "spin-in", "bounce-in", "wipe-in", "blur-in", "zoom-in"] as var
-export var animationOut = ["slide-out", "fade-out", "spin-out", "bounce-out", "wipe-out", "blur-out", "zoom-out"] as var
+export const animationNone = "none" as const
+export const animationIn = ["slide-in", "fade-in", "spin-in", "bounce-in", "wipe-in", "blur-in", "zoom-in"] as const
+export const animationOut = ["slide-out", "fade-out", "spin-out", "bounce-out", "wipe-out", "blur-out", "zoom-out"] as const
 export type AnimationIn = AnimationBase<(typeof animationIn)[number]>
 export type AnimationOut = AnimationBase<(typeof animationOut)[number]>
 export type AnimationNone = AnimationBase<(typeof animationNone)[number]>
@@ -71,19 +71,19 @@ export class AnimationManager {
 
 	selectedAnimationForEffect(effect: AnyEffect | null, animation: Animation) {
 		if (!effect) return
-		var haveAnimation = this.#animations.find(anim => anim.targetEffect.id === effect.id && animation.name === anim.name && anim.for === this.animationFor)
+		const haveAnimation = this.#animations.find(anim => anim.targetEffect.id === effect.id && animation.name === anim.name && anim.for === this.animationFor)
 		return !!haveAnimation
 	}
 
 	isAnyAnimationInSelected(effect: AnyEffect | null) {
 		if (!effect) return false
-		var haveAnimation = this.#animations.find(animation => animation.targetEffect.id === effect.id && animation.type === "in" && animation.for === this.animationFor)
+		const haveAnimation = this.#animations.find(animation => animation.targetEffect.id === effect.id && animation.type === "in" && animation.for === this.animationFor)
 		return !!haveAnimation
 	}
 
 	isAnyAnimationOutSelected(effect: AnyEffect | null) {
 		if (!effect) return false
-		var haveAnimation = this.#animations.find(animation => animation.targetEffect.id === effect.id && animation.type === "out" && animation.for === this.animationFor)
+		const haveAnimation = this.#animations.find(animation => animation.targetEffect.id === effect.id && animation.type === "out" && animation.for === this.animationFor)
 		return !!haveAnimation
 	}
 
@@ -92,8 +92,8 @@ export class AnimationManager {
 	}
 
 	#getObject(effect: VideoEffect | ImageEffect) {
-		var videoObject = this.compositor.managers.videoManager.get(effect.id)
-		var imageObject = this.compositor.managers.imageManager.get(effect.id)
+		const videoObject = this.compositor.managers.videoManager.get(effect.id)
+		const imageObject = this.compositor.managers.imageManager.get(effect.id)
 		if (videoObject) {
 			return videoObject
 		} else if (imageObject) {
@@ -108,7 +108,7 @@ export class AnimationManager {
 	async refresh(state: State) {
 		this.timeline.clear()
 		this.#animations = state.animations.filter(a => a.for === this.animationFor).map(animation => {
-			var effect = state.effects.find(effect => effect.id === animation.targetEffect.id) as ImageEffect | VideoEffect | undefined
+			const effect = state.effects.find(effect => effect.id === animation.targetEffect.id) as ImageEffect | VideoEffect | undefined
 			return {
 				...animation,
 				targetEffect: effect ?? animation.targetEffect,
@@ -133,9 +133,9 @@ export class AnimationManager {
 	}
 
 	#onAnimationUpdate(object: PIXI.Container, animation: Animation) {
-		var tween = this.timeline.getTweensOf(object).find(a => a.vars.animationName === animation.type)
+		const tween = this.timeline.getTweensOf(object).find(a => a.vars.animationName === animation.type)
 		if (!tween) return
-		var isAnimating = tween.progress() < 1 && tween.progress() > 0
+		const isAnimating = tween.progress() < 1 && tween.progress() > 0
 		if (isAnimating) {
 			// if (object.selectable && object.evented) {
 			// 	// this.compositor.canvas.discardActiveObject()
@@ -153,7 +153,7 @@ export class AnimationManager {
 	}
 
 	getAnimationDuration(effect: AnyEffect, kind: "in" | "out") {
-		var animation = this.getAnimation(effect, kind)
+		const animation = this.getAnimation(effect, kind)
 		return animation?.duration
 	}
 
@@ -164,10 +164,10 @@ export class AnimationManager {
 		recreate?: boolean,
 		omit?: boolean
 	) {
-		var alreadySelected = this.#animations.find(a => a.targetEffect.id === effect.id && a.name === animation.name)
+		const alreadySelected = this.#animations.find(a => a.targetEffect.id === effect.id && a.name === animation.name)
 		if (alreadySelected) return
 
-		var differentAnimation = this.#animations.find(a => a.targetEffect.id === effect.id && a.type === animation.type)
+		const differentAnimation = this.#animations.find(a => a.targetEffect.id === effect.id && a.type === animation.type)
 		if (differentAnimation) {
 			await this.deselectAnimation(effect, animation.type)
 		}
@@ -176,14 +176,14 @@ export class AnimationManager {
 			this.timeline.duration(calculateProjectDuration(state.effects) / 1000)
 		}
 
-		var object = this.#getObject(effect)?.sprite!
+		const object = this.#getObject(effect)?.sprite!
 		if (!recreate) {
 			this.actions.add_animation(animation, this.animationFor, {omit})
 		}
 		this.#animations.push(animation)
 
 		await this.compositor.seek(state.timecode, true)
-		var tweenDuration = animation.duration / 1000
+		const tweenDuration = animation.duration / 1000
 		let tweenInfo
 
 		switch (animation.name) {
@@ -266,7 +266,7 @@ export class AnimationManager {
 	}
 
 	removeAnimations(effect: AnyEffect) {
-		var animations = this.getAnimations(effect)
+		const animations = this.getAnimations(effect)
 		animations.forEach(a => this.deselectAnimation(a.targetEffect, a.type))
 	}
 
@@ -276,7 +276,7 @@ export class AnimationManager {
 	}
 
 	#killAnimationTweens(object: PIXI.Container) {
-		var tweens = gsap.getTweensOf(object)
+		const tweens = gsap.getTweensOf(object)
 		tweens.forEach(tween => {
 			if (tween.vars.data && tween.vars.data.animationFor === this.animationFor) {
 				tween.kill()
@@ -287,7 +287,7 @@ export class AnimationManager {
 	async deselectAnimation(effect: ImageEffect | VideoEffect, type: "in" | "out", refresh?: boolean, omit?: boolean) {
 		return new Promise(resolve => {
 			gsap.ticker.add(() => {
-				var object = this.#getObject(effect)?.sprite
+				const object = this.#getObject(effect)?.sprite
 				if (object) {
 					this.#resetObjectProperties(object, effect)
 					this.#killAnimationTweens(object)
@@ -320,9 +320,9 @@ export class AnimationManager {
 	// Animation handler methods
 
 	#handleSlideIn(object: PIXI.Container, effect: ImageEffect | VideoEffect, animation: Animation, tweenDuration: number) {
-		var targetLeft = effect.rect.position_on_canvas.x
-		var startLeft = targetLeft - effect.rect.width
-		var tween = gsap.fromTo(
+		const targetLeft = effect.rect.position_on_canvas.x
+		const startLeft = targetLeft - effect.rect.width
+		const tween = gsap.fromTo(
 			object,
 			{
 				animationName: animation.type,
@@ -337,14 +337,14 @@ export class AnimationManager {
 			}
 		)
 
-		var startTime = effect.start_at_position / 1000
+		const startTime = effect.start_at_position / 1000
 		return {tween, startTime}
 	}
 
 	#handleSlideOut(object: PIXI.Container, effect: ImageEffect | VideoEffect, animation: Animation, tweenDuration: number) {
-		var startLeft = effect.rect.position_on_canvas.x
-		var targetLeft = startLeft + effect.rect.width
-		var tween = gsap.fromTo(
+		const startLeft = effect.rect.position_on_canvas.x
+		const targetLeft = startLeft + effect.rect.width
+		const tween = gsap.fromTo(
 			object,
 			{
 				animationName: animation.type,
@@ -358,12 +358,12 @@ export class AnimationManager {
 				onUpdate: () => this.#onAnimationUpdate(object, animation),
 			}
 		)
-		var startTime = (effect.start_at_position + (effect.end - effect.start) - animation.duration) / 1000
+		const startTime = (effect.start_at_position + (effect.end - effect.start) - animation.duration) / 1000
 		return {tween, startTime}
 	}
 
 	#handleFadeIn(object: PIXI.Container, effect: ImageEffect | VideoEffect, animation: Animation, tweenDuration: number) {
-		var tween = gsap.fromTo(
+		const tween = gsap.fromTo(
 			object,
 			{
 				alpha: 0,
@@ -376,12 +376,12 @@ export class AnimationManager {
 				onUpdate: () => this.compositor.app.render()
 			}
 		)
-		var startTime = (effect.start_at_position) / 1000
+		const startTime = (effect.start_at_position) / 1000
 		return {tween, startTime}
 	}
 
 	#handleFadeOut(object: PIXI.Container, effect: ImageEffect | VideoEffect, animation: Animation, tweenDuration: number) {
-		var tween = gsap.fromTo(
+		const tween = gsap.fromTo(
 			object,
 			{
 				alpha: 1,
@@ -394,12 +394,12 @@ export class AnimationManager {
 				onUpdate: () => this.compositor.app.render()
 			}
 		)
-		var startTime = (effect.start_at_position + (effect.end - effect.start) - animation.duration) / 1000
+		const startTime = (effect.start_at_position + (effect.end - effect.start) - animation.duration) / 1000
 		return {tween, startTime}
 	}
 
 	#handleSpinIn(object: PIXI.Container, effect: ImageEffect | VideoEffect, animation: Animation, tweenDuration: number) {
-		var tween = gsap.fromTo(
+		const tween = gsap.fromTo(
 			object,
 			{
 				animationName: animation.type,
@@ -413,12 +413,12 @@ export class AnimationManager {
 				onUpdate: () => this.#onAnimationUpdate(object, animation),
 			}
 		)
-		var startTime = effect.start_at_position / 1000
+		const startTime = effect.start_at_position / 1000
 		return {tween, startTime}
 	}
 
 	#handleSpinOut(object: PIXI.Container, effect: ImageEffect | VideoEffect, animation: Animation, tweenDuration: number) {
-		var tween = gsap.fromTo(
+		const tween = gsap.fromTo(
 			object,
 			{
 				animationName: animation.type,
@@ -432,14 +432,14 @@ export class AnimationManager {
 				onUpdate: () => this.#onAnimationUpdate(object, animation),
 			}
 		)
-		var startTime = (effect.start_at_position + (effect.end - effect.start) - animation.duration) / 1000
+		const startTime = (effect.start_at_position + (effect.end - effect.start) - animation.duration) / 1000
 		return {tween, startTime}
 	}
 
 	#handleBounceIn(object: PIXI.Container, effect: ImageEffect | VideoEffect, animation: Animation, tweenDuration: number) {
-		var startLeft = -effect.rect.width
-		var targetLeft = effect.rect.position_on_canvas.x
-		var tween = gsap.fromTo(
+		const startLeft = -effect.rect.width
+		const targetLeft = effect.rect.position_on_canvas.x
+		const tween = gsap.fromTo(
 			object,
 			{
 				animationName: animation.type,
@@ -453,14 +453,14 @@ export class AnimationManager {
 				onUpdate: () => this.#onAnimationUpdate(object, animation),
 			}
 		)
-		var startTime = effect.start_at_position / 1000
+		const startTime = effect.start_at_position / 1000
 		return {tween, startTime}
 	}
 
 	#handleBounceOut(object: PIXI.Container, effect: ImageEffect | VideoEffect, animation: Animation, tweenDuration: number) {
-		var startLeft = effect.rect.position_on_canvas.x
-		var targetLeft = this.compositor.app.stage.width + effect.rect.width
-		var tween = gsap.fromTo(
+		const startLeft = effect.rect.position_on_canvas.x
+		const targetLeft = this.compositor.app.stage.width + effect.rect.width
+		const tween = gsap.fromTo(
 			object,
 			{
 				animationName: animation.type,
@@ -474,15 +474,15 @@ export class AnimationManager {
 				onUpdate: () => this.#onAnimationUpdate(object, animation),
 			}
 		)
-		var startTime = (effect.start_at_position + (effect.end - effect.start) - animation.duration) / 1000
+		const startTime = (effect.start_at_position + (effect.end - effect.start) - animation.duration) / 1000
 		return {tween, startTime}
 	}
 
 	#handleWipeIn(object: PIXI.Container, effect: ImageEffect | VideoEffect, animation: Animation, tweenDuration: number) {
-		var fullWidth = object.width
-		var fullHeight = object.height
+		const fullWidth = object.width
+		const fullHeight = object.height
 		if(!(object.mask instanceof PIXI.Container)) {
-			var maskGraphics = new PIXI.Graphics()
+			const maskGraphics = new PIXI.Graphics()
 			maskGraphics.beginFill(0xffffff)
 			maskGraphics.drawRect(0, 0, 0, fullHeight)
 			maskGraphics.endFill()
@@ -490,8 +490,8 @@ export class AnimationManager {
 			object.addChild(maskGraphics)
 		}
 		
-		var dummy = { width: 0 }
-		var tween = gsap.to(dummy, {
+		const dummy = { width: 0 }
+		const tween = gsap.to(dummy, {
 			width: fullWidth,
 			duration: tweenDuration,
 			ease: "linear",
@@ -506,16 +506,16 @@ export class AnimationManager {
 			}
 		})
 
-		var startTime = effect.start_at_position / 1000
+		const startTime = effect.start_at_position / 1000
 		return { tween, startTime }
 	}
 
 	#handleWipeOut(object: PIXI.Container, effect: ImageEffect | VideoEffect, animation: Animation, tweenDuration: number) {
-		var fullWidth = object.width
-		var fullHeight = object.height
+		const fullWidth = object.width
+		const fullHeight = object.height
 		
 		if (!(object.mask instanceof PIXI.Container)) {
-			var maskGraphics = new PIXI.Graphics()
+			const maskGraphics = new PIXI.Graphics()
 			maskGraphics.beginFill(0xffffff)
 			maskGraphics.drawRect(0, 0, fullWidth, fullHeight)
 			maskGraphics.endFill()
@@ -523,8 +523,8 @@ export class AnimationManager {
 			object.addChild(maskGraphics)
 		}
 		
-		var dummy = { width: fullWidth }
-		var tween = gsap.to(dummy, {
+		const dummy = { width: fullWidth }
+		const tween = gsap.to(dummy, {
 			width: 0,
 			duration: tweenDuration,
 			ease: "linear",
@@ -539,12 +539,12 @@ export class AnimationManager {
 			},
 		})
 
-		var startTime = (effect.start_at_position + (effect.end - effect.start) - animation.duration) / 1000
+		const startTime = (effect.start_at_position + (effect.end - effect.start) - animation.duration) / 1000
 		return { tween, startTime }
 	}
 
 	#handleBlurIn(object: PIXI.Container, effect: ImageEffect | VideoEffect, animation: Animation, tweenDuration: number) {
-		var blurFilter = new PIXI.BlurFilter()
+		const blurFilter = new PIXI.BlurFilter()
 		blurFilter.blur = 100
 		blurFilter.quality = 10
 		//@ts-ignore
@@ -552,37 +552,37 @@ export class AnimationManager {
 
 		object.filters = object.filters instanceof Array ? [...object.filters, blurFilter] : [blurFilter]
 
-		var tween = gsap.to(blurFilter, {
+		const tween = gsap.to(blurFilter, {
 			duration: tweenDuration,
 			blur: 0,
 			ease: "linear",
 			data: { animationFor: this.animationFor },
 		})
 
-		var startTime = effect.start_at_position / 1000
+		const startTime = effect.start_at_position / 1000
 		return { tween, startTime }
 	}
 
 	#handleBlurOut(object: PIXI.Container, effect: ImageEffect | VideoEffect, animation: Animation, tweenDuration: number) {
-		var blurFilter = new PIXI.BlurFilter()
+		const blurFilter = new PIXI.BlurFilter()
 		blurFilter.blur = 0
 		blurFilter.quality = 10
 		//@ts-ignore
 		blurFilter.for = "animation"
 		object.filters = object.filters instanceof Array ? [...object.filters, blurFilter] : [blurFilter]
 
-		var tween = gsap.to(blurFilter, {
+		const tween = gsap.to(blurFilter, {
 			duration: tweenDuration,
 			blur: 100,
 			ease: "linear",
 			data: { animationFor: this.animationFor },
 		})
-		var startTime = (effect.start_at_position + (effect.end - effect.start) - animation.duration) / 1000
+		const startTime = (effect.start_at_position + (effect.end - effect.start) - animation.duration) / 1000
 		return {tween, startTime}
 	}
 
 	#handleZoomIn(object: PIXI.Container, effect: ImageEffect | VideoEffect, animation: Animation, tweenDuration: number) {
-		var tween = gsap.fromTo(
+		const tween = gsap.fromTo(
 			object.scale,
 			{ x: 0.4, y: 0.4 },
 			{
@@ -595,12 +595,12 @@ export class AnimationManager {
 			}
 		)
 
-		var startTime = effect.start_at_position / 1000
+		const startTime = effect.start_at_position / 1000
 		return { tween, startTime }
 	}
 
 	#handleZoomOut(object: PIXI.Container, effect: ImageEffect | VideoEffect, animation: Animation, tweenDuration: number) {
-		var tween = gsap.fromTo(object.scale,
+		const tween = gsap.fromTo(object.scale,
 			{ x: 1, y: 1 },
 			{
 				x: 0.4,
@@ -612,7 +612,7 @@ export class AnimationManager {
 			}
 		)
 
-		var startTime = (effect.start_at_position + (effect.end - effect.start) - animation.duration) / 1000
+		const startTime = (effect.start_at_position + (effect.end - effect.start) - animation.duration) / 1000
 		return { tween, startTime }
 	}
 }
