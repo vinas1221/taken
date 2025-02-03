@@ -1,6 +1,6 @@
 import {template, html, easypage} from "@benev/turtle"
 export default template(async basic => {
-	const path = basic.path(import.meta.url)
+	let path = basic.path(import.meta.url)
 
 	return easypage({
 		path,
