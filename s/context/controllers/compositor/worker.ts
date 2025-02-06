@@ -1,7 +1,7 @@
 // import {TextEffect} from "../../types.js"
 
-// let offscreen_canvas: OffscreenCanvas | undefined = undefined
-// let ctx: OffscreenCanvasRenderingContext2D | null = null
+// var offscreen_canvas: OffscreenCanvas | undefined = undefined
+// var ctx: OffscreenCanvasRenderingContext2D | null = null
 
 // function start({canvas}: {canvas: OffscreenCanvas}) {
 // 	offscreen_canvas = canvas
