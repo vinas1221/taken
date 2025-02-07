@@ -18,7 +18,7 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 	constructor(private compositor: Compositor, private actions: Actions) {super()}
 
 	create_and_add_text_effect(state: State) {
-		const effect: TextEffect = {
+		let effect: TextEffect = {
 			id: generate_id(),
 			kind: "text",
 			start_at_position: 0,
@@ -67,7 +67,7 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 				rotation: 0,
 			}
 		}
-		const {position, track} = find_place_for_new_effect(state.effects, state.tracks)
+		let {position, track} = find_place_for_new_effect(state.effects, state.tracks)
 		effect.start_at_position = position!
 		effect.track = track
 		this.add_text_effect(effect)
@@ -75,14 +75,14 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 	}
 
 	add_text_effect(effect: TextEffect, recreate?: boolean) {
-		const {rect, ...props} = effect
-		const style = new PIXI.TextStyle({
+		let {rect, ...props} = effect
+		let style = new PIXI.TextStyle({
 			...props,
 			//@ts-ignore
 			fill: props.fill,
 		})
 
-		const text = new PIXI.Text(props.text, style)
+		let text = new PIXI.Text(props.text, style)
 		text.eventMode = "static"
 		text.cursor = "pointer"
 		text.x = rect.position_on_canvas.x
@@ -91,7 +91,7 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 		text.rotation = rect.rotation
 		text.pivot.set(effect.rect.pivot.x, effect.rect.pivot.y)
 		//@ts-ignore
-		const transformer = new PIXI.Transformer({
+		let transformer = new PIXI.Transformer({
 			boxRotationEnabled: true,
 			translateEnabled: false, // implemented my own translate which work with align guidelines
 			group: [text],
@@ -118,7 +118,7 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 	}
 
 	add_text_to_canvas(effect: TextEffect) {
-		const text = this.get(effect.id)
+		let text = this.get(effect.id)
 		if(text) {
 			this.compositor.app.stage.addChild(text.sprite)
 			text.sprite.zIndex = omnislate.context.state.tracks.length - effect.track
@@ -127,7 +127,7 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 	}
 
 	remove_text_from_canvas(effect: TextEffect) {
-		const text = this.get(effect.id)
+		let text = this.get(effect.id)
 		if(text) {
 			this.compositor.app.stage.removeChild(text.transformer)
 			this.compositor.app.stage.removeChild(text.sprite)
@@ -135,48 +135,48 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 	}
 
 	measure_text_width(effect: TextEffect) {
-		// const text = this.get(effect.id)
+		// let text = this.get(effect.id)
 		// return PIXI.TextMetrics.measureText(effect.content, text!.sprite.style).width
 	}
 
 	measure_text_height(effect: TextEffect) {
-		// const text = this.get(effect.id)?.sprite
+		// let text = this.get(effect.id)?.sprite
 
 		// return PIXI.TextMetrics.measureText(effect.content, text!.style).height
 	}
 
 	set_font_variant = (event: Event) => {
 		if(this.#selected) {
-			const variant = (event.target as HTMLSelectElement).value as TextStyleFontVariant
+			let variant = (event.target as HTMLSelectElement).value as TextStyleFontVariant
 			this.actions.set_font_variant(this.#selected, variant)
-			const text = this.get(this.#selected.id)?.sprite
+			let text = this.get(this.#selected.id)?.sprite
 			text!.style.fontVariant = variant
 		}
 	}
 
 	set_font_weight = (event: Event) => {
 		if(this.#selected) {
-			const weight = (event.target as HTMLSelectElement).value as TextStyleFontWeight
+			let weight = (event.target as HTMLSelectElement).value as TextStyleFontWeight
 			this.actions.set_font_weight(this.#selected, weight)
-			const text = this.get(this.#selected.id)?.sprite
+			let text = this.get(this.#selected.id)?.sprite
 			text!.style.fontWeight = weight
 		}
 	}
 
 	set_text_font = (event: Event) => {
 		if(this.#selected) {
-			const font = (event.target as HTMLSelectElement).value.replace(/-/g, ' ')
+			let font = (event.target as HTMLSelectElement).value.replace(/-/g, ' ')
 			this.actions.set_text_font(this.#selected, font)
-			const text = this.get(this.#selected.id)?.sprite
+			let text = this.get(this.#selected.id)?.sprite
 			text!.style.fontFamily = font
 		}
 	}
 
 	set_font_size = (event: Event) => {
 		if(this.#selected) {
-			const size = +(event.target as HTMLSelectElement).value
+			let size = +(event.target as HTMLSelectElement).value
 			this.actions.set_font_size(this.#selected, size)
-			const text = this.get(this.#selected.id)?.sprite
+			let text = this.get(this.#selected.id)?.sprite
 			text!.style.fontSize = size
 			// this.#update_text_rect()
 		}
@@ -184,27 +184,27 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_font_style = (event: Event) => {
 		if(this.#selected) {
-			const style = (event.target as HTMLSelectElement).value as TextStyleFontStyle
+			let style = (event.target as HTMLSelectElement).value as TextStyleFontStyle
 			this.actions.set_font_style(this.#selected, style)
-			const text = this.get(this.#selected.id)?.sprite
+			let text = this.get(this.#selected.id)?.sprite
 			text!.style.fontStyle = style
 		}
 	}
 
 	set_text_align = (event: Event) => {
 		if(this.#selected) {
-			const align = (event.target as HTMLSelectElement).value as TextStyleAlign
+			let align = (event.target as HTMLSelectElement).value as TextStyleAlign
 			this.actions.set_font_align(this.#selected, align)
-			const text = this.get(this.#selected.id)?.sprite
+			let text = this.get(this.#selected.id)?.sprite
 			text!.style.align = align
 		}
 	}
 
 	set_fill = (event: Event, index: number) => {
 		if(this.#selected) {
-			const color = (event.target as HTMLSelectElement).value
+			let color = (event.target as HTMLSelectElement).value
 			this.actions.set_text_fill(this.#selected, color, index)
-			const text = this.get(this.#selected.id)?.sprite
+			let text = this.get(this.#selected.id)?.sprite
 			if(text!.style.fill instanceof Array) {
 				//@ts-ignore
 				text!.style.fill[index] = color
@@ -221,8 +221,8 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_drop_shadow_color = (event: Event) => {
 		if(this.#selected) {
-			const text = this.get(this.#selected.id)?.sprite!
-			const value = (event.target as HTMLInputElement).value
+			let text = this.get(this.#selected.id)?.sprite!
+			let value = (event.target as HTMLInputElement).value
 			this.actions.set_drop_shadow_color(this.#selected, value)
 			//@ts-ignore
 			text.style.dropShadowColor = value
@@ -233,9 +233,9 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_drop_shadow_alpha = (event: Event) => {
 		if(this.#selected) {
-			const value = +(event.target as HTMLInputElement).value
+			let value = +(event.target as HTMLInputElement).value
 			this.actions.set_drop_shadow_alpha(this.#selected, value)
-			const text = this.get(this.#selected.id)?.sprite!
+			let text = this.get(this.#selected.id)?.sprite!
 			//@ts-ignore
 			text.style.dropShadowAlpha = value
 			//@ts-ignore
@@ -245,9 +245,9 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_drop_shadow_angle = (event: Event) => {
 		if(this.#selected) {
-			const value = +(event.target as HTMLInputElement).value
+			let value = +(event.target as HTMLInputElement).value
 			this.actions.set_drop_shadow_angle(this.#selected, value)
-			const text = this.get(this.#selected.id)?.sprite!
+			let text = this.get(this.#selected.id)?.sprite!
 			//@ts-ignore
 			text.style.dropShadowAngle = value
 			//@ts-ignore
@@ -257,9 +257,9 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_drop_shadow_blur = (event: Event) => {
 		if(this.#selected) {
-			const value = +(event.target as HTMLInputElement).value
+			let value = +(event.target as HTMLInputElement).value
 			this.actions.set_drop_shadow_blur(this.#selected, value)
-			const text = this.get(this.#selected.id)?.sprite!
+			let text = this.get(this.#selected.id)?.sprite!
 			//@ts-ignore
 			text.style.dropShadowBlur = value
 			//@ts-ignore
@@ -269,9 +269,9 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_drop_shadow_distance = (event: Event) => {
 		if(this.#selected) {
-			const value = +(event.target as HTMLInputElement).value
+			let value = +(event.target as HTMLInputElement).value
 			this.actions.set_drop_shadow_distance(this.#selected, value)
-			const text = this.get(this.#selected.id)?.sprite!
+			let text = this.get(this.#selected.id)?.sprite!
 			//@ts-ignore
 			text.style.dropShadowDistance = value
 			//@ts-ignore
@@ -281,8 +281,8 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	toggle_drop_shadow = (event: Event) => {
 		if(this.#selected) {
-			const value = (event.target as HTMLInputElement).checked
-			const text = this.get(this.#selected.id)?.sprite!
+			let value = (event.target as HTMLInputElement).checked
+			let text = this.get(this.#selected.id)?.sprite!
 			text.style.dropShadow = value
 			this.actions.toggle_drop_shadow(this.#selected, value)
 			//@ts-ignore
@@ -292,8 +292,8 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_word_wrap = (event: Event) => {
 		if(this.#selected) {
-			const value = (event.target as HTMLInputElement).checked
-			const text = this.get(this.#selected.id)?.sprite!
+			let value = (event.target as HTMLInputElement).checked
+			let text = this.get(this.#selected.id)?.sprite!
 			this.actions.set_word_wrap(this.#selected, value)
 			text.style.wordWrap = value
 			//@ts-ignore
@@ -303,8 +303,8 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_break_words = (event: Event) => {
 		if(this.#selected) {
-			const value = (event.target as HTMLInputElement).checked
-			const text = this.get(this.#selected.id)?.sprite!
+			let value = (event.target as HTMLInputElement).checked
+			let text = this.get(this.#selected.id)?.sprite!
 			this.actions.set_break_words(this.#selected, value)
 			text.style.breakWords = value
 			//@ts-ignore
@@ -314,8 +314,8 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_leading = (event: Event) => {
 		if(this.#selected) {
-			const value = +(event.target as HTMLInputElement).value
-			const text = this.get(this.#selected.id)?.sprite!
+			let value = +(event.target as HTMLInputElement).value
+			let text = this.get(this.#selected.id)?.sprite!
 			this.actions.set_leading(this.#selected, value)
 			text.style.leading = value
 			//@ts-ignore
@@ -325,8 +325,8 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_line_height = (event: Event) => {
 		if(this.#selected) {
-			const value = +(event.target as HTMLInputElement).value
-			const text = this.get(this.#selected.id)?.sprite!
+			let value = +(event.target as HTMLInputElement).value
+			let text = this.get(this.#selected.id)?.sprite!
 			this.actions.set_line_height(this.#selected, value)
 			text.style.lineHeight = value
 			//@ts-ignore
@@ -336,8 +336,8 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_wrap_width = (event: Event) => {
 		if(this.#selected) {
-			const value = +(event.target as HTMLInputElement).value
-			const text = this.get(this.#selected.id)?.sprite!
+			let value = +(event.target as HTMLInputElement).value
+			let text = this.get(this.#selected.id)?.sprite!
 			this.actions.set_wrap_width(this.#selected, value)
 			text.style.wordWrapWidth = value
 			//@ts-ignore
@@ -347,8 +347,8 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_white_space = (event: Event) => {
 		if(this.#selected) {
-			const value = (event.target as HTMLSelectElement).value as TextStyleWhiteSpace
-			const text = this.get(this.#selected.id)?.sprite!
+			let value = (event.target as HTMLSelectElement).value as TextStyleWhiteSpace
+			let text = this.get(this.#selected.id)?.sprite!
 			this.actions.set_white_space(this.#selected, value)
 			text.style.whiteSpace = value
 			//@ts-ignore
@@ -358,7 +358,7 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	move_fill_down(index: number) {
 		if(this.#selected) {
-			const text = this.get(this.#selected.id)?.sprite!
+			let text = this.get(this.#selected.id)?.sprite!
 			if(text.style.fill instanceof Array) {
 				if (index >= text.style.fill.length - 1) {return}
 				this.actions.move_text_fill_down(this.#selected, index);
@@ -372,7 +372,7 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	move_fill_up(index: number) {
 		if(this.#selected) {
-			const text = this.get(this.#selected.id)?.sprite!
+			let text = this.get(this.#selected.id)?.sprite!
 			if (index <= 0) return
 			if(text.style.fill instanceof Array) {
 				this.actions.move_text_fill_up(this.#selected, index);
@@ -386,9 +386,9 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_text_content = (event: Event) => {
 		if(this.#selected) {
-			const content = (event.target as HTMLSelectElement).value
+			let content = (event.target as HTMLSelectElement).value
 			this.actions.set_text_content(this.#selected, content)
-			const text = this.get(this.#selected.id)?.sprite
+			let text = this.get(this.#selected.id)?.sprite
 			text!.text = content
 			this.#update_text_rect()
 		}
@@ -396,9 +396,9 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_fill_gradient_type = (event: Event) => {
 		if(this.#selected) {
-			const type = +(event.target as HTMLSelectElement).value as TEXT_GRADIENT
+			let type = +(event.target as HTMLSelectElement).value as TEXT_GRADIENT
 			this.actions.set_fill_gradient_type(this.#selected, type)
-			const text = this.get(this.#selected.id)?.sprite
+			let text = this.get(this.#selected.id)?.sprite
 			//@ts-ignore
 			text!.style.fillGradientType = type
 		}
@@ -407,7 +407,7 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 	add_fill_gradient_stop = () => {
 		if(this.#selected) {
 			this.actions.add_fill_gradient_stop(this.#selected)
-			const text = this.get(this.#selected.id)?.sprite
+			let text = this.get(this.#selected.id)?.sprite
 			//@ts-ignore
 			text!.style.fillGradientStops.push(0)
 			this.textDefaultStyles.fillGradientStops.push(0)
@@ -419,7 +419,7 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 	remove_fill_gradient_stop = (index: number) => {
 		if(this.#selected) {
 			this.actions.remove_fill_gradient_stop(this.#selected, index)
-			const text = this.get(this.#selected.id)?.sprite
+			let text = this.get(this.#selected.id)?.sprite
 			//@ts-ignore
 			text.style.fillGradientStops = text.style.fillGradientStops.filter((_, i) => i !== index)
 			this.textDefaultStyles.fillGradientStops = this.textDefaultStyles.fillGradientStops.filter((_, i) => i !== index)
@@ -430,9 +430,9 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_fill_gradient_stop = (event: Event, index: number) => {
 		if(this.#selected) {
-			const value = +(event.target as HTMLSelectElement).value
+			let value = +(event.target as HTMLSelectElement).value
 			this.actions.set_fill_gradient_stop(this.#selected, index, value)
-			const text = this.get(this.#selected.id)?.sprite
+			let text = this.get(this.#selected.id)?.sprite
 			//@ts-ignore
 			text.style.fillGradientStops[index] = value
 			this.textDefaultStyles.fillGradientStops[index] = value
@@ -444,7 +444,7 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 	add_fill = () => {
 		if(this.#selected) {
 			this.actions.add_text_fill(this.#selected)
-			const text = this.get(this.#selected.id)?.sprite!
+			let text = this.get(this.#selected.id)?.sprite!
 			if(text.style.fill instanceof Array) {
 				//@ts-ignore
 				text.style.fill = [...text.style.fill, "#FFFFFF"]
@@ -459,7 +459,7 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 	remove_fill = (index: number) => {
 		if(this.#selected) {
 			this.actions.remove_text_fill(this.#selected, index)
-			const text = this.get(this.#selected.id)?.sprite
+			let text = this.get(this.#selected.id)?.sprite
 			//@ts-ignore
 			text.style.fill = text.style.fill.filter((_, i) => i !== index)
 			this.textDefaultStyles.fill = this.textDefaultStyles.fill.filter((_, i) => i !== index)
@@ -468,8 +468,8 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_stroke_color = (event: Event) => {
 		if(this.#selected) {
-			const text = this.get(this.#selected.id)?.sprite!
-			const value = (event.target as HTMLSelectElement).value
+			let text = this.get(this.#selected.id)?.sprite!
+			let value = (event.target as HTMLSelectElement).value
 			text.style.stroke = value
 			this.actions.set_stroke_color(this.#selected, value)
 		}
@@ -477,8 +477,8 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_stroke_thickness = (event: Event) => {
 		if(this.#selected) {
-			const text = this.get(this.#selected.id)?.sprite!
-			const value = +(event.target as HTMLSelectElement).value
+			let text = this.get(this.#selected.id)?.sprite!
+			let value = +(event.target as HTMLSelectElement).value
 			//@ts-ignore
 			text.style.strokeThickness = value
 			this.actions.set_stroke_thickness(this.#selected, value)
@@ -487,8 +487,8 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_stroke_line_join = (event: Event) => {
 		if(this.#selected) {
-			const text = this.get(this.#selected.id)?.sprite!
-			const value = (event.target as HTMLSelectElement).value as LineJoin
+			let text = this.get(this.#selected.id)?.sprite!
+			let value = (event.target as HTMLSelectElement).value as LineJoin
 			//@ts-ignore
 			text.style.lineJoin = value
 			this.actions.set_stroke_line_join(this.#selected, value)
@@ -497,8 +497,8 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_stroke_miter_limit = (event: Event) => {
 		if(this.#selected) {
-			const text = this.get(this.#selected.id)?.sprite!
-			const value = +(event.target as HTMLSelectElement).value
+			let text = this.get(this.#selected.id)?.sprite!
+			let value = +(event.target as HTMLSelectElement).value
 			//@ts-ignore
 			text.style.miterLimit = value
 			this.actions.set_stroke_miter_limit(this.#selected, value)
@@ -507,8 +507,8 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_letter_spacing = (event: Event) => {
 		if(this.#selected) {
-			const text = this.get(this.#selected.id)?.sprite!
-			const value = +(event.target as HTMLSelectElement).value
+			let text = this.get(this.#selected.id)?.sprite!
+			let value = +(event.target as HTMLSelectElement).value
 			text.style.letterSpacing = value
 			this.actions.set_letter_spacing(this.#selected, value)
 		}
@@ -516,8 +516,8 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	set_text_baseline = (event: Event) => {
 		if(this.#selected) {
-			const text = this.get(this.#selected.id)?.sprite!
-			const value = (event.target as HTMLSelectElement).value as TextStyleTextBaseline
+			let text = this.get(this.#selected.id)?.sprite!
+			let value = (event.target as HTMLSelectElement).value as TextStyleTextBaseline
 			text.style.textBaseline = value
 			this.actions.set_text_baseline(this.#selected, value)
 		}
@@ -535,9 +535,9 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	#update_text_rect() {
 		// if(this.#selected) {
-		// 	const width = this.measure_text_width(this.#selected)
-		// 	const height = this.measure_text_height(this.#selected)
-		// 	const rect = {
+		// 	let width = this.measure_text_width(this.#selected)
+		// 	let height = this.measure_text_height(this.#selected)
+		// 	let rect = {
 		// 		...this.#selected!.rect,
 		// 		width,
 		// 		height
@@ -555,11 +555,11 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 
 	async getFonts(onPermissionStateChange: (state: PermissionState, deniedStateText: string, fonts?: FontMetadata[]) => void): Promise<FontMetadata[]> {
 		//@ts-ignore
-		const permissionStatus = this.#permissionStatus = await navigator.permissions.query({ name: 'local-fonts' })
-		const deniedStateText = "To enable local fonts, go to browser settings > site permissions, and allow fonts for this site."
-		const setStatus = this.#setPermissionStatus = async () => {
+		let permissionStatus = this.#permissionStatus = await navigator.permissions.query({ name: 'local-fonts' })
+		let deniedStateText = "To enable local fonts, go to browser settings > site permissions, and allow fonts for this site."
+		let setStatus = this.#setPermissionStatus = async () => {
 			if(permissionStatus.state === "granted") {
-				const fonts = await window.queryLocalFonts()
+				let fonts = await window.queryLocalFonts()
 				onPermissionStateChange(permissionStatus.state, "", fonts)
 			} else if (permissionStatus.state === "denied") {
 				onPermissionStateChange(permissionStatus.state, deniedStateText)
@@ -571,7 +571,7 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 					try {
 						permissionStatus.addEventListener("change", setStatus)
 						if (permissionStatus.state === 'granted') {
-							const fonts = await window.queryLocalFonts()
+							let fonts = await window.queryLocalFonts()
 							resolve(fonts)
 						} else if (permissionStatus.state === "prompt") {
 							reject("User needs to grant permission for local fonts.")
@@ -590,7 +590,7 @@ export class TextManager extends Map<string, {sprite: PIXI.Text, transformer: PI
 	}
 }
 
-const TextStylesValues: {
+let TextStylesValues: {
 	size: number
 	variant: TextStyleFontVariant[]
 	style: TextStyleFontStyle[]
