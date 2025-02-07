@@ -66,7 +66,7 @@ export declare namespace EventEmitter {
 	};
 	export type EventListener<T extends ValidEventTypes, K extends EventNames<T>> = T extends string | symbol ? (...args: any[]) => void : (...args: ArgumentMap<Exclude<T, string | symbol>>[Extract<K, keyof T>]) => void;
 	export type EventArgs<T extends ValidEventTypes, K extends EventNames<T>> = Parameters<EventListener<T, K>>;
-	export const EventEmitter: EventEmitterStatic;
+	export var EventEmitter: EventEmitterStatic;
 }
 declare type RgbColor = {
 	r: number;
@@ -765,21 +765,21 @@ export declare class ObservablePoint implements PointLike {
  * @member {number}
  * @memberof maths
  */
-export declare const PI_2: number;
+export declare var PI_2: number;
 /**
  * Conversion factor for converting radians to degrees.
  * @static
  * @member {number} RAD_TO_DEG
  * @memberof maths
  */
-export declare const RAD_TO_DEG: number;
+export declare var RAD_TO_DEG: number;
 /**
  * Conversion factor for converting degrees to radians.
  * @static
  * @member {number}
  * @memberof maths
  */
-export declare const DEG_TO_RAD: number;
+export declare var DEG_TO_RAD: number;
 /**
  * Constants that identify shapes, mainly to prevent `instanceof` calls.
  * @memberof maths
@@ -953,9 +953,9 @@ export declare class Rectangle implements ShapePrimitive {
 	 * lie within the bounds of this rectangle.
 	 *
 	 * ```ts
-	 * const container = new Rectangle(0, 0, 100, 100);
-	 * const inside = new Rectangle(25, 25, 50, 50);
-	 * const partial = new Rectangle(75, 75, 50, 50);
+	 * var container = new Rectangle(0, 0, 100, 100);
+	 * var inside = new Rectangle(25, 25, 50, 50);
+	 * var partial = new Rectangle(75, 75, 50, 50);
 	 *
 	 * container.containsRect(inside); // Returns true
 	 * container.containsRect(partial); // Returns false - partial overlap
@@ -1371,11 +1371,11 @@ interface EarcutStatic {
 	/**
 	 * Transforms multi-dimensional array (e.g. GeoJSON Polygon) into the format expected by earcut.
 	 * @example Transforming GeoJSON data.
-	 *     const data = earcut.flatten(geojson.geometry.coordinates);
-	 *     const triangles = earcut(data.vertices, data.holes, data.dimensions);
+	 *     var data = earcut.flatten(geojson.geometry.coordinates);
+	 *     var triangles = earcut(data.vertices, data.holes, data.dimensions);
 	 * @example Transforming simple triangle with hole:
-	 *     const data = earcut.flatten([[[0, 0], [100, 0], [0, 100]], [[10, 10], [0, 10], [10, 0]]]);
-	 *     const triangles = earcut(data.vertices, data.holes, data.dimensions);
+	 *     var data = earcut.flatten([[[0, 0], [100, 0], [0, 100]], [[10, 10], [0, 10], [10, 0]]]);
+	 *     var triangles = earcut(data.vertices, data.holes, data.dimensions);
 	 * @param data Arrays of rings, with the first being the outline and the rest holes. A ring is an array points, each point being an array of numbers.
 	 */
 	flatten(data: ArrayLike<ArrayLike<ArrayLike<number>>>): {
@@ -1390,13 +1390,13 @@ interface EarcutStatic {
 	 * @param dimensions same as earcut
 	 * @param triangles see return value of earcut
 	 * @example
-	 *     const triangles = earcut(vertices, holes, dimensions);
-	 *  const deviation = earcut.deviation(vertices, holes, dimensions, triangles);
+	 *     var triangles = earcut(vertices, holes, dimensions);
+	 *  var deviation = earcut.deviation(vertices, holes, dimensions, triangles);
 	 */
 	deviation(vertices: ArrayLike<number>, holes: ArrayLike<number> | undefined, dimensions: number, triangles: ArrayLike<number>): number;
 	default: EarcutStatic;
 }
-declare const exports$1: EarcutStatic;
+declare var exports$1: EarcutStatic;
 /**
  * SystemRunner is used internally by the renderers as an efficient way for systems to
  * be notified about what the renderer is up to during the rendering phase.
@@ -1404,11 +1404,11 @@ declare const exports$1: EarcutStatic;
  * ```
  * import { SystemRunner } from 'pixi.js';
  *
- * const myObject = {
+ * var myObject = {
  *     loaded: new SystemRunner('loaded')
  * }
  *
- * const listener = {
+ * var listener = {
  *     loaded: function(){
  *         // thin
  *     }
@@ -1423,11 +1423,11 @@ declare const exports$1: EarcutStatic;
  * ```
  * import { SystemRunner } from 'pixi.js';
  *
- * const myGame = {
+ * var myGame = {
  *     update: new SystemRunner('update')
  * }
  *
- * const gameObject = {
+ * var gameObject = {
  *     update: function(time){
  *         // update my gamey state
  *     }
@@ -1463,7 +1463,7 @@ export declare class SystemRunner {
 	 * ```
 	 * import { Runner } from 'pixi.js';
 	 *
-	 * const complete = new Runner('complete');
+	 * var complete = new Runner('complete');
 	 * ```
 	 *
 	 * The scope used will be the object itself.
@@ -1579,7 +1579,7 @@ export type CLEAR_OR_BOOL = CLEAR | boolean;
  * import { extensions, ExtensionType } from 'pixi.js';
  *
  * // create a custom asset loader
- * const customAssetLoader = {
+ * var customAssetLoader = {
  *    extension: {
  *        type: ExtensionType.LoadParser,
  *        name: 'custom-asset-loader',
@@ -1701,7 +1701,7 @@ export type ExtensionHandler = (extension: StrictExtensionFormat) => void;
  * @returns The priority for the extension.
  * @memberof extensions
  */
-export declare const normalizeExtensionPriority: (ext: ExtensionFormat | any, defaultPriority: number) => number;
+export declare var normalizeExtensionPriority: (ext: ExtensionFormat | any, defaultPriority: number) => number;
 /**
  * Global registration of all PixiJS extensions. One-stop-shop for extensibility.
  *
@@ -1720,7 +1720,7 @@ export declare const normalizeExtensionPriority: (ext: ExtensionFormat | any, de
  * @property {Function} handleByList - Handle a type, but using a list of extensions.
  * @memberof extensions
  */
-export declare const extensions: {
+export declare var extensions: {
 	/** @ignore */
 	_addHandlers: Partial<Record<ExtensionType, ExtensionHandler>>;
 	/** @ignore */
@@ -1877,7 +1877,7 @@ export declare class BackgroundSystem implements System<BackgroundSystemOptions>
  * @see https://gpuweb.github.io/gpuweb/#dictdef-gpubindgroupdescriptor
  * @example
  * // Create a bind group with a single texture and sampler
- * const bindGroup = new BindGroup({
+ * var bindGroup = new BindGroup({
  *    uTexture: texture.source,
  *    uTexture: texture.style,
  * });
@@ -2027,7 +2027,7 @@ export declare enum DEPRECATED_WRAP_MODES {
 	MIRRORED_REPEAT = "mirror-repeat"
 }
 /** @deprecated since 8.0.0 */
-export declare const WRAP_MODES: typeof DEPRECATED_WRAP_MODES;
+export declare var WRAP_MODES: typeof DEPRECATED_WRAP_MODES;
 /**
  * The scale modes that are supported by pixi.
  *
@@ -2047,7 +2047,7 @@ export declare enum DEPRECATED_SCALE_MODES {
 /**
  * @deprecated since 8.0.0
  */
-export declare const SCALE_MODES: typeof DEPRECATED_SCALE_MODES;
+export declare var SCALE_MODES: typeof DEPRECATED_SCALE_MODES;
 export type COMPARE_FUNCTION = "never" | "less" | "equal" | "less-equal" | "greater" | "not-equal" | "greater-equal" | "always";
 export interface TextureStyleOptions extends Partial<TextureStyle> {
 	/** setting this will set wrapModeU,wrapModeV and wrapModeW all at once! */
@@ -2578,7 +2578,7 @@ export interface BufferDescriptor {
  * creating a brand new one and destroying the old, so it is best to limit this if possible.
  * @example
  *
- * const buffer = new Buffer({
+ * var buffer = new Buffer({
  *     data: new Float32Array([1, 2, 3, 4]),
  *     usage: BufferUsage.VERTEX,
  * });
@@ -2854,14 +2854,14 @@ export type TextureSourceLike = TextureSource | TextureResourceOrOptions | strin
  *
  * ```js
  *
- * const texture = await Assets.load('assets/image.png');
+ * var texture = await Assets.load('assets/image.png');
  *
  * // once Assets has loaded the image it will be available via the from method
- * const sameTexture = Texture.from('assets/image.png');
+ * var sameTexture = Texture.from('assets/image.png');
  * // another way to access the texture once loaded
- * const sameAgainTexture = Asset.get('assets/image.png');
+ * var sameAgainTexture = Asset.get('assets/image.png');
  *
- * const sprite1 = new Sprite(texture);
+ * var sprite1 = new Sprite(texture);
  *
  * ```
  *
@@ -2873,9 +2873,9 @@ export type TextureSourceLike = TextureSource | TextureResourceOrOptions | strin
  * ```js
  * import { Sprite, Texture } from 'pixi.js';
  *
- * const texture = await Assets.load('assets/image.png');
- * const sprite1 = new Sprite(texture);
- * const sprite2 = new Sprite(texture);
+ * var texture = await Assets.load('assets/image.png');
+ * var sprite1 = new Sprite(texture);
+ * var sprite2 = new Sprite(texture);
  * ```
  *
  * If you didn't pass the texture frame to constructor, it enables `noFrame` mode:
@@ -3150,7 +3150,7 @@ export type BLEND_MODES = "inherit" | "normal" | "add" | "multiply" | "screen" |
  * The map of blend modes supported by Pixi
  * @memberof rendering
  */
-export declare const BLEND_TO_NPM: {
+export declare var BLEND_TO_NPM: {
 	normal: string;
 	add: string;
 	screen: string;
@@ -3193,7 +3193,7 @@ export declare class BatchTextureArray {
  */
 export type Topology = "point-list" | "line-list" | "line-strip" | "triangle-list" | "triangle-strip";
 /** @deprecated since 8.0.0 */
-export declare const DRAW_MODES: {
+export declare var DRAW_MODES: {
 	POINTS: string;
 	LINES: string;
 	LINE_STRIP: string;
@@ -3267,7 +3267,7 @@ export interface GeometryDescriptor {
  * If not provided, vertices will be interpreted in the sequence they're given.
  * @example
  *
- * const geometry = new Geometry({
+ * var geometry = new Geometry({
  *   attributes: {
  *     aPosition: [ // add some positions
  *       0, 0,
@@ -3419,7 +3419,7 @@ export interface GlProgramOptions {
  * @example
  *
  * // Create a new program
- * const program = new GlProgram({
+ * var program = new GlProgram({
  *   vertex: '...',
  *   fragment: '...',
  * });
@@ -3555,7 +3555,7 @@ export interface GpuProgramOptions {
  * @example
  *
  * // Create a new program
- * const program = new GpuProgram({
+ * var program = new GpuProgram({
  *   vertex: {
  *    source: '...',
  *    entryPoint: 'main',
@@ -3746,7 +3746,7 @@ export type ShaderFromResources = (GlShaderFromWith | GpuShaderFromWith) & Omit<
  *  - UniformsGroups {@link UniformGroup}
  * @example
  *
- * const shader = new Shader({
+ * var shader = new Shader({
  *     glProgram: glProgram,
  *     gpuProgram: gpuProgram,
  *     resources: {
@@ -4405,7 +4405,7 @@ export interface RenderTargetAdaptor<RENDER_TARGET extends GlRenderTarget | GpuR
  * ```js
  *
  * // create a render target
- * const renderTarget = new RenderTarget({
+ * var renderTarget = new RenderTarget({
  *   colorTextures: [new TextureSource({ width: 100, height: 100 })],
  * });
  *
@@ -4514,19 +4514,19 @@ export declare class RenderTargetSystem<RENDER_TARGET extends GlRenderTarget | G
 	 *
 	 * The following is not valid:
 	 * @example
-	 * const canvas = document.createElement('canvas')
+	 * var canvas = document.createElement('canvas')
 	 * canvas.width = 200;
 	 * canvas.height = 200;
 	 *
-	 * const ctx = canvas2.getContext('2d')!
+	 * var ctx = canvas2.getContext('2d')!
 	 * ctx.fillStyle = 'red'
 	 * ctx.fillRect(0, 0, 200, 200);
 	 *
-	 * const texture = RenderTexture.create({
+	 * var texture = RenderTexture.create({
 	 *   width: 200,
 	 *   height: 200,
 	 * })
-	 * const renderTarget = renderer.renderTarget.getRenderTarget(canvas2);
+	 * var renderTarget = renderer.renderTarget.getRenderTarget(canvas2);
 	 *
 	 * renderer.renderTarget.copyToTexture(renderTarget,texture, {x:0,y:0},{width:200,height:200},{x:0,y:0});
 	 *
@@ -4775,7 +4775,7 @@ export interface RenderContainerOptions extends ContainerOptions {
  * }
  *
  * // override the render method
- * const renderContainer = new RenderContainer(
+ * var renderContainer = new RenderContainer(
  * (renderer) =>  {
  *     renderer.clear({
  *       clearColor: 'green', // clear the screen to green when rendering this item
@@ -4810,7 +4810,7 @@ export declare class RenderContainer extends ViewContainer implements Instructio
  * @example
  * import { RenderContainer } from 'pixi.js';
  *
- * const renderContainer = new RenderContainer(
+ * var renderContainer = new RenderContainer(
  * (renderer) =>  {
  *     renderer.clear({
  *       clearColor: 'green', // clear the screen to green when rendering this item
@@ -5163,7 +5163,7 @@ interface LocalBoundsCacheData {
 	didChange: boolean;
 	localBounds: Bounds;
 }
-export declare const measureMixin: Partial<Container>;
+export declare var measureMixin: Partial<Container>;
 /**
  * Options for the {@link scene.Sprite} constructor.
  * @memberof scene
@@ -5187,7 +5187,7 @@ export interface Sprite extends PixiMixins.Sprite, ViewContainer {
  * ```js
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('assets/image.png');
+ * var sprite = Sprite.from('assets/image.png');
  * ```
  *
  * The more efficient way to create sprites is using a {@link assets.Spritesheet},
@@ -5196,8 +5196,8 @@ export interface Sprite extends PixiMixins.Sprite, ViewContainer {
  * ```js
  * import { Assets, Sprite } from 'pixi.js';
  *
- * const sheet = await Assets.load('assets/spritesheet.json');
- * const sprite = new Sprite(sheet.textures['image.png']);
+ * var sheet = await Assets.load('assets/spritesheet.json');
+ * var sprite = new Sprite(sheet.textures['image.png']);
  * ```
  * @memberof scene
  * @extends scene.Container
@@ -5258,7 +5258,7 @@ export declare class Sprite extends ViewContainer {
 	 * @example
 	 * import { Sprite } from 'pixi.js';
 	 *
-	 * const sprite = new Sprite({texture: Texture.WHITE});
+	 * var sprite = new Sprite({texture: Texture.WHITE});
 	 * sprite.anchor.set(0.5); // This will set the origin to center. (0.5) is same as (0.5, 0.5).
 	 */
 	get anchor(): ObservablePoint;
@@ -5602,7 +5602,7 @@ export declare class GpuStencilSystem implements System {
 	setStencilMode(stencilMode: STENCIL_MODES, stencilReference: number): void;
 	destroy(): void;
 }
-export declare const UNIFORM_TYPES_VALUES: readonly [
+export declare var UNIFORM_TYPES_VALUES: readonly [
 	"f32",
 	"i32",
 	"vec2<f32>",
@@ -5622,7 +5622,7 @@ export declare const UNIFORM_TYPES_VALUES: readonly [
 	"vec4<i32>"
 ];
 /** useful for checking if a type is supported - a map of supported types with a true value. */
-export declare const UNIFORM_TYPES_MAP: Record<UNIFORM_TYPES, boolean>;
+export declare var UNIFORM_TYPES_MAP: Record<UNIFORM_TYPES, boolean>;
 export type UNIFORM_TYPES_SINGLE = typeof UNIFORM_TYPES_VALUES[number];
 type OPTIONAL_SPACE = " " | "";
 export type UNIFORM_TYPES_ARRAY = `array<${UNIFORM_TYPES_SINGLE},${OPTIONAL_SPACE}${number}>`;
@@ -5704,7 +5704,7 @@ export type UniformGroupOptions = {
  *
  * ```js
  * // A new Uniform Buffer Object...
- * const myCoolData = new UniformGroup({
+ * var myCoolData = new UniformGroup({
  *     uCoolMatrix: {value:new Matrix(), type: 'mat4<f32>'},
  *     uFloatyMcFloatFace: {value:23, type: 'f32'},
  * }}
@@ -5712,7 +5712,7 @@ export type UniformGroupOptions = {
  * // modify the data
  * myCoolData.uniforms.uFloatyMcFloatFace = 42;
  * // Build a shader...
- * const shader = Shader.from(srcVert, srcFrag, {
+ * var shader = Shader.from(srcVert, srcFrag, {
  *     myCoolData // Name matches the UBO name in the shader. Will be processed accordingly.
  * })
  *
@@ -5822,12 +5822,12 @@ export declare class GpuUboSystem extends UboSystem {
  * This resource, will listen for changes on the underlying buffer and emit a itself if the buffer changes shape.
  * @example
  *
- * const buffer = new Buffer({
+ * var buffer = new Buffer({
  *     data: new Float32Array(1000),
  *    usage: BufferUsage.UNIFORM,
  * });
  * // Create a buffer resource that uses the first 100 bytes of a buffer
- * const bufferResource = new BufferResource({
+ * var bufferResource = new BufferResource({
  *    buffer,
  *    offset: 0,
  *    size: 100,
@@ -6402,7 +6402,7 @@ export declare function compileHighShaderGl({ template, bits }: CompileHighShade
  * @param name - optional the name of the part to add
  */
 export declare function addBits(srcParts: Record<string, string>, parts: Record<string, string[]>, name?: string): void;
-export declare const findHooksRx: RegExp;
+export declare var findHooksRx: RegExp;
 /**
  * takes a program string and returns an hash mapping the hooks to empty arrays
  * @param programSrc - the program containing hooks
@@ -6421,18 +6421,18 @@ export declare function formatShader(shader: string): string;
  * @param fragmentParts - the fragments to inject
  */
 export declare function injectBits(templateSrc: string, fragmentParts: Record<string, string[]>): string;
-export declare const vertexGPUTemplate = "\n    @in aPosition: vec2<f32>;\n    @in aUV: vec2<f32>;\n\n    @out @builtin(position) vPosition: vec4<f32>;\n    @out vUV : vec2<f32>;\n    @out vColor : vec4<f32>;\n\n    {{header}}\n\n    struct VSOutput {\n        {{struct}}\n    };\n\n    @vertex\n    fn main( {{in}} ) -> VSOutput {\n\n        var worldTransformMatrix = globalUniforms.uWorldTransformMatrix;\n        var modelMatrix = mat3x3<f32>(\n            1.0, 0.0, 0.0,\n            0.0, 1.0, 0.0,\n            0.0, 0.0, 1.0\n          );\n        var position = aPosition;\n        var uv = aUV;\n\n        {{start}}\n        \n        vColor = vec4<f32>(1., 1., 1., 1.);\n\n        {{main}}\n\n        vUV = uv;\n\n        var modelViewProjectionMatrix = globalUniforms.uProjectionMatrix * worldTransformMatrix * modelMatrix;\n\n        vPosition =  vec4<f32>((modelViewProjectionMatrix *  vec3<f32>(position, 1.0)).xy, 0.0, 1.0);\n       \n        vColor *= globalUniforms.uWorldColorAlpha;\n\n        {{end}}\n\n        {{return}}\n    };\n";
-export declare const fragmentGPUTemplate = "\n    @in vUV : vec2<f32>;\n    @in vColor : vec4<f32>;\n   \n    {{header}}\n\n    @fragment\n    fn main(\n        {{in}}\n      ) -> @location(0) vec4<f32> {\n        \n        {{start}}\n\n        var outColor:vec4<f32>;\n      \n        {{main}}\n        \n        var finalColor:vec4<f32> = outColor * vColor;\n\n        {{end}}\n\n        return finalColor;\n      };\n";
-export declare const vertexGlTemplate = "\n    in vec2 aPosition;\n    in vec2 aUV;\n\n    out vec4 vColor;\n    out vec2 vUV;\n\n    {{header}}\n\n    void main(void){\n\n        mat3 worldTransformMatrix = uWorldTransformMatrix;\n        mat3 modelMatrix = mat3(\n            1.0, 0.0, 0.0,\n            0.0, 1.0, 0.0,\n            0.0, 0.0, 1.0\n          );\n        vec2 position = aPosition;\n        vec2 uv = aUV;\n        \n        {{start}}\n        \n        vColor = vec4(1.);\n        \n        {{main}}\n        \n        vUV = uv;\n        \n        mat3 modelViewProjectionMatrix = uProjectionMatrix * worldTransformMatrix * modelMatrix;\n\n        gl_Position = vec4((modelViewProjectionMatrix * vec3(position, 1.0)).xy, 0.0, 1.0);\n\n        vColor *= uWorldColorAlpha;\n\n        {{end}}\n    }\n";
-export declare const fragmentGlTemplate = "\n   \n    in vec4 vColor;\n    in vec2 vUV;\n\n    out vec4 finalColor;\n\n    {{header}}\n\n    void main(void) {\n        \n        {{start}}\n\n        vec4 outColor;\n      \n        {{main}}\n        \n        finalColor = outColor * vColor;\n        \n        {{end}}\n    }\n";
-export declare const colorBit: {
+export declare var vertexGPUTemplate = "\n    @in aPosition: vec2<f32>;\n    @in aUV: vec2<f32>;\n\n    @out @builtin(position) vPosition: vec4<f32>;\n    @out vUV : vec2<f32>;\n    @out vColor : vec4<f32>;\n\n    {{header}}\n\n    struct VSOutput {\n        {{struct}}\n    };\n\n    @vertex\n    fn main( {{in}} ) -> VSOutput {\n\n        var worldTransformMatrix = globalUniforms.uWorldTransformMatrix;\n        var modelMatrix = mat3x3<f32>(\n            1.0, 0.0, 0.0,\n            0.0, 1.0, 0.0,\n            0.0, 0.0, 1.0\n          );\n        var position = aPosition;\n        var uv = aUV;\n\n        {{start}}\n        \n        vColor = vec4<f32>(1., 1., 1., 1.);\n\n        {{main}}\n\n        vUV = uv;\n\n        var modelViewProjectionMatrix = globalUniforms.uProjectionMatrix * worldTransformMatrix * modelMatrix;\n\n        vPosition =  vec4<f32>((modelViewProjectionMatrix *  vec3<f32>(position, 1.0)).xy, 0.0, 1.0);\n       \n        vColor *= globalUniforms.uWorldColorAlpha;\n\n        {{end}}\n\n        {{return}}\n    };\n";
+export declare var fragmentGPUTemplate = "\n    @in vUV : vec2<f32>;\n    @in vColor : vec4<f32>;\n   \n    {{header}}\n\n    @fragment\n    fn main(\n        {{in}}\n      ) -> @location(0) vec4<f32> {\n        \n        {{start}}\n\n        var outColor:vec4<f32>;\n      \n        {{main}}\n        \n        var finalColor:vec4<f32> = outColor * vColor;\n\n        {{end}}\n\n        return finalColor;\n      };\n";
+export declare var vertexGlTemplate = "\n    in vec2 aPosition;\n    in vec2 aUV;\n\n    out vec4 vColor;\n    out vec2 vUV;\n\n    {{header}}\n\n    void main(void){\n\n        mat3 worldTransformMatrix = uWorldTransformMatrix;\n        mat3 modelMatrix = mat3(\n            1.0, 0.0, 0.0,\n            0.0, 1.0, 0.0,\n            0.0, 0.0, 1.0\n          );\n        vec2 position = aPosition;\n        vec2 uv = aUV;\n        \n        {{start}}\n        \n        vColor = vec4(1.);\n        \n        {{main}}\n        \n        vUV = uv;\n        \n        mat3 modelViewProjectionMatrix = uProjectionMatrix * worldTransformMatrix * modelMatrix;\n\n        gl_Position = vec4((modelViewProjectionMatrix * vec3(position, 1.0)).xy, 0.0, 1.0);\n\n        vColor *= uWorldColorAlpha;\n\n        {{end}}\n    }\n";
+export declare var fragmentGlTemplate = "\n   \n    in vec4 vColor;\n    in vec2 vUV;\n\n    out vec4 finalColor;\n\n    {{header}}\n\n    void main(void) {\n        \n        {{start}}\n\n        vec4 outColor;\n      \n        {{main}}\n        \n        finalColor = outColor * vColor;\n        \n        {{end}}\n    }\n";
+export declare var colorBit: {
 	name: string;
 	vertex: {
 		header: string;
 		main: string;
 	};
 };
-export declare const colorBitGl: {
+export declare var colorBitGl: {
 	name: string;
 	vertex: {
 		header: string;
@@ -6441,41 +6441,25 @@ export declare const colorBitGl: {
 };
 export declare function generateTextureBatchBit(maxTextures: number): HighShaderBit;
 export declare function generateTextureBatchBitGl(maxTextures: number): HighShaderBit;
-export declare const globalUniformsBit: {
+export declare var globalUniformsBit: {
 	name: string;
 	vertex: {
 		header: string;
 	};
 };
-export declare const globalUniformsUBOBitGl: {
+export declare var globalUniformsUBOBitGl: {
 	name: string;
 	vertex: {
 		header: string;
 	};
 };
-export declare const globalUniformsBitGl: {
+export declare var globalUniformsBitGl: {
 	name: string;
 	vertex: {
 		header: string;
 	};
 };
-export declare const localUniformBit: {
-	name: string;
-	vertex: {
-		header: string;
-		main: string;
-		end: string;
-	};
-};
-export declare const localUniformBitGroup2: {
-	vertex: {
-		header: string;
-		main: string;
-		end: string;
-	};
-	name: string;
-};
-export declare const localUniformBitGl: {
+export declare var localUniformBit: {
 	name: string;
 	vertex: {
 		header: string;
@@ -6483,19 +6467,35 @@ export declare const localUniformBitGl: {
 		end: string;
 	};
 };
-export declare const roundPixelsBit: {
+export declare var localUniformBitGroup2: {
+	vertex: {
+		header: string;
+		main: string;
+		end: string;
+	};
+	name: string;
+};
+export declare var localUniformBitGl: {
+	name: string;
+	vertex: {
+		header: string;
+		main: string;
+		end: string;
+	};
+};
+export declare var roundPixelsBit: {
 	name: string;
 	vertex: {
 		header: string;
 	};
 };
-export declare const roundPixelsBitGl: {
+export declare var roundPixelsBitGl: {
 	name: string;
 	vertex: {
 		header: string;
 	};
 };
-export declare const textureBit: {
+export declare var textureBit: {
 	name: string;
 	vertex: {
 		header: string;
@@ -6506,7 +6506,7 @@ export declare const textureBit: {
 		main: string;
 	};
 };
-export declare const textureBitGl: {
+export declare var textureBitGl: {
 	name: string;
 	vertex: {
 		header: string;
@@ -6694,7 +6694,7 @@ export declare class FilterSystem implements System {
  * ```js
  * import { Sprite, BlurFilter, HardMixBlend } from 'pixi.js';
  *
- * const sprite = Sprite.from('myTexture.png');
+ * var sprite = Sprite.from('myTexture.png');
  *
  * // single filter
  * sprite.filters = new BlurFilter({ strength: 8 });
@@ -7001,7 +7001,7 @@ export declare class MaskEffectManagerClass {
 	getMaskEffect(item: any): MaskEffect;
 	returnMaskEffect(effect: Effect & PoolItem): void;
 }
-export declare const MaskEffectManager: MaskEffectManagerClass;
+export declare var MaskEffectManager: MaskEffectManagerClass;
 export declare class ScissorMask implements Effect {
 	priority: number;
 	mask: Container;
@@ -7995,7 +7995,7 @@ export declare function setProgramName(src: string, { name }: {
 	name: string;
 }, isFragment?: boolean): string;
 export declare function stripVersion(src: string, isES300: boolean): string;
-export declare const WGSL_TO_STD40_SIZE: Record<string, number>;
+export declare var WGSL_TO_STD40_SIZE: Record<string, number>;
 export declare function createUboElementsSTD40(uniformData: UniformData[]): UboLayout;
 export declare function createUboSyncFunctionSTD40(uboElements: UboElement[]): UniformsSyncCallback;
 /**
@@ -8008,8 +8008,8 @@ export declare function createUboSyncFunctionSTD40(uboElements: UboElement[]): U
 export declare function generateArraySyncSTD40(uboElement: UboElement, offsetToAdd: number): string;
 export declare function generateUniformsSync(group: UniformGroup, uniformData: Record<string, any>): UniformsSyncCallback;
 export type ArraySetterFunction = (v: any, location: WebGLUniformLocation, gl: any) => void;
-export declare const UNIFORM_TO_SINGLE_SETTERS: Record<UNIFORM_TYPES | string, string>;
-export declare const UNIFORM_TO_ARRAY_SETTERS: Record<UNIFORM_TYPES | string, string>;
+export declare var UNIFORM_TO_SINGLE_SETTERS: Record<UNIFORM_TYPES | string, string>;
+export declare var UNIFORM_TO_ARRAY_SETTERS: Record<UNIFORM_TYPES | string, string>;
 /**
  * System plugin to the renderer to manage WebGL state machines
  * @memberof rendering
@@ -8378,10 +8378,10 @@ export interface GLTextureUploader {
 	id: string;
 	upload(source: TextureSource, glTexture: GlTexture, gl: GlRenderingContext, webGLVersion: number): void;
 }
-export declare const glUploadBufferImageResource: GLTextureUploader;
-export declare const glUploadCompressedTextureResource: GLTextureUploader;
-export declare const glUploadImageResource: GLTextureUploader;
-export declare const glUploadVideoResource: GLTextureUploader;
+export declare var glUploadBufferImageResource: GLTextureUploader;
+export declare var glUploadCompressedTextureResource: GLTextureUploader;
+export declare var glUploadImageResource: GLTextureUploader;
+export declare var glUploadVideoResource: GLTextureUploader;
 export declare function applyStyleParams(style: TextureStyle, gl: WebGL2RenderingContext, mipmaps: boolean, anisotropicExt: EXT_texture_filter_anisotropic, glFunctionName: "samplerParameteri" | "texParameteri", firstParam: 3553 | WebGLSampler, forceClamp: boolean, 
 /** if true we can skip setting certain values if the values is the same as the default gl values */
 firstCreation: boolean): void;
@@ -8411,11 +8411,11 @@ export declare function mapFormatToGlInternalFormat(gl: GlRenderingContext, exte
  * @returns Lookup table.
  */
 export declare function mapFormatToGlType(gl: GlRenderingContext): Record<string, number>;
-export declare const scaleModeToGlFilter: {
+export declare var scaleModeToGlFilter: {
 	linear: number;
 	nearest: number;
 };
-export declare const mipmapScaleModeToGlFilter: {
+export declare var mipmapScaleModeToGlFilter: {
 	linear: {
 		linear: number;
 		nearest: number;
@@ -8425,12 +8425,12 @@ export declare const mipmapScaleModeToGlFilter: {
 		nearest: number;
 	};
 };
-export declare const wrapModeToGlAddress: {
+export declare var wrapModeToGlAddress: {
 	"clamp-to-edge": number;
 	repeat: number;
 	"mirror-repeat": number;
 };
-export declare const compareModeToGlCompare: {
+export declare var compareModeToGlCompare: {
 	never: number;
 	less: number;
 	equal: number;
@@ -8455,7 +8455,7 @@ export declare class UboBatch {
 	destroy(): void;
 }
 export declare function calculateProjection(pm: Matrix, x: number, y: number, width: number, height: number, flipY: boolean): Matrix;
-export declare const WGSL_ALIGN_SIZE_DATA: Record<UNIFORM_TYPES | string, {
+export declare var WGSL_ALIGN_SIZE_DATA: Record<UNIFORM_TYPES | string, {
 	align: number;
 	size: number;
 }>;
@@ -8485,7 +8485,7 @@ export declare function removeStructAndGroupDuplicates(vertexStructsAndGroups: S
 		type: string;
 	}[];
 };
-export declare const GpuBlendModesToPixi: Partial<Record<BLEND_MODES, GPUBlendState>>;
+export declare var GpuBlendModesToPixi: Partial<Record<BLEND_MODES, GPUBlendState>>;
 export interface StencilState {
 	stencilWriteMask?: number;
 	stencilReadMask?: number;
@@ -8498,23 +8498,23 @@ export interface StencilState {
 		passOp: "increment-clamp" | "decrement-clamp" | "keep" | "replace";
 	};
 }
-export declare const GpuStencilModesToPixi: StencilState[];
+export declare var GpuStencilModesToPixi: StencilState[];
 export interface GpuTextureUploader<T extends TextureSource = TextureSource> {
 	type: string;
 	upload(source: T, gpuTexture: GPUTexture, gpu: GPU$1): void;
 }
-export declare const gpuUploadBufferImageResource: GpuTextureUploader<BufferImageSource>;
+export declare var gpuUploadBufferImageResource: GpuTextureUploader<BufferImageSource>;
 export declare class CompressedSource extends TextureSource<Uint8Array[]> {
 	readonly uploadMethodId = "compressed";
 	constructor(options: TextureSourceOptions);
 }
-export declare const blockDataMap: Record<string, {
+export declare var blockDataMap: Record<string, {
 	blockBytes: number;
 	blockWidth: number;
 	blockHeight: number;
 }>;
-export declare const gpuUploadCompressedTextureResource: GpuTextureUploader<CompressedSource>;
-export declare const gpuUploadImageResource: GpuTextureUploader<TextureSource<any>>;
+export declare var gpuUploadCompressedTextureResource: GpuTextureUploader<CompressedSource>;
+export declare var gpuUploadImageResource: GpuTextureUploader<TextureSource<any>>;
 export type ArrayFixed<T, L extends number> = [
 	T,
 	...Array<T>
@@ -8667,7 +8667,7 @@ export declare class VideoSource extends TextureSource<VideoResource> {
 	static MIME_TYPES: Dict<string>;
 	static test(resource: any): resource is VideoResource;
 }
-export declare const gpuUploadVideoResource: GpuTextureUploader<VideoSource>;
+export declare var gpuUploadVideoResource: GpuTextureUploader<VideoSource>;
 export declare function getSupportedGPUCompressedTextureFormats(): Promise<TEXTURE_FORMATS[]>;
 /**
  * A class which generates mipmaps for a GPUTexture.
@@ -8762,7 +8762,7 @@ export declare class BlendModePipe implements InstructionPipe<AdvancedBlendInstr
  * @private
  */
 export declare function fastCopy(sourceBuffer: ArrayBuffer, destinationBuffer: ArrayBuffer): void;
-declare const imageTypes: {
+declare var imageTypes: {
 	png: string;
 	jpg: string;
 	webp: string;
@@ -8821,16 +8821,16 @@ export type ExtractOptions = BaseExtractOptions | ExtractImageOptions | ExtractD
  * import { Application, Graphics } from 'pixi.js';
  *
  * // Create a new application (extract will be auto-added to renderer)
- * const app = new Application();
+ * var app = new Application();
  * await app.init();
  *
  * // Draw a red circle
- * const graphics = new Graphics()
+ * var graphics = new Graphics()
  *     .circle(0, 0, 50);
  *     .fill(0xFF0000)
  *
  * // Render the graphics as an HTMLImageElement
- * const image = await app.renderer.extract.image(graphics);
+ * var image = await app.renderer.extract.image(graphics);
  * document.body.appendChild(image);
  * @memberof rendering
  */
@@ -9089,8 +9089,8 @@ export declare function createUboSyncFunction(uboElements: UboElement[], parserC
  * @private
  */
 export declare function getDefaultUniformValue(type: string, size: number): number | Float32Array | Int32Array | Uint32Array | boolean | boolean[];
-export declare const uboSyncFunctionsSTD40: Record<UNIFORM_TYPES_SINGLE, string>;
-export declare const uboSyncFunctionsWGSL: Record<UNIFORM_TYPES_SINGLE, string>;
+export declare var uboSyncFunctionsSTD40: Record<UNIFORM_TYPES_SINGLE, string>;
+export declare var uboSyncFunctionsWGSL: Record<UNIFORM_TYPES_SINGLE, string>;
 export interface UniformParserDefinition {
 	type: UNIFORM_TYPES;
 	test(data: UniformData): boolean;
@@ -9099,7 +9099,7 @@ export interface UniformParserDefinition {
 	uboStd40?: string;
 	uniform?: string;
 }
-export declare const uniformParsers: UniformParserDefinition[];
+export declare var uniformParsers: UniformParserDefinition[];
 /**
  * Options for the startup system.
  * @property {boolean} [hello=false] - Whether to log the version and type information of renderer to console.
@@ -9193,7 +9193,7 @@ export declare class CanvasPoolClass {
 	returnCanvasAndContext(canvasAndContext: CanvasAndContext): void;
 	clear(): void;
 }
-export declare const CanvasPool: CanvasPoolClass;
+export declare var CanvasPool: CanvasPoolClass;
 /**
  * Options for the {@link RenderableGCSystem}.
  * @memberof rendering
@@ -9510,7 +9510,7 @@ export declare class TexturePoolClass {
 	 */
 	clear(destroyTextures?: boolean): void;
 }
-export declare const TexturePool: TexturePoolClass;
+export declare var TexturePool: TexturePoolClass;
 /**
  * Stores a texture's frame in UV coordinates, in
  * which everything lies in the rectangle `[(0,0), (1,0),
@@ -9558,12 +9558,12 @@ export declare function generateUID(): number;
 export declare function getCanvasTexture(canvas: ICanvas, options?: CanvasSourceOptions): Texture<CanvasSource>;
 export declare function hasCachedCanvasTexture(canvas: ICanvas): boolean;
 export declare function getSupportedCompressedTextureFormats(): Promise<TEXTURE_FORMATS[]>;
-export declare const nonCompressedFormats: TEXTURE_FORMATS[];
+export declare var nonCompressedFormats: TEXTURE_FORMATS[];
 export declare function getSupportedTextureFormats(): Promise<TEXTURE_FORMATS[]>;
 export declare function createIdFromString(value: string, groupId: string): number;
 export declare function parseFunctionBody(fn: (...args: any[]) => any): string;
-declare const DefaultWebGPUSystems: (typeof BackgroundSystem | typeof GlobalUniformSystem | typeof HelloSystem | typeof ViewSystem | typeof RenderGroupSystem | typeof TextureGCSystem | typeof GenerateTextureSystem | typeof ExtractSystem | typeof RendererInitHook | typeof RenderableGCSystem | typeof SchedulerSystem | typeof GpuUboSystem | typeof GpuEncoderSystem | typeof GpuDeviceSystem | typeof GpuBufferSystem | typeof GpuTextureSystem | typeof GpuRenderTargetSystem | typeof GpuShaderSystem | typeof GpuStateSystem | typeof PipelineSystem | typeof GpuColorMaskSystem | typeof GpuStencilSystem | typeof BindGroupSystem)[];
-declare const DefaultWebGPUPipes: (typeof BlendModePipe | typeof BatcherPipe | typeof SpritePipe | typeof RenderGroupPipe | typeof AlphaMaskPipe | typeof StencilMaskPipe | typeof ColorMaskPipe | typeof CustomRenderPipe | typeof GpuUniformBatchPipe)[];
+declare var DefaultWebGPUSystems: (typeof BackgroundSystem | typeof GlobalUniformSystem | typeof HelloSystem | typeof ViewSystem | typeof RenderGroupSystem | typeof TextureGCSystem | typeof GenerateTextureSystem | typeof ExtractSystem | typeof RendererInitHook | typeof RenderableGCSystem | typeof SchedulerSystem | typeof GpuUboSystem | typeof GpuEncoderSystem | typeof GpuDeviceSystem | typeof GpuBufferSystem | typeof GpuTextureSystem | typeof GpuRenderTargetSystem | typeof GpuShaderSystem | typeof GpuStateSystem | typeof PipelineSystem | typeof GpuColorMaskSystem | typeof GpuStencilSystem | typeof BindGroupSystem)[];
+declare var DefaultWebGPUPipes: (typeof BlendModePipe | typeof BatcherPipe | typeof SpritePipe | typeof RenderGroupPipe | typeof AlphaMaskPipe | typeof StencilMaskPipe | typeof ColorMaskPipe | typeof CustomRenderPipe | typeof GpuUniformBatchPipe)[];
 type WebGPUSystems = ExtractSystemTypes<typeof DefaultWebGPUSystems> & PixiMixins.RendererSystems & PixiMixins.WebGPUSystems;
 export type WebGPUPipes = ExtractSystemTypes<typeof DefaultWebGPUPipes> & PixiMixins.RendererPipes & PixiMixins.WebGPUPipes;
 /**
@@ -9578,14 +9578,14 @@ export interface WebGPURenderer<T extends ICanvas = HTMLCanvasElement> extends A
  * The WebGPU PixiJS Renderer. This renderer allows you to use the next-generation graphics API, WebGPU.
  * ```ts
  * // Create a new renderer
- * const renderer = new WebGPURenderer();
+ * var renderer = new WebGPURenderer();
  * await renderer.init();
  *
  * // Add the renderer to the stage
  * document.body.appendChild(renderer.canvas);
  *
  * // Create a new stage
- * const stage = new Container();
+ * var stage = new Container();
  *
  * // Render the stage
  * renderer.render(stage);
@@ -9595,7 +9595,7 @@ export interface WebGPURenderer<T extends ICanvas = HTMLCanvasElement> extends A
  * renderer for the environment.
  * ```ts
  * // Create a new renderer
- * const renderer = await rendering.autoDetectRenderer();
+ * var renderer = await rendering.autoDetectRenderer();
  * ```
  *
  * The renderer is composed of systems that manage specific tasks. The following systems are added by default
@@ -9664,14 +9664,14 @@ export interface AutoDetectOptions extends RendererOptions {
  * @example
  *
  * // create a renderer
- * const renderer = await autoDetectRenderer({
+ * var renderer = await autoDetectRenderer({
  *   width: 800,
  *   height: 600,
  *   antialias: true,
  * });
  *
  * // custom for each renderer
- * const renderer = await autoDetectRenderer({
+ * var renderer = await autoDetectRenderer({
  *   width: 800,
  *   height: 600,
  *   webgpu:{
@@ -9697,7 +9697,7 @@ export declare function autoDetectRenderer(options: Partial<AutoDetectOptions>):
  * ```js
  * import { Application } from 'pixi.js';
  *
- * const app = new Application();
+ * var app = new Application();
  *
  * await app.init();
  *
@@ -9711,7 +9711,7 @@ export declare function autoDetectRenderer(options: Partial<AutoDetectOptions>):
  * @example
  * import { ApplicationPlugin } from 'pixi.js';
  *
- * const plugin: ApplicationPlugin = {
+ * var plugin: ApplicationPlugin = {
  *    init: (options: Partial<ApplicationOptions>) =>
  *    {
  *       // handle init here, use app options if needed
@@ -9741,7 +9741,7 @@ export interface ApplicationPlugin {
  * @example
  * import { Application } from 'pixi.js';
  *
- * const app = new Application();
+ * var app = new Application();
  *
  * await app.init({
  *    autoStart: false,
@@ -9761,7 +9761,7 @@ export interface Application extends PixiMixins.Application {
  * import { Application, Sprite } from 'pixi.js';
  *
  * // Create the application
- * const app = new Application();
+ * var app = new Application();
  *
  * await app.init({ width: 800, height: 600 });
  *
@@ -9864,8 +9864,8 @@ export declare class RendererInitHook implements System {
 	init(): void;
 	destroy(): void;
 }
-export declare const SharedSystems: (typeof BackgroundSystem | typeof GlobalUniformSystem | typeof HelloSystem | typeof ViewSystem | typeof RenderGroupSystem | typeof TextureGCSystem | typeof GenerateTextureSystem | typeof ExtractSystem | typeof RendererInitHook | typeof RenderableGCSystem | typeof SchedulerSystem)[];
-export declare const SharedRenderPipes: (typeof BlendModePipe | typeof BatcherPipe | typeof SpritePipe | typeof RenderGroupPipe | typeof AlphaMaskPipe | typeof StencilMaskPipe | typeof ColorMaskPipe | typeof CustomRenderPipe)[];
+export declare var SharedSystems: (typeof BackgroundSystem | typeof GlobalUniformSystem | typeof HelloSystem | typeof ViewSystem | typeof RenderGroupSystem | typeof TextureGCSystem | typeof GenerateTextureSystem | typeof ExtractSystem | typeof RendererInitHook | typeof RenderableGCSystem | typeof SchedulerSystem)[];
+export declare var SharedRenderPipes: (typeof BlendModePipe | typeof BatcherPipe | typeof SpritePipe | typeof RenderGroupPipe | typeof AlphaMaskPipe | typeof StencilMaskPipe | typeof ColorMaskPipe | typeof CustomRenderPipe)[];
 /**
  * Options for the shared systems of a renderer.
  * @memberof rendering
@@ -9890,7 +9890,7 @@ export interface SharedRendererOptions extends ExtractRendererOptions<typeof Sha
 	 * import 'text-html';
 	 * import { autoDetectRenderer } from 'pixi.js';
 	 *
-	 * const renderer = await autoDetectRenderer({
+	 * var renderer = await autoDetectRenderer({
 	 *   width: 800,
 	 *   height: 600,
 	 *   skipExtensionImports: true,
@@ -9949,7 +9949,7 @@ export interface ClearOptions {
 	clear?: CLEAR_OR_BOOL;
 }
 export type RendererDestroyOptions = TypeOrBool<ViewSystemDestroyOptions>;
-declare const defaultRunners: readonly [
+declare var defaultRunners: readonly [
 	"init",
 	"destroy",
 	"contextChange",
@@ -10200,8 +10200,8 @@ export declare class AbstractRenderer<PIPES, OPTIONS extends SharedRendererOptio
 	 */
 	resetState(): void;
 }
-declare const DefaultWebGLSystems: (typeof BackgroundSystem | typeof GlobalUniformSystem | typeof HelloSystem | typeof ViewSystem | typeof RenderGroupSystem | typeof TextureGCSystem | typeof GenerateTextureSystem | typeof ExtractSystem | typeof RendererInitHook | typeof RenderableGCSystem | typeof SchedulerSystem | typeof GlUboSystem | typeof GlBackBufferSystem | typeof GlContextSystem | typeof GlBufferSystem | typeof GlTextureSystem | typeof GlRenderTargetSystem | typeof GlGeometrySystem | typeof GlUniformGroupSystem | typeof GlShaderSystem | typeof GlEncoderSystem | typeof GlStateSystem | typeof GlStencilSystem | typeof GlColorMaskSystem)[];
-declare const DefaultWebGLPipes: (typeof BlendModePipe | typeof BatcherPipe | typeof SpritePipe | typeof RenderGroupPipe | typeof AlphaMaskPipe | typeof StencilMaskPipe | typeof ColorMaskPipe | typeof CustomRenderPipe)[];
+declare var DefaultWebGLSystems: (typeof BackgroundSystem | typeof GlobalUniformSystem | typeof HelloSystem | typeof ViewSystem | typeof RenderGroupSystem | typeof TextureGCSystem | typeof GenerateTextureSystem | typeof ExtractSystem | typeof RendererInitHook | typeof RenderableGCSystem | typeof SchedulerSystem | typeof GlUboSystem | typeof GlBackBufferSystem | typeof GlContextSystem | typeof GlBufferSystem | typeof GlTextureSystem | typeof GlRenderTargetSystem | typeof GlGeometrySystem | typeof GlUniformGroupSystem | typeof GlShaderSystem | typeof GlEncoderSystem | typeof GlStateSystem | typeof GlStencilSystem | typeof GlColorMaskSystem)[];
+declare var DefaultWebGLPipes: (typeof BlendModePipe | typeof BatcherPipe | typeof SpritePipe | typeof RenderGroupPipe | typeof AlphaMaskPipe | typeof StencilMaskPipe | typeof ColorMaskPipe | typeof CustomRenderPipe)[];
 type WebGLSystems = ExtractSystemTypes<typeof DefaultWebGLSystems> & PixiMixins.RendererSystems & PixiMixins.WebGLSystems;
 /** The default WebGL renderer, uses WebGL2 contexts. */
 export type WebGLPipes = ExtractSystemTypes<typeof DefaultWebGLPipes> & PixiMixins.RendererPipes & PixiMixins.WebGLPipes;
@@ -10222,14 +10222,14 @@ export interface WebGLRenderer<T extends ICanvas = HTMLCanvasElement> extends Ab
  *
  * ```ts
  * // Create a new renderer
- * const renderer = new WebGLRenderer();
+ * var renderer = new WebGLRenderer();
  * await renderer.init();
  *
  * // Add the renderer to the stage
  * document.body.appendChild(renderer.canvas);
  *
  * // Create a new stage
- * const stage = new Container();
+ * var stage = new Container();
  *
  * // Render the stage
  * renderer.render(stage);
@@ -10241,7 +10241,7 @@ export interface WebGLRenderer<T extends ICanvas = HTMLCanvasElement> extends Ab
  *
  * ```ts
  * // Create a new renderer
- * const renderer = await rendering.autoDetectRenderer({
+ * var renderer = await rendering.autoDetectRenderer({
  *    preference:'webgl',
  * });
  * ```
@@ -10364,7 +10364,7 @@ export type IRenderLayer = Omit<RenderLayerClass, PartialContainerKeys>;
  * It has no children or transformations of its own
  * but can be inserted anywhere in the scene graph to define its render position.
  * ```js
- * const layer = new RenderLayer();
+ * var layer = new RenderLayer();
  * app.stage.addChild(layer); // Insert the layer into the scene graph
  * ```
  *
@@ -10372,7 +10372,7 @@ export type IRenderLayer = Omit<RenderLayerClass, PartialContainerKeys>;
  * Use renderLayer.add to assign an object to a layer.
  * This overrides the object's default render order defined by its logical parent.
  * ```js
- * const rect = new PIXI.Graphics();
+ * var rect = new PIXI.Graphics();
  * container.addChild(rect);    // Add to logical parent
  * layer.attach(rect);      // Control render order via the layer
  * ```
@@ -10396,8 +10396,8 @@ export type IRenderLayer = Omit<RenderLayerClass, PartialContainerKeys>;
  * A layer's position in the scene graph determines its render priority relative to other layers and objects.
  * Layers can be inserted anywhere in the scene graph.
  * ```js
- * const backgroundLayer = new RenderLayer();
- * const uiLayer = new RenderLayer();
+ * var backgroundLayer = new RenderLayer();
+ * var uiLayer = new RenderLayer();
  *
  * app.stage.addChild(backgroundLayer);
  * app.stage.addChild(world);
@@ -10458,7 +10458,7 @@ export declare class RenderLayerClass extends Container {
 	sortRenderLayerChildren(): void;
 	_getGlobalBoundsRecursive(factorRenderLayers: boolean, bounds: Bounds, _currentLayer: RenderLayerClass): void;
 }
-export declare const RenderLayer: new (options?: RenderLayerOptions) => IRenderLayer;
+export declare var RenderLayer: new (options?: RenderLayerOptions) => IRenderLayer;
 export type ContainerChild = Container;
 export interface ContainerEvents<C extends ContainerChild> extends PixiMixins.ContainerEvents {
 	added: [
@@ -10484,10 +10484,10 @@ export interface ContainerEvents<C extends ContainerChild> extends PixiMixins.Co
 type AnyEvent = {
 	[K: ({} & string) | ({} & symbol)]: any;
 };
-export declare const UPDATE_COLOR = 1;
-export declare const UPDATE_BLEND = 2;
-export declare const UPDATE_VISIBLE = 4;
-export declare const UPDATE_TRANSFORM = 8;
+export declare var UPDATE_COLOR = 1;
+export declare var UPDATE_BLEND = 2;
+export declare var UPDATE_VISIBLE = 4;
+export declare var UPDATE_TRANSFORM = 8;
 export interface UpdateTransformOptions {
 	x: number;
 	y: number;
@@ -10502,7 +10502,7 @@ export interface UpdateTransformOptions {
 /**
  * Constructor options used for `Container` instances.
  * ```js
- * const container = new Container({
+ * var container = new Container({
  *    position: new Point(100, 200),
  *    scale: new Point(2, 2),
  *    rotation: Math.PI / 2,
@@ -10673,8 +10673,8 @@ export interface Container<C extends ContainerChild> extends PixiMixins.Containe
  * ```ts
  * import { BlurFilter, Container, Graphics, Sprite } from 'pixi.js';
  *
- * const container = new Container();
- * const sprite = Sprite.from('https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/IaUrttj.png');
+ * var container = new Container();
+ * var sprite = Sprite.from('https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/IaUrttj.png');
  *
  * sprite.width = 512;
  * sprite.height = 512;
@@ -11204,7 +11204,7 @@ export interface AccessibleHTMLElement extends HTMLElement {
  * function MyObject() {}
  * Object.assign(MyObject.prototype, accessibleTarget);
  */
-export declare const accessibilityTarget: AccessibleTarget;
+export declare var accessibilityTarget: AccessibleTarget;
 /**
  * The result of the {@link utils.isMobile} function.
  * @ignore
@@ -11288,7 +11288,7 @@ export type isMobileResult = {
  * ```
  * @memberof utils
  */
-export declare const isMobile: isMobileResult;
+export declare var isMobile: isMobileResult;
 /** @ignore */
 export interface AccessibilitySystemOptions {
 	accessibilityOptions?: AccessibilityOptions;
@@ -11310,7 +11310,7 @@ export interface AccessibilityOptions {
  *
  * By default, the system activates when users press the tab key. This behavior can be customized through options:
  * ```js
- * const app = new Application({
+ * var app = new Application({
  *     accessibilityOptions: {
  *         enabledByDefault: true,    // Enable immediately instead of waiting for tab
  *         activateOnTab: false,      // Disable tab key activation
@@ -11526,12 +11526,12 @@ export type TickerCallback<T> = (this: T, ticker: Ticker) => any;
  * ```js
  * import { Ticker } from 'pixi.js';
  *
- * const callback = (ticker: Ticker) => {
+ * var callback = (ticker: Ticker) => {
  *    // do something on the next animation frame
  * };
  *
  * // create a ticker
- * const ticker = new Ticker();
+ * var ticker = new Ticker();
  *
  * // register the callback and start the ticker
  * ticker.add(callback);
@@ -11774,7 +11774,7 @@ export declare class Ticker {
 	 * @example
 	 * import { Ticker } from 'pixi.js';
 	 *
-	 * const ticker = Ticker.shared;
+	 * var ticker = Ticker.shared;
 	 * // Set this to prevent starting this ticker when listeners are added.
 	 * // By default this is true only for the Ticker.shared instance.
 	 * ticker.autoStart = false;
@@ -11789,15 +11789,15 @@ export declare class Ticker {
 	 * import { autoDetectRenderer, Container } from 'pixi.js';
 	 *
 	 * // You may use the shared ticker to render...
-	 * const renderer = autoDetectRenderer();
-	 * const stage = new Container();
+	 * var renderer = autoDetectRenderer();
+	 * var stage = new Container();
 	 * document.body.appendChild(renderer.view);
 	 * ticker.add((time) => renderer.render(stage));
 	 *
 	 * // Or you can just update it manually.
 	 * ticker.autoStart = false;
 	 * ticker.stop();
-	 * const animate = (time) => {
+	 * var animate = (time) => {
 	 *     ticker.update(time);
 	 *     renderer.render(stage);
 	 *     requestAnimationFrame(animate);
@@ -11983,7 +11983,7 @@ export interface CullingMixinConstructor {
 	 */
 	cullableChildren: boolean;
 }
-export declare const cullingMixin: CullingMixinConstructor;
+export declare var cullingMixin: CullingMixinConstructor;
 declare global {
 	namespace PixiMixins {
 		// eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -12216,7 +12216,7 @@ export interface IFederatedContainer extends FederatedOptions {
 	removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: RemoveListenerOptions): void;
 	dispatchEvent(e: FederatedEvent): boolean;
 }
-export declare const FederatedContainer: IFederatedContainer;
+export declare var FederatedContainer: IFederatedContainer;
 /**
  * Event boundaries are "barriers" where events coming from an upstream scene are modified before downstream propagation.
  *
@@ -13011,7 +13011,7 @@ export interface EventSystemOptions {
 	 * The event features that are enabled by the EventSystem
 	 * (included in the **pixi.js** and **pixi.js-legacy** bundle), otherwise it will be ignored.
 	 * @example
-	 * const app = new Application({
+	 * var app = new Application({
 	 *   view: canvas,
 	 *   events: {
 	 *     move: true,
@@ -13121,7 +13121,7 @@ export declare class EventSystem implements System<EventSystemOptions> {
 	 * (included in the **pixi.js** and **pixi.js-legacy** bundle), otherwise it will be ignored.
 	 * @since 7.2.0
 	 * @example
-	 * const app = new Application()
+	 * var app = new Application()
 	 * app.renderer.events.features.globalMove = false
 	 *
 	 * // to override all features use Object.assign
@@ -13936,8 +13936,8 @@ export declare class GraphicsPath {
 }
 export type LineCap = "butt" | "round" | "square";
 export type LineJoin = "round" | "bevel" | "miter";
-export declare const closePointEps = 0.0001;
-export declare const curveEps = 0.0001;
+export declare var closePointEps = 0.0001;
+export declare var curveEps = 0.0001;
 interface PointData$1 {
 	/** X coord */
 	x: number;
@@ -14035,7 +14035,7 @@ export type GradientOptions = LinearGradientOptions | RadialGradientOptions;
  * @example
  * ```ts
  * // Create a vertical linear gradient from red to blue
- * const linearGradient = new FillGradient({
+ * var linearGradient = new FillGradient({
  *     type: 'linear',
  *     start: { x: 0, y: 0 },  // Start at top
  *     end: { x: 0, y: 1 },    // End at bottom
@@ -14048,7 +14048,7 @@ export type GradientOptions = LinearGradientOptions | RadialGradientOptions;
  * });
  *
  * // Create a radial gradient from yellow center to green edge
- * const radialGradient = new FillGradient({
+ * var radialGradient = new FillGradient({
  *     type: 'radial',
  *     center: { x: 0.5, y: 0.5 },
  *     innerRadius: 0,
@@ -14063,7 +14063,7 @@ export type GradientOptions = LinearGradientOptions | RadialGradientOptions;
  * });
  *
  * // Create a rainbow linear gradient in global coordinates
- * const globalGradient = new FillGradient({
+ * var globalGradient = new FillGradient({
  *     type: 'linear',
  *     start: { x: 0, y: 0 },
  *     end: { x: 100, y: 0 },
@@ -14077,7 +14077,7 @@ export type GradientOptions = LinearGradientOptions | RadialGradientOptions;
  * });
  *
  * // Create an offset radial gradient
- * const offsetRadial = new FillGradient({
+ * var offsetRadial = new FillGradient({
  *     type: 'radial',
  *     center: { x: 0.3, y: 0.3 },
  *     innerRadius: 0.1,
@@ -14810,7 +14810,7 @@ export type TextDropShadow = {
 /**
  * Constructor options used for `TextStyle` instances.
  * ```js
- * const textStyle = new TextStyle({
+ * var textStyle = new TextStyle({
  *    fontSize: 12,
  *    fill: 'black',
  * });
@@ -14892,7 +14892,7 @@ export interface TextStyleOptions {
  * @memberof text
  * @example
  * import { TextStyle } from 'pixi.js';
- * const style = new TextStyle({
+ * var style = new TextStyle({
  *   fontFamily: ['Helvetica', 'Arial', 'sans-serif'],
  *   fontSize: 36,
  * });
@@ -15019,11 +15019,11 @@ export declare class TextStyle extends EventEmitter<{
 	 * while gradients at any other angle are spread across the entire text body as a whole.
 	 * @example
 	 * // Vertical gradient applied per line
-	 * const verticalGradient = new FillGradient(0, 0, 0, 1)
+	 * var verticalGradient = new FillGradient(0, 0, 0, 1)
 	 *     .addColorStop(0, 0xff0000)
 	 *     .addColorStop(1, 0x0000ff);
 	 *
-	 * const text = new Text({
+	 * var text = new Text({
 	 *     text: 'Line 1\nLine 2',
 	 *     style: { fill: verticalGradient }
 	 * });
@@ -15155,7 +15155,7 @@ export type AnyTextStyleOptions = TextStyleOptions | HTMLTextStyleOptions;
 /**
  * Options for the {@link scene.Text} class.
  * @example
- * const text = new Text({
+ * var text = new Text({
  *    text: 'Hello Pixi!',
  *    style: {
  *       fontFamily: 'Arial',
@@ -15217,7 +15217,7 @@ export declare abstract class AbstractText<TEXT_STYLE extends TextStyle = TextSt
 	 * @example
 	 * import { Text } from 'pixi.js';
 	 *
-	 * const text = new Text('hello world');
+	 * var text = new Text('hello world');
 	 * text.anchor.set(0.5); // This will set the origin to center. (0.5) is same as (0.5, 0.5).
 	 */
 	get anchor(): ObservablePoint;
@@ -15290,13 +15290,13 @@ export declare abstract class AbstractText<TEXT_STYLE extends TextStyle = TextSt
  * This function handles both the new options object format and the deprecated parameter format.
  * @example
  * // New recommended way:
- * const options = ensureTextOptions([{
+ * var options = ensureTextOptions([{
  *     text: "Hello",
  *     style: { fontSize: 20 }
  * }], "Text");
  *
  * // Deprecated way (will show warning in debug):
- * const options = ensureTextOptions(["Hello", { fontSize: 20 }], "Text");
+ * var options = ensureTextOptions(["Hello", { fontSize: 20 }], "Text");
  * @param args - Arguments passed to text constructor
  * @param name - Name of the text class (used in deprecation warning)
  * @returns Normalized text options object
@@ -15321,7 +15321,7 @@ interface Text$1 extends PixiMixins.Text, AbstractText<TextStyle, TextStyleOptio
  * @example
  * import { Text } from 'pixi.js';
  *
- * const text = new Text({
+ * var text = new Text({
  *     text: 'Hello Pixi!',
  *     style: {
  *         fontFamily: 'Arial',
@@ -15451,7 +15451,7 @@ declare global {
 /**
  * Constructor options used for `Graphics` instances.
  * ```js
- * const graphics = new Graphics({
+ * var graphics = new Graphics({
  *    fillStyle: { color: 0xff0000, alpha: 0.5 },
  *    strokeStyle: { color: 0x00ff00, width: 2 },
  * });
@@ -16184,8 +16184,8 @@ export declare function getParent(target: Container, root: Container, matrix: Ma
 export declare function getGlobalRenderableBounds(renderables: Renderable[], bounds: Bounds): Bounds;
 type MatrixPoolItem = Matrix & PoolItem;
 type BoundsPoolItem = Bounds & PoolItem;
-export declare const matrixPool: Pool<MatrixPoolItem>;
-export declare const boundsPool: Pool<BoundsPoolItem>;
+export declare var matrixPool: Pool<MatrixPoolItem>;
+export declare var boundsPool: Pool<BoundsPoolItem>;
 export interface CacheAsTextureMixinConstructor {
 	cacheAsTexture?: (val: boolean | CacheAsTextureOptions) => void;
 }
@@ -16218,7 +16218,7 @@ export interface CacheAsTextureMixin extends Required<CacheAsTextureMixinConstru
 	 */
 	readonly isCachedAsTexture: boolean;
 }
-export declare const cacheAsTextureMixin: Partial<Container>;
+export declare var cacheAsTextureMixin: Partial<Container>;
 export interface ChildrenHelperMixin<C = ContainerChild> {
 	allowChildren: boolean;
 	addChild<U extends (C | IRenderLayer)[]>(...children: U): U[0];
@@ -16234,7 +16234,7 @@ export interface ChildrenHelperMixin<C = ContainerChild> {
 	reparentChild<U extends C[]>(...child: U): U[0];
 	reparentChildAt<U extends C>(child: U, index: number): U;
 }
-export declare const childrenHelperMixin: ChildrenHelperMixin<ContainerChild>;
+export declare var childrenHelperMixin: ChildrenHelperMixin<ContainerChild>;
 /**
  * The CollectRenderablesMixin interface defines methods for collecting renderable objects
  * from a container and its children. These methods add the renderables to an instruction set,
@@ -16273,7 +16273,7 @@ export interface CollectRenderablesMixin {
  * The collectRenderablesMixin provides implementations for the methods defined in the CollectRenderablesMixin interface.
  * It includes logic to determine the appropriate method for collecting renderables based on the container's properties.
  */
-export declare const collectRenderablesMixin: Partial<Container>;
+export declare var collectRenderablesMixin: Partial<Container>;
 export interface EffectsMixinConstructor {
 	mask?: Mask;
 	setMask?: (options: Partial<MaskOptionsAndMask>) => void;
@@ -16296,7 +16296,7 @@ export interface EffectsMixin extends Required<EffectsMixinConstructor> {
 	addEffect(effect: Effect): void;
 	removeEffect(effect: Effect): void;
 }
-export declare const effectsMixin: Partial<Container>;
+export declare var effectsMixin: Partial<Container>;
 export interface FindMixinConstructor {
 	label?: string;
 }
@@ -16310,7 +16310,7 @@ export interface FindMixin extends Required<FindMixinConstructor> {
 	getChildByLabel(label: RegExp | string, deep?: boolean): Container | null;
 	getChildrenByLabel(label: RegExp | string, deep?: boolean, out?: Container[]): Container[];
 }
-export declare const findMixin: Partial<Container>;
+export declare var findMixin: Partial<Container>;
 /**
  * Interface for the GetFastGlobalBoundsMixin, which provides methods to compute
  * an approximate global bounding box for a container and its children.
@@ -16343,21 +16343,21 @@ export interface GetFastGlobalBoundsMixin {
  * Mixin providing the implementation of the GetFastGlobalBoundsMixin interface.
  * It includes methods to compute and recursively calculate global bounds for containers.
  */
-export declare const getFastGlobalBoundsMixin: Partial<Container>;
+export declare var getFastGlobalBoundsMixin: Partial<Container>;
 export declare function bgr2rgb(color: number): number;
 export interface GetGlobalMixin {
 	getGlobalAlpha(skipUpdate: boolean): number;
 	getGlobalTransform(matrix: Matrix, skipUpdate: boolean): Matrix;
 	getGlobalTint(skipUpdate?: boolean): number;
 }
-export declare const getGlobalMixin: Partial<Container>;
+export declare var getGlobalMixin: Partial<Container>;
 export interface OnRenderMixinConstructor {
 	onRender?: ((renderer: Renderer) => void | null);
 }
 export interface OnRenderMixin extends Required<OnRenderMixinConstructor> {
 	_onRender: ((renderer: Renderer) => void) | null;
 }
-export declare const onRenderMixin: Partial<Container>;
+export declare var onRenderMixin: Partial<Container>;
 export interface SortMixinConstructor {
 	zIndex?: number;
 	sortDirty?: boolean;
@@ -16368,13 +16368,13 @@ export interface SortMixin extends Required<SortMixinConstructor> {
 	sortChildren: () => void;
 	depthOfChildModified: () => void;
 }
-export declare const sortMixin: Partial<Container>;
+export declare var sortMixin: Partial<Container>;
 export interface ToLocalGlobalMixin {
 	getGlobalPosition(point?: Point, skipUpdate?: boolean): Point;
 	toGlobal<P extends PointData = Point>(position: PointData, point?: P, skipUpdate?: boolean): P;
 	toLocal<P extends PointData = Point>(position: PointData, from?: Container, point?: P, skipUpdate?: boolean): P;
 }
-export declare const toLocalGlobalMixin: Partial<Container>;
+export declare var toLocalGlobalMixin: Partial<Container>;
 /**
  * Assigns properties from one object to another, using an optional array of property names to ignore.
  * @param target - The target object to assign properties to.
@@ -16569,8 +16569,8 @@ export declare class Circle implements ShapePrimitive {
  * ```js
  * import { Ellipse } from 'pixi.js';
  *
- * const ellipse = new Ellipse(0, 0, 20, 10); // 40x20 rectangle
- * const isPointInEllipse = ellipse.contains(0, 0); // true
+ * var ellipse = new Ellipse(0, 0, 20, 10); // 40x20 rectangle
+ * var isPointInEllipse = ellipse.contains(0, 0); // true
  * ```
  * @memberof maths
  */
@@ -16747,8 +16747,8 @@ type RoundedShape = Circle | Ellipse | RoundedRectangle;
  * @ignore
  * @private
  */
-export declare const buildCircle: ShapeBuildCommand<RoundedShape>;
-export declare const buildEllipse: {
+export declare var buildCircle: ShapeBuildCommand<RoundedShape>;
+export declare var buildEllipse: {
 	extension: {
 		name: string;
 		type: ExtensionType | ExtensionType[];
@@ -16757,7 +16757,7 @@ export declare const buildEllipse: {
 	build(shape: RoundedShape, points: number[]): void;
 	triangulate(points: number[], vertices: number[], verticesStride: number, verticesOffset: number, indices: number[], indicesOffset: number): void;
 };
-export declare const buildRoundedRectangle: {
+export declare var buildRoundedRectangle: {
 	extension: {
 		name: string;
 		type: ExtensionType | ExtensionType[];
@@ -16798,12 +16798,12 @@ export declare function buildPixelLine(points: number[], closed: boolean, vertic
  * import { Polygon } from 'pixi.js';
  *
  * // create a polygon object from an array of points, or an array of coordinate pairs
- * const polygon1 = new Polygon([ new Point(0, 0), new Point(0, 100), new Point(100, 100) ]);
- * const polygon2 = new Polygon([ 0, 0, 0, 100, 100, 100 ]);
+ * var polygon1 = new Polygon([ new Point(0, 0), new Point(0, 100), new Point(100, 100) ]);
+ * var polygon2 = new Polygon([ 0, 0, 0, 100, 100, 100 ]);
  *
  * // or create a polygon object from a sequence of points, or coordinate pairs
- * const polygon3 = new Polygon(new Point(0, 0), new Point(0, 100), new Point(100, 100));
- * const polygon4 = new Polygon(0, 0, 0, 100, 100, 100);
+ * var polygon3 = new Polygon(new Point(0, 0), new Point(0, 100), new Point(100, 100));
+ * var polygon4 = new Polygon(0, 0, 0, 100, 100, 100);
  * ```
  * @memberof maths
  */
@@ -16836,8 +16836,8 @@ export declare class Polygon implements ShapePrimitive {
 	 * This is useful for detecting holes in shapes, like when parsing SVG paths.
 	 * For example, if you have two polygons:
 	 * ```ts
-	 * const outerSquare = new Polygon([0,0, 100,0, 100,100, 0,100]); // A square
-	 * const innerSquare = new Polygon([25,25, 75,25, 75,75, 25,75]); // A smaller square inside
+	 * var outerSquare = new Polygon([0,0, 100,0, 100,100, 0,100]); // A square
+	 * var innerSquare = new Polygon([25,25, 75,25, 75,75, 25,75]); // A smaller square inside
 	 *
 	 * outerSquare.containsPolygon(innerSquare); // Returns true
 	 * innerSquare.containsPolygon(outerSquare); // Returns false
@@ -16914,7 +16914,7 @@ export declare class Polygon implements ShapePrimitive {
  * @ignore
  * @private
  */
-export declare const buildPolygon: ShapeBuildCommand<Polygon>;
+export declare var buildPolygon: ShapeBuildCommand<Polygon>;
 /**
  * Builds a rectangle to draw
  *
@@ -16922,7 +16922,7 @@ export declare const buildPolygon: ShapeBuildCommand<Polygon>;
  * @ignore
  * @private
  */
-export declare const buildRectangle: ShapeBuildCommand<Rectangle>;
+export declare var buildRectangle: ShapeBuildCommand<Rectangle>;
 /**
  * A class to define a shape of a triangle via user defined coordinates.
  *
@@ -16931,7 +16931,7 @@ export declare const buildRectangle: ShapeBuildCommand<Rectangle>;
  * ```js
  * import { Triangle } from 'pixi.js';
  *
- * const triangle = new Triangle(0, 0, 100, 0, 50, 50);
+ * var triangle = new Triangle(0, 0, 100, 0, 50, 50);
  * ```
  * @memberof maths
  */
@@ -17027,7 +17027,7 @@ export declare class Triangle implements ShapePrimitive {
  * @ignore
  * @private
  */
-export declare const buildTriangle: ShapeBuildCommand<Triangle>;
+export declare var buildTriangle: ShapeBuildCommand<Triangle>;
 /** Represents a session for SVG parsing. Contains the current state and resources needed during parsing. */
 export interface Session {
 	/** The graphics context to render to */
@@ -17095,7 +17095,7 @@ export declare function parseSVGPath(svgPath: string, path: GraphicsPath): Graph
  * - 'number' type is a numeric value
  * - 'string' type is a text value
  */
-export declare const styleAttributes: {
+export declare var styleAttributes: {
 	fill: {
 		type: string;
 		default: number;
@@ -17191,7 +17191,7 @@ export declare function parseAttribute(session: Session, result: StyleResult, id
  * @returns The extracted ID string, or empty string if no valid ID found
  */
 export declare function extractSvgUrlId(url: string): string;
-export declare const shapeBuilders: Record<string, ShapeBuildCommand>;
+export declare var shapeBuilders: Record<string, ShapeBuildCommand>;
 export declare function buildContextBatches(context: GraphicsContext, gpuContext: GpuGraphicsContext): void;
 export interface GeometryPathOptions {
 	/** the path to build the geometry from */
@@ -17207,12 +17207,12 @@ export interface GeometryPathOptions {
  * @example
  * ```ts
  *
- * const path = new GraphicsPath()
+ * var path = new GraphicsPath()
  *    .drawRect(0, 0, 100, 100)
  *
- * const geometry:MeshGeometry = buildGeometryFromPath(path);
+ * var geometry:MeshGeometry = buildGeometryFromPath(path);
  *
- * const mesh = new Mesh({geometry});
+ * var mesh = new Mesh({geometry});
  *
  * ```
  * You can also pass in a Matrix to transform the uvs as by default you may want to control how they are set up.
@@ -17250,8 +17250,8 @@ export declare function toStrokeStyle(value: StrokeInput, defaultStyle: Converte
  * @returns The generated texture matrix for UV mapping
  * @example
  * ```ts
- * const matrix = new Matrix();
- * const textureMatrix = generateTextureMatrix(matrix, fillStyle, shape);
+ * var matrix = new Matrix();
+ * var textureMatrix = generateTextureMatrix(matrix, fillStyle, shape);
  * // textureMatrix now contains the proper UV mapping for the texture
  * ```
  */
@@ -17261,7 +17261,7 @@ export declare function triangulateWithHoles(points: number[], holes: number[], 
 /**
  * Constructor options used for `PlaneGeometry` instances.
  * ```js
- * const planeGeometry = new PlaneGeometry({
+ * var planeGeometry = new PlaneGeometry({
  *    width: 100,
  *    height: 100,
  *    verticesX: 10,
@@ -17324,7 +17324,7 @@ export interface PerspectivePlaneGeometryOptions extends PlaneGeometryOptions {
  * IMPORTANT: This is not a full 3D mesh, it is a 2D mesh with a perspective projection applied to it :)
  *
  * ```js
- * const perspectivePlaneGeometry = new PerspectivePlaneGeometry({
+ * var perspectivePlaneGeometry = new PerspectivePlaneGeometry({
  *  width: 100,
  *  height: 100,
  *  verticesX: 10,
@@ -17374,7 +17374,7 @@ export declare class PerspectivePlaneGeometry extends PlaneGeometry {
 /**
  * Constructor options used for `MeshPlane` instances.
  * ```js
- * const meshPlane = new MeshPlane({
+ * var meshPlane = new MeshPlane({
  *    texture: Texture.from('snake.png'),
  *    verticesX: 20,
  *    verticesY: 20,
@@ -17399,7 +17399,7 @@ export interface MeshPlaneOptions extends Omit<MeshOptions, "geometry"> {
  * for (let i = 0; i < 20; i++) {
  *     points.push(new Point(i * 50, 0));
  * }
- * const MeshPlane = new MeshPlane({ texture: Texture.from('snake.png'), verticesX: points });
+ * var MeshPlane = new MeshPlane({ texture: Texture.from('snake.png'), verticesX: points });
  * @memberof scene
  */
 export declare class MeshPlane extends Mesh {
@@ -17431,7 +17431,7 @@ export declare class MeshPlane extends Mesh {
  *
  * Constructor options used for `PerspectiveMesh` instances.
  * ```js
- * const meshPlane = new PerspectiveMesh({
+ * var meshPlane = new PerspectiveMesh({
  *  texture: Texture.from('snake.png'),
  *  verticesX: 20,
  *  verticesY: 20,
@@ -17476,7 +17476,7 @@ export interface PerspectivePlaneOptions extends MeshPlaneOptions {
  * IMPORTANT: This is not a full 3D mesh, it is a 2D mesh with a perspective projection applied to it :)
  * @example
  * ```js
- * const meshPlane = new PerspectiveMesh({
+ * var meshPlane = new PerspectiveMesh({
  *  texture: Texture.from('snake.png'),
  *  verticesX: 20,
  *  verticesY: 20,
@@ -17553,7 +17553,7 @@ export declare function compute2DProjection(out: Matrix3x3, x1s: number, y1s: nu
 /**
  * Constructor options used for `MeshRope` instances.
  * ```js
- * const meshRope = new MeshRope({
+ * var meshRope = new MeshRope({
  *    texture: Texture.from('snake.png'),
  *    points: [new Point(0, 0), new Point(100, 0)],
  *    textureScale: 0,
@@ -17583,7 +17583,7 @@ export interface MeshRopeOptions extends Omit<MeshOptions, "geometry"> {
  * for (let i = 0; i < 20; i++) {
  *     points.push(new Point(i * 50, 0));
  * };
- * const rope = new MeshRope(Texture.from('snake.png'), points);
+ * var rope = new MeshRope(Texture.from('snake.png'), points);
  * @memberof scene
  */
 export declare class MeshRope extends Mesh {
@@ -17641,7 +17641,7 @@ export declare class MeshSimple extends Mesh {
 /**
  * Constructor options used for `RopeGeometry` instances.
  * ```js
- * const ropeGeometry = new RopeGeometry({
+ * var ropeGeometry = new RopeGeometry({
  *    points: [new Point(0, 0), new Point(100, 0)],
  *    width: 10,
  *    textureScale: 0,
@@ -17675,7 +17675,7 @@ export interface RopeGeometryOptions {
  * for (let i = 0; i < 20; i++) {
  *     points.push(new Point(i * 50, 0));
  * };
- * const rope = new RopeGeometry(100, points);
+ * var rope = new RopeGeometry(100, points);
  * @memberof scene
  */
 export declare class RopeGeometry extends MeshGeometry {
@@ -17838,7 +17838,7 @@ export type ParticleOptions = Omit<Partial<IParticle>, "color"> & {
  * Here is an example of how to create a new particle:
  *
  * ```javascript
- * const particle = new Particle({
+ * var particle = new Particle({
  *   texture,
  *   x: 100,
  *   y: 100,
@@ -17890,7 +17890,7 @@ export interface ParticleRendererProperty {
 	dynamic: boolean;
 	updateFunction?: (ps: IParticle[], f32v: Float32Array, u32v: Uint32Array, offset: number, stride: number) => void;
 }
-export declare const particleData: Record<string, ParticleRendererProperty>;
+export declare var particleData: Record<string, ParticleRendererProperty>;
 /**
  * Represents the properties of a particle that can be dynamically updated.
  * @property {boolean} [vertices] - Indicates if vertices are dynamic.
@@ -17967,7 +17967,7 @@ export interface ParticleContainer extends PixiMixins.ParticleContainer, ViewCon
  * @example
  * import { ParticleContainer, Particle } from 'pixi.js';
  *
- * const container = new ParticleContainer();
+ * var container = new ParticleContainer();
  *
  * for (let i = 0; i < 100; ++i)
  * {
@@ -18328,21 +18328,21 @@ export interface AnimatedSprite extends PixiMixins.AnimatedSprite, Sprite {
  * ```js
  * import { AnimatedSprite, Texture } from 'pixi.js';
  *
- * const alienImages = [
+ * var alienImages = [
  *     'image_sequence_01.png',
  *     'image_sequence_02.png',
  *     'image_sequence_03.png',
  *     'image_sequence_04.png',
  * ];
- * const textureArray = [];
+ * var textureArray = [];
  *
  * for (let i = 0; i < 4; i++)
  * {
- *     const texture = Texture.from(alienImages[i]);
+ *     var texture = Texture.from(alienImages[i]);
  *     textureArray.push(texture);
  * }
  *
- * const animatedSprite = new AnimatedSprite(textureArray);
+ * var animatedSprite = new AnimatedSprite(textureArray);
  * ```
  *
  * The more efficient and simpler way to create an animated sprite is using a {@link Spritesheet}
@@ -18350,7 +18350,7 @@ export interface AnimatedSprite extends PixiMixins.AnimatedSprite, Sprite {
  * @example
  * import { AnimatedSprite, Assets } from 'pixi.js';
  *
- * const sheet = await Assets.load('assets/spritesheet.json');
+ * var sheet = await Assets.load('assets/spritesheet.json');
  * animatedSprite = new AnimatedSprite(sheet.animations['image_sequence']);
  * @memberof scene
  */
@@ -18634,7 +18634,7 @@ declare class ObservablePoint$1 implements PointLike$1 {
 /**
  * Constructor options used for `NineSliceSprite` instances.
  * ```js
- * const nineSliceSprite = new NineSliceSprite({
+ * var nineSliceSprite = new NineSliceSprite({
  *    texture: Texture.from('button.png'),
  *    leftWidth: 20,
  *    topHeight: 20,
@@ -18691,7 +18691,7 @@ export interface NineSliceSprite extends PixiMixins.NineSliceSprite, ViewContain
  * @example
  * import { NineSliceSprite, Texture } from 'pixi.js';
  *
- * const plane9 = new NineSliceSprite(Texture.from('BoxWithRoundedCorners.png'), 15, 15, 15, 15);
+ * var plane9 = new NineSliceSprite(Texture.from('BoxWithRoundedCorners.png'), 15, 15, 15, 15);
  * @memberof scene
  */
 export declare class NineSliceSprite extends ViewContainer implements View {
@@ -18808,7 +18808,7 @@ export declare class NineSliceSpritePipe implements RenderPipe<NineSliceSprite> 
 	private _initGPUSprite;
 	destroy(): void;
 }
-export declare const tilingBit: {
+export declare var tilingBit: {
 	name: string;
 	vertex: {
 		header: string;
@@ -18819,7 +18819,7 @@ export declare const tilingBit: {
 		main: string;
 	};
 };
-export declare const tilingBitGl: {
+export declare var tilingBitGl: {
 	name: string;
 	vertex: {
 		header: string;
@@ -18924,7 +18924,7 @@ export declare class Transform {
 /**
  * Constructor options used for `TilingSprite` instances. Extends {@link scene.TilingSpriteViewOptions}
  * ```js
- * const tilingSprite = new TilingSprite({
+ * var tilingSprite = new TilingSprite({
  *    texture: Texture.from('assets/image.png'),
  *    width: 100,
  *    height: 100,
@@ -18985,7 +18985,7 @@ export interface TilingSprite extends PixiMixins.TilingSprite, ViewContainer {
 /**
  * A tiling sprite is a fast way of rendering a tiling image.
  * @example
- * const tilingSprite = new TilingSprite({
+ * var tilingSprite = new TilingSprite({
  *    texture: Texture.from('assets/image.png'),
  *    width: 100,
  *    height: 100,
@@ -19058,7 +19058,7 @@ export declare class TilingSprite extends ViewContainer implements View, Instruc
 	 * @example
 	 * import { TilingSprite } from 'pixi.js';
 	 *
-	 * const sprite = new TilingSprite({texture: Texture.WHITE});
+	 * var sprite = new TilingSprite({texture: Texture.WHITE});
 	 * sprite.anchor.set(0.5); // This will set the origin to center. (0.5) is same as (0.5, 0.5).
 	 */
 	get anchor(): ObservablePoint;
@@ -19165,13 +19165,13 @@ export interface FontMetrics {
  * @example
  * import { CanvasTextMetrics, TextStyle } from 'pixi.js';
  *
- * const style = new TextStyle({
+ * var style = new TextStyle({
  *     fontFamily: 'Arial',
  *     fontSize: 24,
  *     fill: 0xff1010,
  *     align: 'center',
  * });
- * const textMetrics = CanvasTextMetrics.measureText('Your text', style);
+ * var textMetrics = CanvasTextMetrics.measureText('Your text', style);
  * @memberof text
  */
 export declare class CanvasTextMetrics {
@@ -19566,15 +19566,15 @@ export interface BitmapFontRawData {
 		distanceRange: string;
 	}[];
 }
-export declare const bitmapFontTextParser: {
+export declare var bitmapFontTextParser: {
 	test(data: string | XMLDocument | BitmapFontData): boolean;
 	parse(txt: string): BitmapFontData;
 };
-export declare const bitmapFontXMLParser: {
+export declare var bitmapFontXMLParser: {
 	test(data: string | XMLDocument | BitmapFontData): boolean;
 	parse(xml: Document): BitmapFontData;
 };
-export declare const bitmapFontXMLStringParser: {
+export declare var bitmapFontXMLStringParser: {
 	test(data: string | XMLDocument | BitmapFontData): boolean;
 	parse(data: string): BitmapFontData;
 };
@@ -19698,11 +19698,11 @@ export declare class Loader {
 	 * Loads one or more assets using the parsers added to the Loader.
 	 * @example
 	 * // Single asset:
-	 * const asset = await Loader.load('cool.png');
+	 * var asset = await Loader.load('cool.png');
 	 * console.log(asset);
 	 *
 	 * // Multiple assets:
-	 * const assets = await Loader.load(['cool.png', 'cooler.png']);
+	 * var assets = await Loader.load(['cool.png', 'cooler.png']);
 	 * console.log(assets);
 	 * @param assetsToLoadIn - urls that you want to load, or a single one!
 	 * @param onProgress - For multiple asset loading only, an optional function that is called
@@ -19717,7 +19717,7 @@ export declare class Loader {
 	 * The parser that created the asset, will be the one that unloads it.
 	 * @example
 	 * // Single asset:
-	 * const asset = await Loader.load('cool.png');
+	 * var asset = await Loader.load('cool.png');
 	 *
 	 * await Loader.unload('cool.png');
 	 *
@@ -19931,7 +19931,7 @@ declare class BitmapFontManagerClass {
 	 *     fill: 'purple',
 	 * });
 	 *
-	 * const title = new BitmapText({ text: 'This is the title', fontFamily: 'TitleFont' });
+	 * var title = new BitmapText({ text: 'This is the title', fontFamily: 'TitleFont' });
 	 */
 	install(options: BitmapFontInstallOptions): BitmapFont;
 	/** @deprecated since 7.0.0 */
@@ -19942,7 +19942,7 @@ declare class BitmapFontManagerClass {
 	 */
 	uninstall(name: string): void;
 }
-export declare const BitmapFontManager: BitmapFontManagerClass;
+export declare var BitmapFontManager: BitmapFontManagerClass;
 /**
  * Options for creating a BitmapFont.
  * @memberof text
@@ -19975,7 +19975,7 @@ export declare class BitmapFont extends AbstractBitmapFont<BitmapFont> {
 	 *     fill: 'purple',
 	 * });
 	 *
-	 * const title = new BitmapText({ text: 'This is the title', fontFamily: 'TitleFont' });
+	 * var title = new BitmapText({ text: 'This is the title', fontFamily: 'TitleFont' });
 	 */
 	static install(options: BitmapFontInstallOptions): void;
 	/**
@@ -19985,7 +19985,7 @@ export declare class BitmapFont extends AbstractBitmapFont<BitmapFont> {
 	static uninstall(name: string): void;
 }
 /** simple loader plugin for loading in bitmap fonts! */
-export declare const bitmapFontCachePlugin: {
+export declare var bitmapFontCachePlugin: {
 	extension: {
 		type: ExtensionType.CacheParser;
 		name: string;
@@ -19993,7 +19993,7 @@ export declare const bitmapFontCachePlugin: {
 	test: (asset: BitmapFont) => boolean;
 	getCacheableAssets(keys: string[], asset: BitmapFont): Record<string, BitmapFont>;
 };
-export declare const loadBitmapFont: {
+export declare var loadBitmapFont: {
 	extension: {
 		type: ExtensionType.LoadParser;
 		priority: LoaderParserPriority;
@@ -20051,7 +20051,7 @@ export interface BitmapText extends PixiMixins.BitmapText, AbstractText<TextStyl
  * import { BitmapText, BitmapFont } from 'pixi.js';
  *
  * // generate a dynamic font behind the scenes:
- * const text = new BitmapText({
+ * var text = new BitmapText({
  *     text: 'Hello Pixi!',
  *     style: {
  *         fontFamily: 'Arial',
@@ -20070,7 +20070,7 @@ export interface BitmapText extends PixiMixins.BitmapText, AbstractText<TextStyl
  * })
  *
  * // new bitmap text with preinstalled font
- * const text = new BitmapText({
+ * var text = new BitmapText({
  *     text: 'Hello Pixi!',
  *     style: {
  *        fontFamily: 'myFont',
@@ -20081,10 +20081,10 @@ export interface BitmapText extends PixiMixins.BitmapText, AbstractText<TextStyl
  * }
  *
  * // load a font from an xml file
- * const font = await Assets.load('path/to/myLoadedFont.fnt');
+ * var font = await Assets.load('path/to/myLoadedFont.fnt');
  *
  * // new bitmap text with loaded font
- * const text = new BitmapText({
+ * var text = new BitmapText({
  *     text: 'Hello Pixi!',
  *     style: {
  *        fontFamily: 'myLoadedFont', // the name of the font in the fnt file
@@ -20241,7 +20241,7 @@ export interface HTMLText extends PixiMixins.HTMLText, AbstractText<HTMLTextStyl
  * @example
  * import { HTMLText } from 'pixi.js';
  *
- * const text = new HTMLText({
+ * var text = new HTMLText({
  *     text: 'Hello Pixi!',
  *     style: {
  *         fontFamily: 'Arial',
@@ -20295,8 +20295,8 @@ export declare class HTMLTextPipe implements RenderPipe<HTMLText> {
 	};
 	destroy(): void;
 }
-export declare const nssvg = "http://www.w3.org/2000/svg";
-export declare const nsxhtml = "http://www.w3.org/1999/xhtml";
+export declare var nssvg = "http://www.w3.org/2000/svg";
+export declare var nsxhtml = "http://www.w3.org/1999/xhtml";
 export declare class HTMLTextRenderData {
 	svgRoot: SVGSVGElement;
 	foreignObject: SVGForeignObjectElement;
@@ -20360,7 +20360,7 @@ export declare class HTMLTextSystem implements System {
  * @returns {string[]} - The font families as an array of strings
  */
 export declare function extractFontFamilies(text: string, style: HTMLTextStyle): string[];
-export declare const FontStylePromiseCache: Map<string, Promise<string>>;
+export declare var FontStylePromiseCache: Map<string, Promise<string>>;
 /**
  * takes the font families and returns a css string that can be injected into a style tag
  * It will contain the font families and the font urls encoded as base64
@@ -20559,7 +20559,7 @@ export declare function getCanvasFillStyle(fillStyle: ConvertedFillStyle, contex
 export declare class SdfShader extends Shader {
 	constructor();
 }
-export declare const localUniformMSDFBit: {
+export declare var localUniformMSDFBit: {
 	name: string;
 	vertex: {
 		header: string;
@@ -20571,7 +20571,7 @@ export declare const localUniformMSDFBit: {
 		main: string;
 	};
 };
-export declare const localUniformMSDFBitGl: {
+export declare var localUniformMSDFBitGl: {
 	name: string;
 	vertex: {
 		header: string;
@@ -20583,13 +20583,13 @@ export declare const localUniformMSDFBitGl: {
 		main: string;
 	};
 };
-export declare const mSDFBit: {
+export declare var mSDFBit: {
 	name: string;
 	fragment: {
 		header: string;
 	};
 };
-export declare const mSDFBitGl: {
+export declare var mSDFBitGl: {
 	name: string;
 	fragment: {
 		header: string;
@@ -20635,7 +20635,7 @@ export interface TextureShader extends Shader {
 /**
  * Constructor options used for `Mesh` instances. Extends {@link scene.MeshViewOptions}
  * ```js
- * const mesh = new Mesh({
+ * var mesh = new Mesh({
  *    texture: Texture.from('assets/image.png'),
  *    geometry: new PlaneGeometry(),
  *    shader: Shader.from(VERTEX, FRAGMENT),
@@ -20914,7 +20914,7 @@ export declare class BlendModeFilter extends Filter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'color'
  * @memberof filters
  */
@@ -20932,7 +20932,7 @@ export declare class ColorBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'color-burn'
  * @memberof filters
  */
@@ -20948,7 +20948,7 @@ export declare class ColorBurnBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'color-dodge'
  * @memberof filters
  */
@@ -20964,7 +20964,7 @@ export declare class ColorDodgeBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'darken'
  * @memberof filters
  */
@@ -20979,7 +20979,7 @@ export declare class DarkenBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'difference'
  * @memberof filters
  */
@@ -20995,7 +20995,7 @@ export declare class DifferenceBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'divide'
  * @memberof filters
  */
@@ -21010,7 +21010,7 @@ export declare class DivideBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'exclusion'
  * @memberof filters
  */
@@ -21025,7 +21025,7 @@ export declare class ExclusionBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'hard-light'
  * @memberof filters
  */
@@ -21043,7 +21043,7 @@ export declare class HardLightBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'hard-mix'
  * @memberof filters
  */
@@ -21058,7 +21058,7 @@ export declare class HardMixBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'lighten'
  * @memberof filters
  */
@@ -21076,7 +21076,7 @@ export declare class LightenBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'linear-burn'
  * @memberof filters
  */
@@ -21092,7 +21092,7 @@ export declare class LinearBurnBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'linear-dodge'
  * @memberof filters
  */
@@ -21108,7 +21108,7 @@ export declare class LinearDodgeBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'linear-light'
  * @memberof filters
  */
@@ -21123,7 +21123,7 @@ export declare class LinearLightBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'luminosity'
  * @memberof filters
  */
@@ -21138,7 +21138,7 @@ export declare class LuminosityBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'negation'
  */
 export declare class NegationBlend extends BlendModeFilter {
@@ -21152,7 +21152,7 @@ export declare class NegationBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'overlay'
  */
 export declare class OverlayBlend extends BlendModeFilter {
@@ -21167,7 +21167,7 @@ export declare class OverlayBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'pin-light'
  * @memberof filters
  */
@@ -21182,7 +21182,7 @@ export declare class PinLightBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'saturation'
  */
 export declare class SaturationBlend extends BlendModeFilter {
@@ -21196,7 +21196,7 @@ export declare class SaturationBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'soft-light'
  */
 export declare class SoftLightBlend extends BlendModeFilter {
@@ -21211,7 +21211,7 @@ export declare class SoftLightBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'subtract'
  * @memberof filters
  */
@@ -21226,7 +21226,7 @@ export declare class SubtractBlend extends BlendModeFilter {
  * import 'pixi.js/advanced-blend-modes';
  * import { Sprite } from 'pixi.js';
  *
- * const sprite = Sprite.from('something.png');
+ * var sprite = Sprite.from('something.png');
  * sprite.blendMode = 'vivid-light'
  */
 export declare class VividLightBlend extends BlendModeFilter {
@@ -21338,7 +21338,7 @@ export interface AssetExtensionAdvanced<ASSET = any, PARSED_ASSET = ASSET, UNLOA
  * import { AssetExtension, extensions } from 'pixi.js';
  *
  * // create the CacheParser
- * const cache = {
+ * var cache = {
  *    test(asset: item): boolean {
  *       // Gets called by the cache when a dev caches an asset
  *    },
@@ -21350,7 +21350,7 @@ export interface AssetExtensionAdvanced<ASSET = any, PARSED_ASSET = ASSET, UNLOA
  * };
  *
  * // create the ResolveURLParser
- * const resolver = {
+ * var resolver = {
  *    test(value: string): boolean {
  *       // the test to perform on the url to determine if it should be parsed
  *    },
@@ -21360,7 +21360,7 @@ export interface AssetExtensionAdvanced<ASSET = any, PARSED_ASSET = ASSET, UNLOA
  * };
  *
  * // create the LoaderParser
- * const loader = {
+ * var loader = {
  *    name: 'itemLoader',
  *    extension: {
  *       type: ExtensionType.LoadParser,
@@ -21420,7 +21420,7 @@ declare class CacheClass {
 	/** All loader parsers registered */
 	get parsers(): CacheParser[];
 }
-declare const Cache$1: CacheClass;
+declare var Cache$1: CacheClass;
 /**
  * Configuration for the [loadTextures]{@link assets.loadTextures} plugin.
  * @see assets.loadTextures
@@ -21478,7 +21478,7 @@ export declare function loadImageBitmap(url: string, asset?: ResolvedAsset<Textu
  * ```
  * @memberof assets
  */
-export declare const loadTextures: LoaderParser<Texture, TextureSourceOptions, LoadTextureConfig>;
+export declare var loadTextures: LoaderParser<Texture, TextureSourceOptions, LoadTextureConfig>;
 /**
  * Options for how the resolver deals with generating bundle ids
  * @memberof assets
@@ -21689,7 +21689,7 @@ export declare class Resolver {
 	 *     thumper: 'thumper.png',
 	 * });
 	 *
-	 * const resolvedAssets = await resolver.resolveBundle('animals');
+	 * var resolvedAssets = await resolver.resolveBundle('animals');
 	 * @param bundleId - The id of the bundle to add
 	 * @param assets - A record of the asset or assets that will be chosen from when loading via the specified key
 	 */
@@ -21727,7 +21727,7 @@ export declare class Resolver {
 	 * a given bundleId or bundleIds.
 	 * @example
 	 * // Manifest Example
-	 * const manifest = {
+	 * var manifest = {
 	 *     bundles: [
 	 *         {
 	 *             name: 'load-screen',
@@ -21759,7 +21759,7 @@ export declare class Resolver {
 	 * };
 	 *
 	 * resolver.setManifest(manifest);
-	 * const resolved = resolver.resolveBundle('load-screen');
+	 * var resolved = resolver.resolveBundle('load-screen');
 	 * @param bundleIds - The bundle ids to resolve
 	 * @returns All the bundles assets or a hash of assets for each bundle specified
 	 */
@@ -21832,7 +21832,7 @@ export interface LoadSVGConfig {
  * A simple loader plugin for loading json data
  * @memberof assets
  */
-export declare const loadSvg: LoaderParser<Texture | GraphicsContext, TextureSourceOptions & LoadSVGConfig, LoadSVGConfig>;
+export declare var loadSvg: LoaderParser<Texture | GraphicsContext, TextureSourceOptions & LoadSVGConfig, LoadSVGConfig>;
 /**
  * Callback for when progress on asset loading is made.
  * The function is passed a single parameter, `progress`, which represents the percentage (0.0 - 1.0)
@@ -21900,8 +21900,8 @@ export interface AssetInitOptions {
  * ```typescript
  * import { Assets, Texture } from 'pixi.js';
  *
- * const bunnyTexture = await Assets.load<Texture>('bunny.png');
- * const sprite = new Sprite(bunnyTexture);
+ * var bunnyTexture = await Assets.load<Texture>('bunny.png');
+ * var sprite = new Sprite(bunnyTexture);
  * ```
  *
  * Check out the sections below for more information on how to deal with assets.
@@ -22009,7 +22009,7 @@ export interface AssetInitOptions {
  * import { Assets } from 'pixi.js';
  *
  * // Manifest Example
- * const manifest = {
+ * var manifest = {
  *     bundles: [
  *         {
  *             name: 'load-screen',
@@ -22067,7 +22067,7 @@ export interface AssetInitOptions {
  * @example
  * import { Assets } from 'pixi.js';
  *
- * const bunny = await Assets.load('bunny.png');
+ * var bunny = await Assets.load('bunny.png');
  * @memberof assets
  * @class Assets
  */
@@ -22102,13 +22102,13 @@ export declare class AssetsClass {
 	 *
 	 * // Simple
 	 * Assets.add({alias: 'bunnyBooBoo', src: 'bunny.png'});
-	 * const bunny = await Assets.load('bunnyBooBoo');
+	 * var bunny = await Assets.load('bunnyBooBoo');
 	 *
 	 * // Multiple keys:
 	 * Assets.add({alias: ['burger', 'chicken'], src: 'bunny.png'});
 	 *
-	 * const bunny = await Assets.load('burger');
-	 * const bunny2 = await Assets.load('chicken');
+	 * var bunny = await Assets.load('burger');
+	 * var bunny2 = await Assets.load('chicken');
 	 *
 	 * // passing options to to the object
 	 * Assets.add({
@@ -22131,7 +22131,7 @@ export declare class AssetsClass {
 	 *    ],
 	 * });
 	 *
-	 * const bunny = await Assets.load('bunnyBooBoo'); // Will try to load WebP if available
+	 * var bunny = await Assets.load('bunnyBooBoo'); // Will try to load WebP if available
 	 * @param assets - the unresolved assets to add to the resolver
 	 */
 	add(assets: (ArrayOr<UnresolvedAsset>)): void;
@@ -22146,13 +22146,13 @@ export declare class AssetsClass {
 	 * import { Assets } from 'pixi.js';
 	 *
 	 * // Load a URL:
-	 * const myImageTexture = await Assets.load('http://some.url.com/image.png'); // => returns a texture
+	 * var myImageTexture = await Assets.load('http://some.url.com/image.png'); // => returns a texture
 	 *
 	 * Assets.add('thumper', 'bunny.png');
 	 * Assets.add('chicko', 'chicken.png');
 	 *
 	 * // Load multiple assets:
-	 * const textures = await Assets.load(['thumper', 'chicko']); // => {thumper: Texture, chicko: Texture}
+	 * var textures = await Assets.load(['thumper', 'chicko']); // => {thumper: Texture, chicko: Texture}
 	 * @param urls - the urls to load
 	 * @param onProgress - optional function that is called when progress on asset loading is made.
 	 * The function is passed a single parameter, `progress`, which represents the percentage
@@ -22179,7 +22179,7 @@ export declare class AssetsClass {
 	 *     thumper: 'thumper.png',
 	 * });
 	 *
-	 * const assets = await Assets.loadBundle('animals');
+	 * var assets = await Assets.loadBundle('animals');
 	 * @param bundleId - the id of the bundle to add
 	 * @param assets - a record of the asset or assets that will be chosen from when loading via the specified key
 	 */
@@ -22192,7 +22192,7 @@ export declare class AssetsClass {
 	 * import { Assets } from 'pixi.js';
 	 *
 	 * // Manifest Example
-	 * const manifest = {
+	 * var manifest = {
 	 *     bundles: [
 	 *         {
 	 *             name: 'load-screen',
@@ -22313,14 +22313,14 @@ export declare class AssetsClass {
 	 * import { Assets } from 'pixi.js';
 	 *
 	 * // Load a URL:
-	 * const myImageTexture = await Assets.load('http://some.url.com/image.png'); // => returns a texture
+	 * var myImageTexture = await Assets.load('http://some.url.com/image.png'); // => returns a texture
 	 *
 	 * await Assets.unload('http://some.url.com/image.png')
 	 *
 	 * // myImageTexture will be destroyed now.
 	 *
 	 * // Unload multiple assets:
-	 * const textures = await Assets.unload(['thumper', 'chicko']);
+	 * var textures = await Assets.unload(['thumper', 'chicko']);
 	 * @param urls - the urls to unload
 	 */
 	unload(urls: ArrayOr<string> | ResolvedAsset | ResolvedAsset[]): Promise<void>;
@@ -22336,7 +22336,7 @@ export declare class AssetsClass {
 	 *     'thumper': 'http://some.url.com/thumper.png',
 	 * })
 	 *
-	 * const assets = await Assets.loadBundle('thumper');
+	 * var assets = await Assets.loadBundle('thumper');
 	 *
 	 * // Now to unload...
 	 *
@@ -22365,7 +22365,7 @@ export declare class AssetsClass {
 	 */
 	setPreferences(preferences: Partial<AssetsPreferences>): void;
 }
-export declare const Assets: AssetsClass;
+export declare var Assets: AssetsClass;
 /**
  * Quietly Loads assets in the background.
  * @memberof assets
@@ -22409,44 +22409,44 @@ export declare class BackgroundLoader {
  * Returns an object of textures from an array of textures to be cached
  * @memberof assets
  */
-export declare const cacheTextureArray: CacheParser<Texture[]>;
+export declare var cacheTextureArray: CacheParser<Texture[]>;
 /**
  * Detects if the browser supports the AVIF image format.
  * @memberof assets
  */
-export declare const detectAvif: FormatDetectionParser;
+export declare var detectAvif: FormatDetectionParser;
 /**
  * Adds some default image formats to the detection parser
  * @memberof assets
  */
-export declare const detectDefaults: FormatDetectionParser;
+export declare var detectDefaults: FormatDetectionParser;
 /**
  * Detects if the browser supports the MP4 video format.
  * @memberof assets
  */
-export declare const detectMp4: FormatDetectionParser;
+export declare var detectMp4: FormatDetectionParser;
 /**
  * Detects if the browser supports the OGV video format.
  * @memberof assets
  */
-export declare const detectOgv: FormatDetectionParser;
+export declare var detectOgv: FormatDetectionParser;
 /**
  * Detects if the browser supports the WebM video format.
  * @memberof assets
  */
-export declare const detectWebm: FormatDetectionParser;
+export declare var detectWebm: FormatDetectionParser;
 /**
  * Detects if the browser supports the WebP image format.
  * @memberof assets
  */
-export declare const detectWebp: FormatDetectionParser;
+export declare var detectWebp: FormatDetectionParser;
 export declare function testImageFormat(imageData: string): Promise<boolean>;
 export declare function testVideoFormat(mimeType: string): boolean;
 /**
  * A simple loader plugin for loading json data
  * @memberof assets
  */
-export declare const loadJson: {
+export declare var loadJson: {
 	extension: {
 		type: ExtensionType.LoadParser;
 		priority: LoaderParserPriority;
@@ -22459,7 +22459,7 @@ export declare const loadJson: {
  * A simple loader plugin for loading text data
  * @memberof assets
  */
-export declare const loadTxt: {
+export declare var loadTxt: {
 	name: string;
 	extension: {
 		type: ExtensionType.LoadParser;
@@ -22519,7 +22519,7 @@ export declare function getFontFamilyName(url: string): string;
  * })
  * @memberof assets
  */
-export declare const loadWebFont: {
+export declare var loadWebFont: {
 	extension: {
 		type: ExtensionType.LoadParser;
 		priority: LoaderParserPriority;
@@ -22561,7 +22561,7 @@ export declare function determineCrossOrigin(url: string, loc?: Location): strin
  * when using Asset.load().
  * ```js
  * // Set the data
- * const texture = await Assets.load({
+ * var texture = await Assets.load({
  *     src: './assets/city.mp4',
  *     data: {
  *         preload: true,
@@ -22571,7 +22571,7 @@ export declare function determineCrossOrigin(url: string, loc?: Location): strin
  * ```
  * @memberof assets
  */
-export declare const loadVideoTextures: {
+export declare var loadVideoTextures: {
 	name: string;
 	extension: {
 		type: ExtensionType.LoadParser;
@@ -22607,13 +22607,13 @@ declare class WorkerManagerClass {
 	private _run;
 	private _next;
 }
-export declare const WorkerManager: WorkerManagerClass;
+export declare var WorkerManager: WorkerManagerClass;
 /**
  * A parser that will resolve a json urls resolution for spritesheets
  * e.g. `assets/spritesheet@1x.json`
  * @memberof assets
  */
-export declare const resolveJsonUrl: {
+export declare var resolveJsonUrl: {
 	extension: {
 		type: ExtensionType.ResolveParser;
 		priority: number;
@@ -22630,7 +22630,7 @@ export declare const resolveJsonUrl: {
  * A parser that will resolve a texture url
  * @memberof assets
  */
-export declare const resolveTextureUrl: {
+export declare var resolveTextureUrl: {
 	extension: {
 		type: ExtensionType.ResolveParser;
 		name: string;
@@ -22644,18 +22644,18 @@ export declare const resolveTextureUrl: {
 };
 export declare function checkDataUrl(url: string, mimes: string | string[]): boolean;
 export declare function checkExtension(url: string, extension: string | string[]): boolean;
-export declare const convertToList: <T>(input: string | T | (string | T)[], transform?: (input: string) => T, forceTransform?: boolean) => T[];
+export declare var convertToList: <T>(input: string | T | (string | T)[], transform?: (input: string) => T, forceTransform?: boolean) => T[];
 /**
  * Copies the search params from one url to another
  * @param targetUrl - the url to copy the search params to
  * @param sourceUrl - the url container the search params we want to copy
  * @returns the url with the search params copied
  */
-export declare const copySearchParams: (targetUrl: string, sourceUrl: string) => string;
+export declare var copySearchParams: (targetUrl: string, sourceUrl: string) => string;
 /**
  * Creates a list of all possible combinations of the given strings.
  * @example
- * const out2 = createStringVariations('name is {chicken,wolf,sheep}');
+ * var out2 = createStringVariations('name is {chicken,wolf,sheep}');
  * console.log(out2); // [ 'name is chicken', 'name is wolf', 'name is sheep' ]
  * @param string - The string to process
  */
@@ -22664,10 +22664,10 @@ export declare function createStringVariations(string: string): string[];
  * Checks if the given value is an array.
  * @param item - The item to test
  */
-export declare const isSingleItem: (item: unknown) => boolean;
-export declare const detectBasis: FormatDetectionParser;
+export declare var isSingleItem: (item: unknown) => boolean;
+export declare var detectBasis: FormatDetectionParser;
 /** Loads KTX textures! */
-export declare const loadBasis: {
+export declare var loadBasis: {
 	extension: {
 		type: ExtensionType.LoadParser;
 		priority: LoaderParserPriority;
@@ -22699,7 +22699,7 @@ export interface BasisTexture {
 }
 export declare function createLevelBuffers(basisTexture: BasisTexture, basisTranscoderFormat: number): Uint8Array[];
 export declare function gpuFormatToBasisTranscoderFormat(transcoderFormat: string): number;
-export declare const basisTranscoderUrls: {
+export declare var basisTranscoderUrls: {
 	jsUrl: string;
 	wasmUrl: string;
 };
@@ -22906,17 +22906,17 @@ export declare enum D3DFMT {
  * https://github.com/microsoft/DirectXTex/blob/main/DDSTextureLoader/DDSTextureLoader11.cpp
  * @ignore
  */
-export declare const FOURCC_TO_TEXTURE_FORMAT: {
+export declare var FOURCC_TO_TEXTURE_FORMAT: {
 	[id: number]: TEXTURE_FORMATS;
 };
 /**
  * Maps {@link DXGI_FORMAT} to {@link TEXTURE_FORMATS}
  * @ignore
  */
-export declare const DXGI_TO_TEXTURE_FORMAT: {
+export declare var DXGI_TO_TEXTURE_FORMAT: {
 	[id: number]: TEXTURE_FORMATS;
 };
-export declare const DDS: {
+export declare var DDS: {
 	MAGIC_VALUE: number;
 	MAGIC_SIZE: number;
 	HEADER_SIZE: number;
@@ -22959,9 +22959,9 @@ export declare const DDS: {
 	D3D10_RESOURCE_DIMENSION: typeof D3D10_RESOURCE_DIMENSION;
 	D3DFMT: typeof D3DFMT;
 };
-export declare const TEXTURE_FORMAT_BLOCK_SIZE: Record<string, number>;
+export declare var TEXTURE_FORMAT_BLOCK_SIZE: Record<string, number>;
 /** Loads KTX textures! */
-export declare const loadDDS: {
+export declare var loadDDS: {
 	extension: {
 		type: ExtensionType.LoadParser;
 		priority: LoaderParserPriority;
@@ -22974,7 +22974,7 @@ export declare const loadDDS: {
 };
 export declare function parseDDS(arrayBuffer: ArrayBuffer, supportedFormats: TEXTURE_FORMATS[]): TextureSourceOptions<Uint8Array[]>;
 /** Loads KTX textures! */
-export declare const loadKTX: {
+export declare var loadKTX: {
 	extension: {
 		type: ExtensionType.LoadParser;
 		priority: LoaderParserPriority;
@@ -23048,7 +23048,7 @@ export declare enum GL_INTERNAL_FORMAT {
 	COMPRESSED_RGB_BPTC_SIGNED_FLOAT_EXT = 36494,
 	COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT_EXT = 36495
 }
-export declare const KTX: {
+export declare var KTX: {
 	FILE_HEADER_SIZE: number;
 	FILE_IDENTIFIER: number[];
 	FORMATS_TO_COMPONENTS: {
@@ -23085,7 +23085,7 @@ export declare const KTX: {
 	ENDIANNESS: number;
 };
 /** Loads KTX2 textures! */
-export declare const loadKTX2: {
+export declare var loadKTX2: {
 	extension: {
 		type: ExtensionType.LoadParser;
 		priority: LoaderParserPriority;
@@ -23123,16 +23123,16 @@ export declare function createLevelBuffersFromKTX(ktxTexture: KTXTexture): Uint8
 export declare function getTextureFormatFromKTXTexture(ktxTexture: KTXTexture): COMPRESSED_TEXTURE_FORMATS;
 export declare function glFormatToGPUFormat(glInternalFormat: number): COMPRESSED_TEXTURE_FORMATS;
 export declare function gpuFormatToKTXBasisTranscoderFormat(transcoderFormat: string): string;
-export declare const ktxTranscoderUrls: {
+export declare var ktxTranscoderUrls: {
 	jsUrl: string;
 	wasmUrl: string;
 };
 export declare function setKTXTranscoderPath(config: Partial<typeof ktxTranscoderUrls>): void;
 export declare function vkFormatToGPUFormat(vkFormat: number): COMPRESSED_TEXTURE_FORMATS;
 export declare function loadKTX2onWorker(url: string, supportedTextures: TEXTURE_FORMATS[]): Promise<TextureSourceOptions>;
-export declare const detectCompressed: FormatDetectionParser;
-export declare const validFormats: string[];
-export declare const resolveCompressedTextureUrl: {
+export declare var detectCompressed: FormatDetectionParser;
+export declare var validFormats: string[];
+export declare var resolveCompressedTextureUrl: {
 	extension: ExtensionType.ResolveParser;
 	test: (value: string) => boolean;
 	parse: (value: string) => {
@@ -23156,8 +23156,8 @@ type RectangleLike = {
  * @example
  * import { Culler, Container } from 'pixi.js';
  *
- * const culler = new Culler();
- * const stage = new Container();
+ * var culler = new Culler();
+ * var stage = new Container();
  *
  * ... set up stage ...
  *
@@ -23265,7 +23265,7 @@ export interface Adapter {
  * DOMAdapter.get().createCanvas(800, 600);
  * @memberof environment
  */
-export declare const DOMAdapter: {
+export declare var DOMAdapter: {
 	/**
 	 * Returns the current adapter.
 	 * @returns {environment.Adapter} The current adapter.
@@ -23302,12 +23302,12 @@ export declare function autoDetectEnvironment(add: boolean): Promise<void>;
  * @property {Function} fetch - Returns a Response object that has been fetched from the given URL.
  * @property {Function} parseXML - Returns Document object that has been parsed from the given XML string.
  */
-export declare const BrowserAdapter: Adapter;
+export declare var BrowserAdapter: Adapter;
 /**
  * Extension for the browser environment.
  * @memberof environment
  */
-export declare const browserExt: {
+export declare var browserExt: {
 	extension: {
 		type: ExtensionType;
 		name: string;
@@ -23330,12 +23330,12 @@ export declare const browserExt: {
  * @property {Function} parseXML - Returns Document object that has been parsed from the given XML string.
  * @memberof environment
  */
-export declare const WebWorkerAdapter: Adapter;
+export declare var WebWorkerAdapter: Adapter;
 /**
  * Extension for the webworker environment.
  * @memberof environment
  */
-export declare const webworkerExt: {
+export declare var webworkerExt: {
 	extension: {
 		type: ExtensionType;
 		name: string;
@@ -23396,11 +23396,11 @@ declare class EventsTickerClass {
 	 */
 	private _tickerUpdate;
 }
-export declare const EventsTicker: EventsTickerClass;
+export declare var EventsTicker: EventsTickerClass;
 /** A helper object containing the hsl shader code for both glsl */
-export declare const hslgl = "\n\tfloat getLuminosity(vec3 c) {\n\t\treturn 0.3 * c.r + 0.59 * c.g + 0.11 * c.b;\n\t}\n\n\tvec3 setLuminosity(vec3 c, float lum) {\n\t\tfloat modLum = lum - getLuminosity(c);\n\t\tvec3 color = c.rgb + vec3(modLum);\n\n\t\t// clip back into legal range\n\t\tmodLum = getLuminosity(color);\n\t\tvec3 modLumVec = vec3(modLum);\n\n\t\tfloat cMin = min(color.r, min(color.g, color.b));\n\t\tfloat cMax = max(color.r, max(color.g, color.b));\n\n\t\tif(cMin < 0.0) {\n\t\t\tcolor = mix(modLumVec, color, modLum / (modLum - cMin));\n\t\t}\n\n\t\tif(cMax > 1.0) {\n\t\t\tcolor = mix(modLumVec, color, (1.0 - modLum) / (cMax - modLum));\n\t\t}\n\n\t\treturn color;\n\t}\n\n\tfloat getSaturation(vec3 c) {\n\t\treturn max(c.r, max(c.g, c.b)) - min(c.r, min(c.g, c.b));\n\t}\n\n\tvec3 setSaturationMinMidMax(vec3 cSorted, float s) {\n\t\tvec3 colorSorted = cSorted;\n\n\t\tif(colorSorted.z > colorSorted.x) {\n\t\t\tcolorSorted.y = (((colorSorted.y - colorSorted.x) * s) / (colorSorted.z - colorSorted.x));\n\t\t\tcolorSorted.z = s;\n\t\t}\n\t\telse {\n\t\t\tcolorSorted.y = 0.0;\n\t\t\tcolorSorted.z = 0.0;\n\t\t}\n\n\t\tcolorSorted.x = 0.0;\n\n\t\treturn colorSorted;\n\t}\n\n\tvec3 setSaturation(vec3 c, float s) {\n\t\tvec3 color = c;\n\n\t\tif(color.r <= color.g && color.r <= color.b) {\n\t\t\tif(color.g <= color.b) {\n\t\t\t\tcolor = setSaturationMinMidMax(color.rgb, s).rgb;\n\t\t\t}\n\t\t\telse {\n\t\t\t\tcolor = setSaturationMinMidMax(color.rbg, s).rbg;\n\t\t\t}\n\t\t}\n\t\telse if(color.g <= color.r && color.g <= color.b) {\n\t\t\tif(color.r <= color.b) {\n\t\t\t\tcolor = setSaturationMinMidMax(color.grb, s).grb;\n\t\t\t}\n\t\t\telse {\n\t\t\t\tcolor = setSaturationMinMidMax(color.gbr, s).gbr;\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\t// Using bgr for both fixes part of hue\n\t\t\tif(color.r <= color.g) {\n\t\t\t\tcolor = setSaturationMinMidMax(color.brg, s).brg;\n\t\t\t}\n\t\t\telse {\n\t\t\t\tcolor = setSaturationMinMidMax(color.bgr, s).bgr;\n\t\t\t}\n\t\t}\n\n\t\treturn color;\n\t}\n    ";
+export declare var hslgl = "\n\tfloat getLuminosity(vec3 c) {\n\t\treturn 0.3 * c.r + 0.59 * c.g + 0.11 * c.b;\n\t}\n\n\tvec3 setLuminosity(vec3 c, float lum) {\n\t\tfloat modLum = lum - getLuminosity(c);\n\t\tvec3 color = c.rgb + vec3(modLum);\n\n\t\t// clip back into legal range\n\t\tmodLum = getLuminosity(color);\n\t\tvec3 modLumVec = vec3(modLum);\n\n\t\tfloat cMin = min(color.r, min(color.g, color.b));\n\t\tfloat cMax = max(color.r, max(color.g, color.b));\n\n\t\tif(cMin < 0.0) {\n\t\t\tcolor = mix(modLumVec, color, modLum / (modLum - cMin));\n\t\t}\n\n\t\tif(cMax > 1.0) {\n\t\t\tcolor = mix(modLumVec, color, (1.0 - modLum) / (cMax - modLum));\n\t\t}\n\n\t\treturn color;\n\t}\n\n\tfloat getSaturation(vec3 c) {\n\t\treturn max(c.r, max(c.g, c.b)) - min(c.r, min(c.g, c.b));\n\t}\n\n\tvec3 setSaturationMinMidMax(vec3 cSorted, float s) {\n\t\tvec3 colorSorted = cSorted;\n\n\t\tif(colorSorted.z > colorSorted.x) {\n\t\t\tcolorSorted.y = (((colorSorted.y - colorSorted.x) * s) / (colorSorted.z - colorSorted.x));\n\t\t\tcolorSorted.z = s;\n\t\t}\n\t\telse {\n\t\t\tcolorSorted.y = 0.0;\n\t\t\tcolorSorted.z = 0.0;\n\t\t}\n\n\t\tcolorSorted.x = 0.0;\n\n\t\treturn colorSorted;\n\t}\n\n\tvec3 setSaturation(vec3 c, float s) {\n\t\tvec3 color = c;\n\n\t\tif(color.r <= color.g && color.r <= color.b) {\n\t\t\tif(color.g <= color.b) {\n\t\t\t\tcolor = setSaturationMinMidMax(color.rgb, s).rgb;\n\t\t\t}\n\t\t\telse {\n\t\t\t\tcolor = setSaturationMinMidMax(color.rbg, s).rbg;\n\t\t\t}\n\t\t}\n\t\telse if(color.g <= color.r && color.g <= color.b) {\n\t\t\tif(color.r <= color.b) {\n\t\t\t\tcolor = setSaturationMinMidMax(color.grb, s).grb;\n\t\t\t}\n\t\t\telse {\n\t\t\t\tcolor = setSaturationMinMidMax(color.gbr, s).gbr;\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\t// Using bgr for both fixes part of hue\n\t\t\tif(color.r <= color.g) {\n\t\t\t\tcolor = setSaturationMinMidMax(color.brg, s).brg;\n\t\t\t}\n\t\t\telse {\n\t\t\t\tcolor = setSaturationMinMidMax(color.bgr, s).bgr;\n\t\t\t}\n\t\t}\n\n\t\treturn color;\n\t}\n    ";
 /** A helper object containing the hsl shader code for wgsl */
-export declare const hslgpu = "\n\tfn getLuminosity(c: vec3<f32>) -> f32\n\t{\n\t\treturn 0.3*c.r + 0.59*c.g + 0.11*c.b;\n\t}\n\n\tfn setLuminosity(c: vec3<f32>, lum: f32) -> vec3<f32>\n\t{\n\t\tvar modLum: f32 = lum - getLuminosity(c);\n\t\tvar color: vec3<f32> = c.rgb + modLum;\n\n\t\t// clip back into legal range\n\t\tmodLum = getLuminosity(color);\n\t\tlet modLumVec = vec3<f32>(modLum);\n\n\t\tlet cMin: f32 = min(color.r, min(color.g, color.b));\n\t\tlet cMax: f32 = max(color.r, max(color.g, color.b));\n\n\t\tif(cMin < 0.0)\n\t\t{\n\t\t\tcolor = mix(modLumVec, color, modLum / (modLum - cMin));\n\t\t}\n\n\t\tif(cMax > 1.0)\n\t\t{\n\t\t\tcolor = mix(modLumVec, color, (1 - modLum) / (cMax - modLum));\n\t\t}\n\n\t\treturn color;\n\t}\n\n\tfn getSaturation(c: vec3<f32>) -> f32\n\t{\n\t\treturn max(c.r, max(c.g, c.b)) - min(c.r, min(c.g, c.b));\n\t}\n\n\tfn setSaturationMinMidMax(cSorted: vec3<f32>, s: f32) -> vec3<f32>\n\t{\n\t\tvar colorSorted = cSorted;\n\n\t\tif(colorSorted.z > colorSorted.x)\n\t\t{\n\t\t\tcolorSorted.y = (((colorSorted.y - colorSorted.x) * s) / (colorSorted.z - colorSorted.x));\n\t\t\tcolorSorted.z = s;\n\t\t}\n\t\telse\n\t\t{\n\t\t\tcolorSorted.y = 0;\n\t\t\tcolorSorted.z = 0;\n\t\t}\n\n\t\tcolorSorted.x = 0;\n\n\t\treturn colorSorted;\n\t}\n\n\tfn setSaturation(c: vec3<f32>, s: f32) -> vec3<f32>\n\t{\n\t\tvar color = c;\n\n\t\tif (color.r <= color.g && color.r <= color.b)\n\t\t{\n\t\t\tif (color.g <= color.b)\n\t\t\t{\n\t\t\t\tcolor = vec3<f32>(setSaturationMinMidMax(color.rgb, s)).rgb;\n\t\t\t}\n\t\t\telse\n\t\t\t{\n\t\t\t\tcolor = vec3<f32>(setSaturationMinMidMax(color.rbg, s)).rbg;\n\t\t\t}\n\t\t}\n\t\telse if (color.g <= color.r && color.g <= color.b)\n\t\t{\n\t\t\tif (color.r <= color.b)\n\t\t\t{\n\t\t\t\tcolor = vec3<f32>(setSaturationMinMidMax(color.grb, s)).grb;\n\t\t\t}\n\t\t\telse\n\t\t\t{\n\t\t\t\tcolor = vec3<f32>(setSaturationMinMidMax(color.gbr, s)).gbr;\n\t\t\t}\n\t\t}\n\t\telse\n\t\t{\n\t\t\t// Using bgr for both fixes part of hue\n\t\t\tif (color.r <= color.g)\n\t\t\t{\n\t\t\t\tcolor = vec3<f32>(setSaturationMinMidMax(color.brg, s)).brg;\n\t\t\t}\n\t\t\telse\n\t\t\t{\n\t\t\t\tcolor  = vec3<f32>(setSaturationMinMidMax(color.bgr, s)).bgr;\n\t\t\t}\n\t\t}\n\n\t\treturn color;\n\t}\n\t";
+export declare var hslgpu = "\n\tfn getLuminosity(c: vec3<f32>) -> f32\n\t{\n\t\treturn 0.3*c.r + 0.59*c.g + 0.11*c.b;\n\t}\n\n\tfn setLuminosity(c: vec3<f32>, lum: f32) -> vec3<f32>\n\t{\n\t\tvar modLum: f32 = lum - getLuminosity(c);\n\t\tvar color: vec3<f32> = c.rgb + modLum;\n\n\t\t// clip back into legal range\n\t\tmodLum = getLuminosity(color);\n\t\tlet modLumVec = vec3<f32>(modLum);\n\n\t\tlet cMin: f32 = min(color.r, min(color.g, color.b));\n\t\tlet cMax: f32 = max(color.r, max(color.g, color.b));\n\n\t\tif(cMin < 0.0)\n\t\t{\n\t\t\tcolor = mix(modLumVec, color, modLum / (modLum - cMin));\n\t\t}\n\n\t\tif(cMax > 1.0)\n\t\t{\n\t\t\tcolor = mix(modLumVec, color, (1 - modLum) / (cMax - modLum));\n\t\t}\n\n\t\treturn color;\n\t}\n\n\tfn getSaturation(c: vec3<f32>) -> f32\n\t{\n\t\treturn max(c.r, max(c.g, c.b)) - min(c.r, min(c.g, c.b));\n\t}\n\n\tfn setSaturationMinMidMax(cSorted: vec3<f32>, s: f32) -> vec3<f32>\n\t{\n\t\tvar colorSorted = cSorted;\n\n\t\tif(colorSorted.z > colorSorted.x)\n\t\t{\n\t\t\tcolorSorted.y = (((colorSorted.y - colorSorted.x) * s) / (colorSorted.z - colorSorted.x));\n\t\t\tcolorSorted.z = s;\n\t\t}\n\t\telse\n\t\t{\n\t\t\tcolorSorted.y = 0;\n\t\t\tcolorSorted.z = 0;\n\t\t}\n\n\t\tcolorSorted.x = 0;\n\n\t\treturn colorSorted;\n\t}\n\n\tfn setSaturation(c: vec3<f32>, s: f32) -> vec3<f32>\n\t{\n\t\tvar color = c;\n\n\t\tif (color.r <= color.g && color.r <= color.b)\n\t\t{\n\t\t\tif (color.g <= color.b)\n\t\t\t{\n\t\t\t\tcolor = vec3<f32>(setSaturationMinMidMax(color.rgb, s)).rgb;\n\t\t\t}\n\t\t\telse\n\t\t\t{\n\t\t\t\tcolor = vec3<f32>(setSaturationMinMidMax(color.rbg, s)).rbg;\n\t\t\t}\n\t\t}\n\t\telse if (color.g <= color.r && color.g <= color.b)\n\t\t{\n\t\t\tif (color.r <= color.b)\n\t\t\t{\n\t\t\t\tcolor = vec3<f32>(setSaturationMinMidMax(color.grb, s)).grb;\n\t\t\t}\n\t\t\telse\n\t\t\t{\n\t\t\t\tcolor = vec3<f32>(setSaturationMinMidMax(color.gbr, s)).gbr;\n\t\t\t}\n\t\t}\n\t\telse\n\t\t{\n\t\t\t// Using bgr for both fixes part of hue\n\t\t\tif (color.r <= color.g)\n\t\t\t{\n\t\t\t\tcolor = vec3<f32>(setSaturationMinMidMax(color.brg, s)).brg;\n\t\t\t}\n\t\t\telse\n\t\t\t{\n\t\t\t\tcolor  = vec3<f32>(setSaturationMinMidMax(color.bgr, s)).bgr;\n\t\t\t}\n\t\t}\n\n\t\treturn color;\n\t}\n\t";
 /**
  * Options for AlphaFilter
  * @memberof filters
@@ -23608,7 +23608,7 @@ export declare class BlurFilter extends Filter {
 export interface IGAUSSIAN_VALUES {
 	[x: number]: number[];
 }
-export declare const GAUSSIAN_VALUES: IGAUSSIAN_VALUES;
+export declare var GAUSSIAN_VALUES: IGAUSSIAN_VALUES;
 export declare function generateBlurFragSource(kernelSize: number): string;
 export declare function generateBlurGlProgram(horizontal: boolean, kernelSize: number): GlProgram;
 export declare function generateBlurVertSource(kernelSize: number, x: boolean): string;
@@ -23937,7 +23937,7 @@ type GD8Symmetry = number;
  * @author Ivan @ivanpopelyshev
  * @namespace maths.groupD8
  */
-export declare const groupD8: {
+export declare var groupD8: {
 	/**
 	 * | Rotation | Direction |
 	 * |----------|-----------|
@@ -24224,7 +24224,7 @@ export declare abstract class PrepareUpload extends PrepareQueue {
  * import { Application, Graphics } from 'pixi.js';
  *
  * // Create a new application (prepare will be auto-added to renderer)
- * const app = new Application();
+ * var app = new Application();
  * await app.init();
  * document.body.appendChild(app.view);
  *
@@ -24232,7 +24232,7 @@ export declare abstract class PrepareUpload extends PrepareQueue {
  * app.stop();
  *
  * // Create a display object
- * const rect = new Graphics()
+ * var rect = new Graphics()
  *     .beginFill(0x00ff00)
  *     .drawRect(40, 40, 200, 200);
  *
@@ -24346,7 +24346,7 @@ export interface SpritesheetData {
  * ```js
  * import { Assets } from 'pixi.js';
  *
- * const sheet = await Assets.load('images/spritesheet.json');
+ * var sheet = await Assets.load('images/spritesheet.json');
  * ```
  *
  * Alternately, you may circumvent the loader by instantiating the Spritesheet directly:
@@ -24354,7 +24354,7 @@ export interface SpritesheetData {
  * ```js
  * import { Spritesheet } from 'pixi.js';
  *
- * const sheet = new Spritesheet(texture, spritesheetData);
+ * var sheet = new Spritesheet(texture, spritesheetData);
  * await sheet.parse();
  * console.log('Spritesheet ready to use!');
  * ```
@@ -24412,13 +24412,13 @@ export interface SpritesheetData {
  * ```js
  * import { Assets } from 'pixi.js';
  *
- * const sheetTexture = await Assets.load('images/spritesheet.png');
+ * var sheetTexture = await Assets.load('images/spritesheet.png');
  * Assets.add({
  *     alias: 'atlas',
  *     src: 'images/spritesheet.json',
  *     data: {texture: sheetTexture} // using of preloaded texture
  * });
- * const sheet = await Assets.load('atlas')
+ * var sheet = await Assets.load('atlas')
  * ```
  *
  * or:
@@ -24431,7 +24431,7 @@ export interface SpritesheetData {
  *     src: 'images/spritesheet.json',
  *     data: {imageFilename: 'my-spritesheet.2x.avif'} // using of custom filename located in "images/my-spritesheet.2x.avif"
  * });
- * const sheet = await Assets.load('atlas')
+ * var sheet = await Assets.load('atlas')
  * ```
  * @memberof assets
  */
@@ -24538,7 +24538,7 @@ export interface SpriteSheetJson extends SpritesheetData {
  * @type {AssetExtension}
  * @memberof assets
  */
-export declare const spritesheetAsset: {
+export declare var spritesheetAsset: {
 	extension: ExtensionType.Asset;
 	/** Handle the caching of the related Spritesheet Textures */
 	cache: {
@@ -24730,9 +24730,9 @@ export declare function getCanvasBoundingBox(canvas: ICanvas, resolution?: numbe
  * DATA_URI.test('data:image/png;base64,foobar'); // => true
  * @memberof utils
  */
-export declare const DATA_URI: RegExp;
+export declare var DATA_URI: RegExp;
 /** The current version of PixiJS. This is automatically replaced by the build process. */
-export declare const VERSION = "$_VERSION";
+export declare var VERSION = "$_VERSION";
 /**
  * Takes a hash and removes all the `undefined`/`null` values from it.
  * In PixiJS, we tend to null properties instead of using 'delete' for performance reasons.
@@ -24753,8 +24753,8 @@ export declare function cleanHash<T>(hash: Record<string, T>): Record<string, T>
  * @returns The cleaned array with all `undefined` elements removed.
  * @example
  * // Example usage:
- * const arr = [1, undefined, 2, undefined, 3];
- * const cleanedArr = cleanArray(arr);
+ * var arr = [1, undefined, 2, undefined, 3];
+ * var cleanedArr = cleanArray(arr);
  * console.log(cleanedArr); // Output: [1, 2, 3]
  * @memberof utils
  */
@@ -24793,8 +24793,8 @@ export declare function updateQuadBounds(bounds: BoundsData, anchor: ObservableP
  * deprecation name for version 8.0.0
  * @ignore
  */
-export declare const v8_0_0 = "8.0.0";
-export declare const v8_3_4 = "8.3.4";
+export declare var v8_0_0 = "8.0.0";
+export declare var v8_3_4 = "8.3.4";
 /**
  * Helper for warning developers about deprecated features & settings.
  * A stack track for warnings is given; useful for tracking-down where
@@ -24832,7 +24832,7 @@ export declare function logRenderGroupScene(renderGroup: RenderGroup, depth?: nu
  * @ignore
  */
 export declare function warn(...args: any[]): void;
-export declare const NOOP: () => void;
+export declare var NOOP: () => void;
 /**
  * get the resolution / device pixel ratio of an asset by looking for the prefix
  * used by spritesheets and image urls
@@ -24961,7 +24961,7 @@ export interface Path {
  * @see {@link utils.Path}
  * @memberof utils
  */
-export declare const path: Path;
+export declare var path: Path;
 /**
  * A type alias for a constructor of a Pool.
  * @template T The type of items in the pool. Must extend PoolItem.
@@ -25012,7 +25012,7 @@ export declare class PoolGroupClass {
 		size: number;
 	}>;
 }
-export declare const BigPool: PoolGroupClass;
+export declare var BigPool: PoolGroupClass;
 /**
  * Prints out the version and renderer information for this running instance of PixiJS.
  * @param type - The name of the renderer this instance is using.
