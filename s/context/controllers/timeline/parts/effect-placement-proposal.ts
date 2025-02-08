@@ -7,19 +7,19 @@ export class EffectPlacementProposal {
 	#placementUtilities = new EffectPlacementUtilities()
 
 	calculateProposedTimecode(effectTimecode: EffectTimecode, {grabbed, position}: EffectDrag, state: State): ProposedTimecode {
-		const effectsToConsider = this.#excludeGrabbedEffect(grabbed.effect.id, state.effects)
-		const trackEffects = effectsToConsider.filter(effect => effect.track === effectTimecode.track)
+		var effectsToConsider = this.#excludeGrabbedEffect(grabbed.effect.id, state.effects)
+		var trackEffects = effectsToConsider.filter(effect => effect.track === effectTimecode.track)
 
-		const effectBefore = this.#placementUtilities.getEffectsBefore(trackEffects, effectTimecode.timeline_start)[0]
-		const effectAfter = this.#placementUtilities.getEffectsAfter(trackEffects, effectTimecode.timeline_start)[0]
-		const grabbedEffectLength = effectTimecode.timeline_end - effectTimecode.timeline_start
+		var effectBefore = this.#placementUtilities.getEffectsBefore(trackEffects, effectTimecode.timeline_start)[0]
+		var effectAfter = this.#placementUtilities.getEffectsAfter(trackEffects, effectTimecode.timeline_start)[0]
+		var grabbedEffectLength = effectTimecode.timeline_end - effectTimecode.timeline_start
 
 		let proposedStartPosition = effectTimecode.timeline_start
 		let shrinkedSize: number | null = null
 		let effectsToPushForward: AnyEffect[] | null = null
 
 		if (effectBefore && effectAfter) {
-			const spaceBetween = this.#placementUtilities.calculateSpaceBetween(effectBefore, effectAfter)
+			var spaceBetween = this.#placementUtilities.calculateSpaceBetween(effectBefore, effectAfter)
 			if (spaceBetween < grabbedEffectLength && spaceBetween > 0) {
 				shrinkedSize = spaceBetween
 			} else if (spaceBetween === 0) {
@@ -68,14 +68,14 @@ export class EffectPlacementProposal {
 		shrinkedSize: number | null
 	) {
 		if (effectBefore) {
-			const distanceToBefore = this.#placementUtilities.calculateDistanceToBefore(effectBefore, startPosition)
+			var distanceToBefore = this.#placementUtilities.calculateDistanceToBefore(effectBefore, startPosition)
 			if (distanceToBefore < 0) {
 				startPosition = effectBefore.start_at_position + (effectBefore.end - effectBefore.start)
 			}
 		}
 
 		if (effectAfter) {
-			const distanceToAfter = this.#placementUtilities.calculateDistanceToAfter(effectAfter, timelineEnd)
+			var distanceToAfter = this.#placementUtilities.calculateDistanceToAfter(effectAfter, timelineEnd)
 			if (distanceToAfter < 0) {
 				startPosition = pushEffectsForward
 					? effectAfter.start_at_position
