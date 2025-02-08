@@ -1,14 +1,14 @@
 import {wait} from "../../../../utils/wait.js"
 
-let timestamp = 0
-let start = 0
-let end = 0
-let id = ""
+var timestamp = 0
+var start = 0
+var end = 0
+var id = ""
 
-let timebase = 0
-let timestamp_end = 0
-let lastProcessedTimestamp = 0
-let timebaseInMicroseconds = 1000/25 * 1000
+var timebase = 0
+var timestamp_end = 0
+var lastProcessedTimestamp = 0
+var timebaseInMicroseconds = 1000/25 * 1000
 
 const decoder = new VideoDecoder({
 	output(frame) {
