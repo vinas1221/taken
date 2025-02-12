@@ -22,20 +22,20 @@ type Stuff = {
 	cleanup: (() => void)[]
 }
 
-let autoPlacement = untypedAutoPlacement as typeof AutoPlacement
-let computePosition = untypedComputePosition as typeof ComputePosition
-let autoUpdate = untypedAutoUpdate as typeof AutoUpdate
-let hide = untypedHide as typeof Hide
+const autoPlacement = untypedAutoPlacement as typeof AutoPlacement
+const computePosition = untypedComputePosition as typeof ComputePosition
+const autoUpdate = untypedAutoUpdate as typeof AutoUpdate
+const hide = untypedHide as typeof Hide
 
-export let Tooltip = light_view(use => (icon: SVGTemplateResult | TemplateResult, content: TemplateResult, iconContainerStyles?: string, placement?: Placement) => {
-	let elements = use.signal<Stuff | null>(null)
+export const Tooltip = light_view(use => (icon: SVGTemplateResult | TemplateResult, content: TemplateResult, iconContainerStyles?: string, placement?: Placement) => {
+	const elements = use.signal<Stuff | null>(null)
 
 	use.defer(() => {
 		if (elements.value)
 				return undefined
-		let iconContainer = use.element.querySelector('#icon-container')?.firstElementChild as HTMLButtonElement
-		let tooltip = use.element.querySelector('#tooltip') as HTMLElement
-		let compute = () => computePosition(iconContainer, tooltip, {
+		const iconContainer = use.element.querySelector('#icon-container')?.firstElementChild as HTMLButtonElement
+		const tooltip = use.element.querySelector('#tooltip') as HTMLElement
+		const compute = () => computePosition(iconContainer, tooltip, {
 				middleware: [hide()],
 				strategy: "fixed",
 				placement: placement ?? 'top',
@@ -45,7 +45,7 @@ export let Tooltip = light_view(use => (icon: SVGTemplateResult | TemplateResult
 				top: `${y}px`,
 			})
 		})
-		let interval = setInterval(() => compute(), 100)
+		const interval = setInterval(() => compute(), 100)
 		elements.value = {
 			iconContainer,
 			tooltip,
@@ -61,13 +61,13 @@ export let Tooltip = light_view(use => (icon: SVGTemplateResult | TemplateResult
 			elements.value.cleanup.forEach(cleanup => cleanup())
 	})
 
-	let showTooltip = () => {
+	const showTooltip = () => {
 		if(elements.value) {
 			elements.value.tooltip.style.opacity = "1"
 		}
 	}
 
-	let hideTooltip = () => {
+	const hideTooltip = () => {
 		if(elements.value) {
 			elements.value.tooltip.style.opacity = "0"
 		}
