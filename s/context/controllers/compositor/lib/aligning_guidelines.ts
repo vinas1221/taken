@@ -71,7 +71,7 @@ export class AlignGuidelines {
 	private drawSign(x: number, y: number) {
 		// Draw a small "X" at the given point using setStrokeStyle.
 		this.graphics.lineStyle(this.aligningLineWidth, parseInt(this.aligningLineColor.replace("#", "0x")), 1)
-		const size = 2
+		var size = 2
 		this.graphics.moveTo(x - size, y - size)
 		this.graphics.lineTo(x + size, y + size)
 		this.graphics.moveTo(x + size, y - size)
@@ -79,9 +79,9 @@ export class AlignGuidelines {
 	}
 
 	private drawLine(x1: number, y1: number, x2: number, y2: number) {
-		const point1 = transformPoint(new PIXI.Point(x1, y1), new PIXI.Matrix());
-		const point2 = transformPoint(new PIXI.Point(x2, y2), new PIXI.Matrix());
-		const strokeColor = parseInt(this.aligningLineColor.replace("#", "0x"))
+		var point1 = transformPoint(new PIXI.Point(x1, y1), new PIXI.Matrix());
+		var point2 = transformPoint(new PIXI.Point(x2, y2), new PIXI.Matrix());
+		var strokeColor = parseInt(this.aligningLineColor.replace("#", "0x"))
 		this.graphics.lineStyle(this.aligningLineWidth, this.aligningLineColor, 1)
 		this.graphics.moveTo(point1.x, point1.y);
 		this.graphics.lineTo(point2.x, point2.y)
@@ -93,24 +93,24 @@ export class AlignGuidelines {
 	}
 
 	private drawVerticalLine(coords: VerticalLineCoords) {
-		const activeObject = this.compositor.selectedElement
+		var activeObject = this.compositor.selectedElement
 		if(!activeObject) {return}
-		const movingCoords = this.getObjDraggingObjCoords(activeObject.sprite);
+		var movingCoords = this.getObjDraggingObjCoords(activeObject.sprite);
 		if (!Keys(movingCoords).some((key) => Math.abs(movingCoords[key].x - coords.x) < 0.0001)) return;
 		this.drawLine(coords.x, Math.min(coords.y1, coords.y2), coords.x, Math.max(coords.y1, coords.y2));
 	}
 
 	private drawHorizontalLine(coords: HorizontalLineCoords) {
-		const activeObject = this.compositor.selectedElement
+		var activeObject = this.compositor.selectedElement
 		if(!activeObject) {return}
-		const movingCoords = this.getObjDraggingObjCoords(activeObject.sprite);
+		var movingCoords = this.getObjDraggingObjCoords(activeObject.sprite);
 		if (!Keys(movingCoords).some((key) => Math.abs(movingCoords[key].y - coords.y) < 0.0001)) return;
 		this.drawLine(Math.min(coords.x1, coords.x2), coords.y, Math.max(coords.x1, coords.x2), coords.y);
 	}
 
 	private isInRange(value1: number, value2: number) {
 		// Assume that the stage scale represents the current zoom (uniform scale)
-		const zoom = this.app.stage.scale.x || 1
+		var zoom = this.app.stage.scale.x || 1
 		return Math.abs(Math.round(value1) - Math.round(value2)) <= this.aligningLineMargin / zoom
 	}
 
@@ -142,9 +142,9 @@ export class AlignGuidelines {
 	on_object_move_or_scale(e: PIXI.FederatedPointerEvent) {
 		this.clearLinesMeta()
 		this.clearGuideline()
-		const activeObject = this.compositor.selectedElement?.sprite
+		var activeObject = this.compositor.selectedElement?.sprite
 		if(!activeObject) {return}
-		const canvasObjects = this.compositor.app.stage.children.filter(obj => {
+		var canvasObjects = this.compositor.app.stage.children.filter(obj => {
 			if (this.ignoreObjTypes.length) {
 				return !this.ignoreObjTypes.some(item => (obj as any)[item.key] === item.value)
 			}
@@ -153,7 +153,7 @@ export class AlignGuidelines {
 			}
 			return true
 		})
-		const transform = activeObject.worldTransform
+		var transform = activeObject.worldTransform
 		if (!transform) return
 		this.traversAllObjects(e, activeObject, canvasObjects)
 	}
@@ -164,19 +164,19 @@ export class AlignGuidelines {
 	}
 
 	private getObjDraggingObjCoords(activeObject: PIXI.Container): ACoordsAppendCenter {
-		const bounds = activeObject.getBounds()
-		const aCoords = {
+		var bounds = activeObject.getBounds()
+		var aCoords = {
 			tl: new PIXI.Point(bounds.x, bounds.y),
 			tr: new PIXI.Point(bounds.x + bounds.width, bounds.y),
 			bl: new PIXI.Point(bounds.x, bounds.y + bounds.height),
 			br: new PIXI.Point(bounds.x + bounds.width, bounds.y + bounds.height),
 		}
-		const centerPoint = new PIXI.Point((aCoords.tl.x + aCoords.br.x) / 2, (aCoords.tl.y + aCoords.br.y) / 2)
-		const computedCenter = new PIXI.Point(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2)
-		const offsetX = centerPoint.x - computedCenter.x
-		const offsetY = centerPoint.y - computedCenter.y
+		var centerPoint = new PIXI.Point((aCoords.tl.x + aCoords.br.x) / 2, (aCoords.tl.y + aCoords.br.y) / 2)
+		var computedCenter = new PIXI.Point(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2)
+		var offsetX = centerPoint.x - computedCenter.x
+		var offsetY = centerPoint.y - computedCenter.y
 		return Object.keys(aCoords).reduce((acc, k) => {
-			const key = k as keyof typeof aCoords
+			var key = k as keyof typeof aCoords
 			acc[key] = new PIXI.Point(aCoords[key].x - offsetX, aCoords[key].y - offsetY)
 			return acc
 		}, { c: computedCenter } as ACoordsAppendCenter)
@@ -222,8 +222,8 @@ export class AlignGuidelines {
 	}
 
 	private getObjMaxWidthHeightByCoords(coords: ACoordsAppendCenter) {
-		const objHeight = Math.max(Math.abs(coords.c.y - coords["tl"].y), Math.abs(coords.c.y - coords["tr"].y)) * 2;
-		const objWidth = Math.max(Math.abs(coords.c.x - coords["tl"].x), Math.abs(coords.c.x - coords["tr"].x)) * 2;
+		var objHeight = Math.max(Math.abs(coords.c.y - coords["tl"].y), Math.abs(coords.c.y - coords["tr"].y)) * 2;
+		var objWidth = Math.max(Math.abs(coords.c.x - coords["tl"].x), Math.abs(coords.c.x - coords["tr"].x)) * 2;
 		return { objHeight, objWidth };
 	}
 
@@ -232,22 +232,22 @@ export class AlignGuidelines {
 	 * calcCenterPointByACoords will return real center point of the object position.
 	 */
 	private calcCenterPointByACoords(object: PIXI.Container): PIXI.Point {
-		const bounds = object.getBounds()
+		var bounds = object.getBounds()
 		return new PIXI.Point(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2)
 	}
 
 	private traversAllObjects(event: PIXI.FederatedPointerEvent, activeObject: PIXI.Container, canvasObjects: PIXI.Container[]) {
-		const objCoordsByMovingDistance = this.getObjDraggingObjCoords(activeObject)
-		const snapXPoints: number[] = []
-		const snapYPoints: number[] = []
+		var objCoordsByMovingDistance = this.getObjDraggingObjCoords(activeObject)
+		var snapXPoints: number[] = []
+		var snapYPoints: number[] = []
 
 		for (let i = canvasObjects.length; i--; ) {
 			if (canvasObjects[i] === activeObject) continue
-			const objCoords = this.getObjDraggingObjCoords(canvasObjects[i])
-			const { objWidth, objHeight } = this.getObjMaxWidthHeightByCoords(objCoords)
+			var objCoords = this.getObjDraggingObjCoords(canvasObjects[i])
+			var { objWidth, objHeight } = this.getObjMaxWidthHeightByCoords(objCoords)
 			
 			Object.keys(objCoordsByMovingDistance).forEach((point) => {
-				const newCoords = (canvasObjects[i] as any).rotation !== 0
+				var newCoords = (canvasObjects[i] as any).rotation !== 0
 					? this.omitCoords(objCoords, "horizontal")
 					: objCoords
 
@@ -255,7 +255,7 @@ export class AlignGuidelines {
 					objPoint: keyof ACoordsAppendCenter,
 					activeObjCoords: ACoordsAppendCenter
 				) {
-					const activeObjPoint = point as keyof ACoordsAppendCenter
+					var activeObjPoint = point as keyof ACoordsAppendCenter
 					let x1: number, x2: number
 					if (objPoint === "c") {
 						x1 = Math.min(objCoords.c.x - objWidth / 2, activeObjCoords[activeObjPoint].x)
@@ -268,16 +268,16 @@ export class AlignGuidelines {
 				}
 
 				Object.keys(newCoords).forEach((objp) => {
-					const objPoint = objp as keyof typeof newCoords
-					const activeObjPoint = point as keyof ACoordsAppendCenter
+					var objPoint = objp as keyof typeof newCoords
+					var activeObjPoint = point as keyof ACoordsAppendCenter
 					if (this.isInRange(objCoordsByMovingDistance[activeObjPoint].y, newCoords[objPoint].y)) {
-						const y = newCoords[objPoint].y
-						const { x1, x2 } = calcHorizontalLineCoords(objPoint as keyof ACoordsAppendCenter, objCoordsByMovingDistance)
-						const offset = objCoordsByMovingDistance[activeObjPoint].y - y
+						var y = newCoords[objPoint].y
+						var { x1, x2 } = calcHorizontalLineCoords(objPoint as keyof ACoordsAppendCenter, objCoordsByMovingDistance)
+						var offset = objCoordsByMovingDistance[activeObjPoint].y - y
 						snapYPoints.push(objCoordsByMovingDistance.c.y - offset)
 						if ((activeObject as any).aCoords) {
-							const calcCenter = this.calcCenterPointByACoords((activeObject as any).aCoords)
-							const { x1, x2 } = calcHorizontalLineCoords("c", { ...this.getObjDraggingObjCoords(activeObject), c: calcCenter } as ACoordsAppendCenter)
+							var calcCenter = this.calcCenterPointByACoords((activeObject as any).aCoords)
+							var { x1, x2 } = calcHorizontalLineCoords("c", { ...this.getObjDraggingObjCoords(activeObject), c: calcCenter } as ACoordsAppendCenter)
 							this.horizontalLines.push({ y, x1, x2 })
 						} else {
 							this.horizontalLines.push({ y, x1, x2 })
@@ -287,8 +287,8 @@ export class AlignGuidelines {
 			})
 
 			Object.keys(objCoordsByMovingDistance).forEach((activePoint) => {
-				const activeObjPoint = activePoint as keyof ACoordsAppendCenter 
-				const newCoords = (canvasObjects[i] as any).rotation !== 0
+				var activeObjPoint = activePoint as keyof ACoordsAppendCenter 
+				var newCoords = (canvasObjects[i] as any).rotation !== 0
 					? this.omitCoords(objCoords, "vertical")
 					: objCoords
 
@@ -308,15 +308,15 @@ export class AlignGuidelines {
 				}
 
 				Object.keys(newCoords).forEach((objp) => {
-					const objPoint = objp as keyof typeof newCoords
+					var objPoint = objp as keyof typeof newCoords
 					if (this.isInRange(objCoordsByMovingDistance[activeObjPoint].x, newCoords[objPoint].x)) {
-						const x = newCoords[objPoint].x
-						const { y1, y2 } = calcVerticalLineCoords(objPoint as keyof ACoordsAppendCenter, objCoordsByMovingDistance)
-						const offset = objCoordsByMovingDistance[activeObjPoint].x - x
+						var x = newCoords[objPoint].x
+						var { y1, y2 } = calcVerticalLineCoords(objPoint as keyof ACoordsAppendCenter, objCoordsByMovingDistance)
+						var offset = objCoordsByMovingDistance[activeObjPoint].x - x
 						snapXPoints.push(objCoordsByMovingDistance.c.x - offset)
 						if ((activeObject as any).aCoords) {
-							const calcCenter = this.calcCenterPointByACoords((activeObject as any).aCoords)
-							const { y1, y2 } = calcVerticalLineCoords("c", { ...this.getObjDraggingObjCoords(activeObject), c: calcCenter } as ACoordsAppendCenter)
+							var calcCenter = this.calcCenterPointByACoords((activeObject as any).aCoords)
+							var { y1, y2 } = calcVerticalLineCoords("c", { ...this.getObjDraggingObjCoords(activeObject), c: calcCenter } as ACoordsAppendCenter)
 							this.verticalLines.push({ x, y1, y2 })
 						} else {
 							this.verticalLines.push({ x, y1, y2 })
@@ -349,29 +349,29 @@ private snap({
 		snapYPoints: number[]
 	}) {
 
-		const sortPoints = (list: number[], origin: number) => {
+		var sortPoints = (list: number[], origin: number) => {
 			if (!list.length) return origin
 			return list
 				.map(val => ({ abs: Math.abs(origin - val), val }))
 				.sort((a, b) => a.abs - b.abs)[0].val
 		}
 
-		const candidateSnapGlobal = new PIXI.Point(
+		var candidateSnapGlobal = new PIXI.Point(
 			sortPoints(snapXPoints, draggingObjCoords.c.x),
 			sortPoints(snapYPoints, draggingObjCoords.c.y)
 		)
 
-		const pivotGlobal = activeObject.parent.toGlobal(activeObject.position)
-		const bounds = activeObject.getBounds()
-		const geometricCenter = new PIXI.Point(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2)
-		const offset = new PIXI.Point(geometricCenter.x - pivotGlobal.x, geometricCenter.y - pivotGlobal.y)
+		var pivotGlobal = activeObject.parent.toGlobal(activeObject.position)
+		var bounds = activeObject.getBounds()
+		var geometricCenter = new PIXI.Point(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2)
+		var offset = new PIXI.Point(geometricCenter.x - pivotGlobal.x, geometricCenter.y - pivotGlobal.y)
 
-		const newPivotGlobal = new PIXI.Point(
+		var newPivotGlobal = new PIXI.Point(
 			candidateSnapGlobal.x - offset.x,
 			candidateSnapGlobal.y - offset.y
 		)
 
-		const newPivotLocal = activeObject.parent.toLocal(newPivotGlobal)
+		var newPivotLocal = activeObject.parent.toLocal(newPivotGlobal)
 		activeObject.position.set(newPivotLocal.x, newPivotLocal.y)
 	}
 
@@ -399,15 +399,15 @@ private snap({
 	}
 }
 
-export const transformPoint = (
+export var transformPoint = (
 	p: { x: number, y: number },
 	t: PIXI.Matrix,
 	ignoreOffset?: boolean
 ): PIXI.Point => {
-	const pt = new PIXI.Point(p.x, p.y)
+	var pt = new PIXI.Point(p.x, p.y)
 	if (ignoreOffset) {
 		// Create a copy of the matrix without the translation components.
-		const m = new PIXI.Matrix(t.a, t.b, t.c, t.d, 0, 0)
+		var m = new PIXI.Matrix(t.a, t.b, t.c, t.d, 0, 0)
 		return m.apply(pt)
 	}
 	return t.apply(pt)
