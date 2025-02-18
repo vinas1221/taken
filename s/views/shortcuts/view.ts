@@ -4,16 +4,16 @@ import {shadow_view} from "../../context/context.js"
 import keyboardSvg from "../../icons/gravity-ui/keyboard.svg.js"
 import {ActionType} from "../../context/controllers/shortcuts/controller.js"
 
-export const ShortcutsManager = shadow_view((use) => () => {
+export let ShortcutsManager = shadow_view((use) => () => {
 	use.styles(styles)
-	const manager = use.context.controllers.shortcuts
+	let manager = use.context.controllers.shortcuts
 
-	const [isModalOpened, setIsModalOpened] = use.state(false)
-	const [_, setPressedKeys, getPressedKeys] = use.state(new Set<string>())
-	const [conflict, setConflict] = use.state<{newShortcut: string, type: ActionType} | null>(null)
+	let [isModalOpened, setIsModalOpened] = use.state(false)
+	let [_, setPressedKeys, getPressedKeys] = use.state(new Set<string>())
+	let [conflict, setConflict] = use.state<{newShortcut: string, type: ActionType} | null>(null)
 
 	// Render the list of shortcuts
-	const renderShortcutsList = () =>
+	let renderShortcutsList = () =>
 		manager.listShortcuts().map(({ shortcut, actionType }) =>
 			html`
 				<tr>
@@ -31,17 +31,17 @@ export const ShortcutsManager = shadow_view((use) => () => {
 			`
 		)
 
-	const onPointerDownInput = (e: KeyboardEvent) => {
+	let onPointerDownInput = (e: KeyboardEvent) => {
 		e.preventDefault()
-		const inputElement = e.target as HTMLInputElement
-		const keyCombination = manager.getKeyCombination(e)
+		let inputElement = e.target as HTMLInputElement
+		let keyCombination = manager.getKeyCombination(e)
 		setPressedKeys(new Set(getPressedKeys()).add(keyCombination))
 		inputElement.value = keyCombination
 	}
 
-	const onPointerUpInput = (e: PointerEvent, type: ActionType) => {
-		const inputElement = e.target as HTMLInputElement
-		const finalShortcut = inputElement.value.toLowerCase()
+	let onPointerUpInput = (e: PointerEvent, type: ActionType) => {
+		let inputElement = e.target as HTMLInputElement
+		let finalShortcut = inputElement.value.toLowerCase()
 		try {
 			manager.updateShortcut(type, finalShortcut)
 		} catch (error) {
@@ -51,14 +51,14 @@ export const ShortcutsManager = shadow_view((use) => () => {
 		inputElement.blur()
 	}
 
-	const resolveConflict = () => {
+	let resolveConflict = () => {
 		if (conflict) {
 			manager.updateShortcut(conflict.type, conflict.newShortcut, true)
 			setConflict(null)
 		}
 	}
 
-	const cancelConflict = () => setConflict(null)
+	let cancelConflict = () => setConflict(null)
 
 	return html`
 		<span class=open @click=${() => setIsModalOpened(true)}>${keyboardSvg}</span>
