@@ -23,18 +23,18 @@ export class HashRouter {
 	}
 
 	matchRoute(path: string): { handler: RouteHandler; params: string[] } | null {
-		for (const route in this.routes) {
-			const routeParts = route.split("/")
-			const pathParts = path.split("/")
+		for (let route in this.routes) {
+			let routeParts = route.split("/")
+			let pathParts = path.split("/")
 
 			if (routeParts.includes("*")) {
-				const isMatch = routeParts.every((part, index) => {
+				let isMatch = routeParts.every((part, index) => {
 					return part === pathParts[index] || part === "*"
 				})
 
 				if (isMatch) {
-					const wildcardIndex = routeParts.indexOf("*")
-					const wildcardValue = pathParts[wildcardIndex]
+					let wildcardIndex = routeParts.indexOf("*")
+					let wildcardValue = pathParts[wildcardIndex]
 					return { handler: this.routes[route], params: [wildcardValue] }
 				}
 			}
@@ -47,11 +47,11 @@ export class HashRouter {
 	}
 
 	onHashChange() {
-		const currentPath = this.getCurrentPath()
-		const matchedRoute = this.matchRoute(currentPath)
+		let currentPath = this.getCurrentPath()
+		let matchedRoute = this.matchRoute(currentPath)
 
 		if (matchedRoute) {
-			const { handler, params } = matchedRoute
+			let { handler, params } = matchedRoute
 			this.render(handler, ...params)
 		} else if (currentPath.startsWith("editor")) {
 			this.render(() => html`404 Not Found`)
