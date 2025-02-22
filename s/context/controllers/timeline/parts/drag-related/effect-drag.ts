@@ -33,8 +33,8 @@ export class EffectDragHandler {
 
 	drop(e: PointerEvent) {
 		if(this.grabbed) {
-			const path = e.composedPath()
-			const indicator = path.find(e => (e as HTMLElement).className === "indicator-area") as HTMLElement | undefined
+			let path = e.composedPath()
+			let indicator = path.find(e => (e as HTMLElement).className === "indicator-area") as HTMLElement | undefined
 			this.onDrop.publish({grabbed: this.grabbed!, position: {...this.at!,
 				indicator: indicator
 					? {type: "addTrack", index: Number(indicator.getAttribute("data-index"))}
