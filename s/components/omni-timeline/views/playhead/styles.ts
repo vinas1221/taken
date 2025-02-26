@@ -7,7 +7,7 @@ export const styles = css`
 		justify-content: center;
 		width: 2px;
 		height: 100%;
-		background: var(--alpha);
+		background: let(--alpha);
 		z-index: 15;
 		cursor: pointer;
 		touch-action: none;
@@ -21,7 +21,7 @@ export const styles = css`
 			height: 8px;
 			width: 16px;
 			top: 5px;
-			color: var(--alpha);
+			color: let(--alpha);
 			position: absolute;
 		}
 	}
