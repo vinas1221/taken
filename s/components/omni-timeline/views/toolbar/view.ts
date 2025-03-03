@@ -13,15 +13,15 @@ import zoomInSvg from "../../../../icons/material-design-icons/zoom-in.svg.js"
 import {convert_ms_to_hmsms} from "../time-ruler/utils/convert_ms_to_hmsms.js"
 import zoomOutSvg from "../../../../icons/material-design-icons/zoom-out.svg.js"
 
-export const Toolbar = shadow_view(use => (timeline: GoldElement) => {
+export let Toolbar = shadow_view(use => (timeline: GoldElement) => {
 	use.styles([styles, tooltipStyles])
 	use.watch(() => use.context.state)
-	const actions = use.context.actions
-	const zoom = use.context.state.zoom
-	const controller = use.context.controllers.timeline
+	let actions = use.context.actions
+	let zoom = use.context.state.zoom
+	let controller = use.context.controllers.timeline
 
 	use.mount(() => {
-		const observer = new ResizeObserver(() => use.rerender())
+		let observer = new ResizeObserver(() => use.rerender())
 		observer.observe(timeline)
 		return () => observer.disconnect()
 	})
