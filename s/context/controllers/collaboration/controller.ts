@@ -40,7 +40,7 @@ export class Collaboration {
 	}
 
 	async createRoom() {
-		const host = await Sparrow.host({
+		let host = await Sparrow.host({
 			allow: async() => this.#allow,
 			welcome: prospect => connection => {
 				console.log(`peer connected: ${connection.id}`)
@@ -85,7 +85,7 @@ export class Collaboration {
 	async joinRoom(inviteId: string) {
 		this.isJoining = true
 		this.initiatingProject = true
-		const client = await Sparrow.join({
+		let client = await Sparrow.join({
 			invite: inviteId,
 			disconnected: () => {
 				this.numberOfConnectedUsers = 0
@@ -142,7 +142,7 @@ export class Collaboration {
 	}
 
 	kick(peerID: string) {
-		const client = this.connectedClients.get(peerID)
+		let client = this.connectedClients.get(peerID)
 		if(client) {
 			client.disconnect()
 		}
