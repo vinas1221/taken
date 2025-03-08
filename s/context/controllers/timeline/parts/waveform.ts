@@ -35,11 +35,11 @@ export class Waveform {
 
 	async #load_audio_file(state: State) {
 		this.#wavesurfer.setOptions({width: calculate_effect_width(this.effect, state.zoom)})
-		let file = await this.media.get_file(this.effect.file_hash)!
+		const file = await this.media.get_file(this.effect.file_hash)!
 		if(file) {
-			let uint = await fetchFile(file)
-			let blob = new Blob([uint])
-			let url = URL.createObjectURL(blob)
+			const uint = await fetchFile(file)
+			const blob = new Blob([uint])
+			const url = URL.createObjectURL(blob)
 			await this.#wavesurfer.load(url)
 			this.update_waveform(state)
 		}
@@ -47,8 +47,8 @@ export class Waveform {
 
 	update_waveform(state: State) {
 		if(this.#isReady) {
-			let get_effect = state.effects.find(e => e.id === this.effect.id)! as AudioEffect
-			let width = get_effect.duration * Math.pow(2, state.zoom)
+			const get_effect = state.effects.find(e => e.id === this.effect.id)! as AudioEffect
+			const width = get_effect.duration * Math.pow(2, state.zoom)
 			if(width < 4000) {
 				this.#wavesurfer.setOptions({width})
 			} else {
