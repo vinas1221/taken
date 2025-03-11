@@ -7,25 +7,25 @@ import pauseSvg from "../../../../icons/gravity-ui/pause.svg.js"
 import {StateHandler} from "../../../../views/state-handler/view.js"
 import fullscreenSvg from "../../../../icons/gravity-ui/fullscreen.svg.js"
 
-export const MediaPlayer = shadow_view(use => () => {
+export let MediaPlayer = shadow_view(use => () => {
 	use.styles(styles)
 	use.watch(() => use.context.state)
-	const state = use.context.state
-	const compositor = use.once(() => use.context.controllers.compositor)
-	const playhead = use.context.controllers.timeline.playheadDragHandler
+	let state = use.context.state
+	let compositor = use.once(() => use.context.controllers.compositor)
+	let playhead = use.context.controllers.timeline.playheadDragHandler
 
 	use.mount(() => {
-		const unsub_onplayhead1 = playhead.onPlayheadMove(async (x) => {
+		let unsub_onplayhead1 = playhead.onPlayheadMove(async (x) => {
 			if(use.context.state.is_playing) {compositor.set_video_playing(false)}
 			compositor.compose_effects(use.context.state.effects, use.context.state.timecode)
 			compositor.seek(use.context.state.timecode, true).then(() =>
 				compositor.compose_effects(use.context.state.effects, use.context.state.timecode)
 			)
 		})
-		const dispose1 = watch.track(
+		let dispose1 = watch.track(
 			() => use.context.state,
 			async (timeline) => {
-				const files_ready = await use.context.controllers.media.are_files_ready()
+				let files_ready = await use.context.controllers.media.are_files_ready()
 				if(!timeline.is_exporting && files_ready) {
 					if(timeline.is_playing) {
 						compositor.seek(use.context.state.timecode, false)
@@ -33,22 +33,22 @@ export const MediaPlayer = shadow_view(use => () => {
 				}
 			}
 		)
-		const dispose2 = watch.track(
+		let dispose2 = watch.track(
 			() => use.context.state.timecode,
 			(timecode) => {
-				const selected_effect = use.context.state.selected_effect
+				let selected_effect = use.context.state.selected_effect
 				if(selected_effect) {
 					use.context.controllers.compositor.setOrDiscardActiveObjectOnCanvas(selected_effect, use.context.state)
 				}
 			}
 		)
-		const unsub_on_playing = compositor.on_playing(() => compositor.compose_effects(use.context.state.effects, use.context.state.timecode))
+		let unsub_on_playing = compositor.on_playing(() => compositor.compose_effects(use.context.state.effects, use.context.state.timecode))
 		return () => {unsub_on_playing(), dispose1(), dispose2(), unsub_onplayhead1()}
 	})
 
-	const figure = use.defer(() => use.shadow.querySelector("figure"))!
+	let figure = use.defer(() => use.shadow.querySelector("figure"))!
 
-	const toggle_fullScreen = () => {
+	let toggle_fullScreen = () => {
 		if (!document.fullscreenElement) {
 			figure.requestFullscreen()
 		} else if (document.exitFullscreen) {
