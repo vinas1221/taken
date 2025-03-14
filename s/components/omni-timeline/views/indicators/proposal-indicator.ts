@@ -9,26 +9,26 @@ import {calculate_effect_track_placement} from "../../utils/calculate_effect_tra
 import {getEffectsOnTrack} from "../../../../context/controllers/timeline/utils/get-effects-on-track.js"
 import {EffectDrag, EffectDrop} from "../../../../context/controllers/timeline/parts/drag-related/effect-drag.js"
 
-export let ProposalIndicator = light_view(use => () => {
-	let controller = use.context.controllers.timeline
-	let zoom = use.context.state.zoom
-	let trim_handler = use.context.controllers.timeline.effectTrimHandler
-	let effectDragHandler = controller.effectDragHandler
-	let [_, setDraggedOverAddTrackIndicator, getDraggedOverAddTrackIndicator] = use.state(false)
-	let [proposedTimecode, setProposedTimecode] = use.state<ProposedTimecode>({
+export const ProposalIndicator = light_view(use => () => {
+	const controller = use.context.controllers.timeline
+	const zoom = use.context.state.zoom
+	const trim_handler = use.context.controllers.timeline.effectTrimHandler
+	const effectDragHandler = controller.effectDragHandler
+	const [_, setDraggedOverAddTrackIndicator, getDraggedOverAddTrackIndicator] = use.state(false)
+	const [proposedTimecode, setProposedTimecode] = use.state<ProposedTimecode>({
 		proposed_place: {track: 0, start_at_position: 0},
 		duration: null,
 		effects_to_push: null
 	})
-	let track_effects = getEffectsOnTrack(use.context.state, proposedTimecode.proposed_place.track)
+	const track_effects = getEffectsOnTrack(use.context.state, proposedTimecode.proposed_place.track)
 
 	function translate_to_timecode({grabbed, position}: EffectDrop | EffectDrag) {
-		let baseline_zoom = use.context.state.zoom
-		let [x, y] = position.coordinates
-		let start = ((x - grabbed.offset.x) * Math.pow(2, -baseline_zoom))
-		let timeline_start = start >= 0 ? start : 0
-		let timeline_end = ((x - grabbed.offset.x) * Math.pow(2, -baseline_zoom)) + (grabbed.effect.end - grabbed.effect.start)
-		let track = calculate_effect_track_index(y, use.context.state.tracks.length, use.context.state.effects) > use.context.state.tracks.length - 1
+		const baseline_zoom = use.context.state.zoom
+		const [x, y] = position.coordinates
+		const start = ((x - grabbed.offset.x) * Math.pow(2, -baseline_zoom))
+		const timeline_start = start >= 0 ? start : 0
+		const timeline_end = ((x - grabbed.offset.x) * Math.pow(2, -baseline_zoom)) + (grabbed.effect.end - grabbed.effect.start)
+		const track = calculate_effect_track_index(y, use.context.state.tracks.length, use.context.state.effects) > use.context.state.tracks.length - 1
 			? use.context.state.tracks.length - 1
 			: calculate_effect_track_index(y, use.context.state.tracks.length, use.context.state.effects)
 		return {
@@ -39,9 +39,9 @@ export let ProposalIndicator = light_view(use => () => {
 	}
 
 	use.mount(() => {
-		let disposeDrop = effectDragHandler.onDrop(props => {
-			let timecode = translate_to_timecode(props)
-			let proposed_timecode = controller
+		const disposeDrop = effectDragHandler.onDrop(props => {
+			const timecode = translate_to_timecode(props)
+			const proposed_timecode = controller
 			.calculate_proposed_timecode(
 				timecode,
 				props,
@@ -51,10 +51,10 @@ export let ProposalIndicator = light_view(use => () => {
 			use.context.controllers.compositor.managers.transitionManager.removeTransitionFromNoLongerTouchingEffects(use.context.state)
 		})
 
-		let disposeDrag = effectDragHandler.onEffectDrag(props => {
+		const disposeDrag = effectDragHandler.onEffectDrag(props => {
 			if(props.position && props.grabbed) {
-				let timecode = translate_to_timecode(props)
-				let proposed_timecode = use.context.controllers.timeline
+				const timecode = translate_to_timecode(props)
+				const proposed_timecode = use.context.controllers.timeline
 				.calculate_proposed_timecode(
 					timecode,
 					props,
@@ -67,7 +67,7 @@ export let ProposalIndicator = light_view(use => () => {
 		return () => {disposeDrag(); disposeDrop()}
 	})
 
-	let text_effect_specific_styles = () => {
+	const text_effect_specific_styles = () => {
 		return !track_effects.some(effect => effect.kind !== "text") && track_effects.find(effect => effect.kind === "text")
 			? `height: 30px;`
 			: ""
