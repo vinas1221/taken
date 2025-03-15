@@ -5,24 +5,24 @@ import {shadow_view} from "../../../../context/context.js"
 import playheadSvg from "../../../../icons/remix-icon/playhead.svg.js"
 import {calculate_timeline_width} from "../../utils/calculate_timeline_width.js"
 
-export const Playhead = shadow_view(use => (timeline: GoldElement) => {
+export let Playhead = shadow_view(use => (timeline: GoldElement) => {
 	use.styles(styles)
 	use.watch(() => use.context.state)
-	const actions = use.context.actions
-	const playheadDrag = use.context.controllers.timeline.playheadDragHandler
+	let actions = use.context.actions
+	let playheadDrag = use.context.controllers.timeline.playheadDragHandler
 
 	use.mount(() => {
-		const dispose = playheadDrag.onPlayheadMove(({x}) => translate_to_timecode(x))
+		let dispose = playheadDrag.onPlayheadMove(({x}) => translate_to_timecode(x))
 		return () => dispose()
 	})
 
-	const translate_to_timecode = (x: number) => {
-		const zoom = use.context.state.zoom
-		const milliseconds = x * Math.pow(2, -zoom)
+	let translate_to_timecode = (x: number) => {
+		let zoom = use.context.state.zoom
+		let milliseconds = x * Math.pow(2, -zoom)
 		use.context.actions.set_timecode(milliseconds, {omit: true})
 	}
 
-	const events = {
+	let events = {
 		start() {
 			actions.set_is_playing(false, {omit: true})
 			playheadDrag.start()
@@ -37,12 +37,12 @@ export const Playhead = shadow_view(use => (timeline: GoldElement) => {
 		return () => {removeEventListener("pointerup", events.drop); removeEventListener("pointercancel", events.end)}
 	})
 
-	const normalize_to_timebase = (timecode: number) => {
-		const frame_duration = 1000/use.context.state.timebase
-		const normalized = Math.round(((timecode)) / frame_duration) * frame_duration
-		const result = normalized * Math.pow(2, use.context.state.zoom)
-		const offsetLeft = 120 // timeline hardcoded sidebar width
-		const timelineWidth = calculate_timeline_width(use.context.state.effects, use.context.state.zoom, timeline) - offsetLeft
+	let normalize_to_timebase = (timecode: number) => {
+		let frame_duration = 1000/use.context.state.timebase
+		let normalized = Math.round(((timecode)) / frame_duration) * frame_duration
+		let result = normalized * Math.pow(2, use.context.state.zoom)
+		let offsetLeft = 120 // timeline hardcoded sidebar width
+		let timelineWidth = calculate_timeline_width(use.context.state.effects, use.context.state.zoom, timeline) - offsetLeft
 		if(result < timelineWidth) {
 			return result
 		} else {
@@ -50,7 +50,7 @@ export const Playhead = shadow_view(use => (timeline: GoldElement) => {
 		}
 	}
 
-	const normalized = normalize_to_timebase(use.context.state.timecode)
+	let normalized = normalize_to_timebase(use.context.state.timecode)
 
 	return html`
 		<div
