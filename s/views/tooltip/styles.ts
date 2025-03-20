@@ -1,6 +1,6 @@
 import {css} from "@benev/slate"
 
-export const tooltipStyles = css`
+export let tooltipStyles = css`
 	#tooltip {
 		display: flex;
 		position: fixed;
