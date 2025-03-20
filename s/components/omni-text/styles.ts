@@ -1,6 +1,6 @@
 import {css} from "@benev/slate"
 
-export let styles = css`
+export const styles = css`
 	:host {
 		position: absolute;
 		width: 100%;
