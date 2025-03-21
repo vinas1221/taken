@@ -2,7 +2,7 @@ import {generate_id} from "@benev/slate/x/tools/generate_id.js"
 
 import {HistoricalState, NonHistoricalState} from "./types.js"
 
-export const historical_state: HistoricalState = {
+export let historical_state: HistoricalState = {
 	projectName: `project-${generate_id().slice(0, 6)}`,
 	projectId: generate_id(),
 	tracks: [
@@ -19,7 +19,7 @@ export const historical_state: HistoricalState = {
 	transitions: []
 }
 
-export const non_historical_state: NonHistoricalState = {
+export let non_historical_state: NonHistoricalState = {
 	selected_effect: null,
 	is_exporting: false,
 	export_progress: 0,
