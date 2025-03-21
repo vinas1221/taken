@@ -5,7 +5,7 @@ import {ProjectSettings} from "./view.js"
 import {shadow_view} from "../../context/context.js"
 import gearSvg from "../../icons/gravity-ui/gear.svg.js"
 
-export const ProjectSettingsPanel = panel({
+export let ProjectSettingsPanel = panel({
 	label: "Settings",
 	icon: gearSvg,
 	view: shadow_view(use => ({}: any) => {
