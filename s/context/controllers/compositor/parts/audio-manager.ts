@@ -14,9 +14,9 @@ export class AudioManager extends Map<string, HTMLAudioElement> {
 
 	create_and_add_audio_effect(audio: Audio, state: State) {
 		collaboration.broadcastMedia(audio)
-		let duration = audio.element.duration * 1000
-		let adjusted_duration_to_timebase = Math.floor(duration / (1000/state.timebase)) * (1000/state.timebase)
-		let effect: AudioEffect = {
+		const duration = audio.element.duration * 1000
+		const adjusted_duration_to_timebase = Math.floor(duration / (1000/state.timebase)) * (1000/state.timebase)
+		const effect: AudioEffect = {
 			id: generate_id(),
 			kind: "audio",
 			name: audio.file.name,
@@ -28,15 +28,15 @@ export class AudioManager extends Map<string, HTMLAudioElement> {
 			end: adjusted_duration_to_timebase,
 			track: 2,
 		}
-		let {position, track} = find_place_for_new_effect(state.effects, state.tracks)
+		const {position, track} = find_place_for_new_effect(state.effects, state.tracks)
 		effect.start_at_position = position!
 		effect.track = track
 		this.add_audio_effect(effect, audio.file)
 	}
 
 	add_audio_effect(effect: AudioEffect, file: File, recreate?: boolean) {
-		let audio = document.createElement("audio")
-		let source = document.createElement("source")
+		const audio = document.createElement("audio")
+		const source = document.createElement("source")
 		source.type = "audio/mp3"
 		source.src = URL.createObjectURL(file)
 		audio.append(source)
@@ -46,9 +46,9 @@ export class AudioManager extends Map<string, HTMLAudioElement> {
 	}
 
 	pause_audios() {
-		for(let effect of this.compositor.currently_played_effects.values()) {
+		for(const effect of this.compositor.currently_played_effects.values()) {
 			if(effect.kind === "audio") {
-				let element = this.get(effect.id)
+				const element = this.get(effect.id)
 				if(element)
 					element.pause()
 			}
@@ -56,11 +56,11 @@ export class AudioManager extends Map<string, HTMLAudioElement> {
 	}
 
 	async play_audios() {
-		for(let effect of this.compositor.currently_played_effects.values()) {
+		for(const effect of this.compositor.currently_played_effects.values()) {
 			if(effect.kind === "audio") {
-				let element = this.get(effect.id)
+				const element = this.get(effect.id)
 				if(element) {
-					let isMuted = isEffectMuted(effect)
+					const isMuted = isEffectMuted(effect)
 					element.muted = isMuted
 					await element.play()
 				}
@@ -69,13 +69,13 @@ export class AudioManager extends Map<string, HTMLAudioElement> {
 	}
 
 	pause_audio(effect: AudioEffect) {
-		let element = this.get(effect.id)
+		const element = this.get(effect.id)
 		if(element)
 			element.pause()
 	}
 
 	async play_audio(effect: AudioEffect) {
-		let element = this.get(effect.id)
+		const element = this.get(effect.id)
 		if(element)
 			await element.play()
 	}
