@@ -24,14 +24,14 @@ export class Shortcuts {
 	}
 
 	getKeyCombination(event: KeyboardEvent): string {
-		const keys = []
+		let keys = []
 
 		if (event.ctrlKey) keys.push("Ctrl")
 		if (event.metaKey) keys.push("Cmd")
 		if (event.altKey) keys.push("Alt")
 		if (event.shiftKey) keys.push("Shift")
 
-		const key = this.#normalizeKey(event.key)
+		let key = this.#normalizeKey(event.key)
 		if (key && !["Control", "Meta", "Alt", "Shift"].includes(key)) {
 			keys.push(key.toUpperCase())
 		}
@@ -40,7 +40,7 @@ export class Shortcuts {
 	}
 
 	register(shortcut: string, type: string, actionType: ActionType, action: ShortcutAction) {
-		const normalizedShortcut = shortcut.toLowerCase()
+		let normalizedShortcut = shortcut.toLowerCase()
 
 		if (this.#shortcutsByAction.has(actionType)) {
 			throw new Error(`Shortcut for action "${actionType}" is already registered`)
@@ -49,7 +49,7 @@ export class Shortcuts {
 			throw new Error(`Shortcut key "${shortcut}" is already in use`)
 		}
 
-		const shortcutEntry = { type, shortcut: normalizedShortcut, action, actionType }
+		let shortcutEntry = { type, shortcut: normalizedShortcut, action, actionType }
 
 		this.#shortcutsByAction.set(actionType, shortcutEntry)
 		this.#shortcutsByKey.set(normalizedShortcut, shortcutEntry)
@@ -57,15 +57,15 @@ export class Shortcuts {
 	}
 
 	updateShortcut(type: ActionType, newShortcut: string, override?: boolean) {
-		const newShortcutKey = newShortcut.toLowerCase()
+		let newShortcutKey = newShortcut.toLowerCase()
 
-		const entry = this.#shortcutsByAction.get(type)
+		let entry = this.#shortcutsByAction.get(type)
 		if (!entry) {
 			throw new Error(`Shortcut for action "${type}" not found.`)
 		}
 
 		if (override) {
-			const overridedShortcut = this.#shortcutsByKey.get(newShortcutKey)
+			let overridedShortcut = this.#shortcutsByKey.get(newShortcutKey)
 			if (overridedShortcut) {
 				this.#shortcutsByAction.set(overridedShortcut.actionType, {
 					...overridedShortcut,
@@ -93,8 +93,8 @@ export class Shortcuts {
 	}
 
 	handleEvent(event: KeyboardEvent, state: State) {
-		const shortcut = this.getKeyCombination(event).toLowerCase()
-		const entry = this.#shortcutsByKey.get(shortcut)
+		let shortcut = this.getKeyCombination(event).toLowerCase()
+		let entry = this.#shortcutsByKey.get(shortcut)
 		if (entry && typeof entry.action === "function") {
 			event.preventDefault()
 			entry.action(state)
@@ -107,7 +107,7 @@ export class Shortcuts {
 	}
 
 	#saveShortcuts() {
-		const serializedShortcuts = JSON.stringify(
+		let serializedShortcuts = JSON.stringify(
 			Array.from(this.#shortcutsByAction.values()).map(({type, actionType, shortcut}) => ({
 				shortcut,
 				type,
@@ -118,16 +118,16 @@ export class Shortcuts {
 	}
 
 	#loadShortcuts() {
-		const storedShortcuts = localStorage.getItem(this.#storageKey)
+		let storedShortcuts = localStorage.getItem(this.#storageKey)
 
 		if (storedShortcuts) {
 			try {
 				// Parse stored shortcuts
-				const parsedShortcuts = JSON.parse(storedShortcuts) as {shortcut: string; type: string; actionType: ActionType}[]
+				let parsedShortcuts = JSON.parse(storedShortcuts) as {shortcut: string; type: string; actionType: ActionType}[]
 				parsedShortcuts.forEach(({shortcut, type, actionType}) => {
-					const action = this.#getDefaultActionForDescription(actionType)
+					let action = this.#getDefaultActionForDescription(actionType)
 					if (action) {
-						const shortcutEntry = {type, shortcut, actionType, action}
+						let shortcutEntry = {type, shortcut, actionType, action}
 						this.#shortcutsByAction.set(actionType, shortcutEntry)
 						this.#shortcutsByKey.set(shortcut.toLowerCase(), shortcutEntry)
 					}
@@ -140,9 +140,9 @@ export class Shortcuts {
 		// Add defaults for missing shortcuts
 		DEFAULT_SHORTCUTS.forEach(({shortcut, type, actionType}) => {
 			if (!this.#shortcutsByAction.has(actionType)) {
-				const action = this.#getDefaultActionForDescription(actionType)
+				let action = this.#getDefaultActionForDescription(actionType)
 				if (action) {
-					const shortcutEntry = {type, shortcut, actionType, action}
+					let shortcutEntry = {type, shortcut, actionType, action}
 					this.#shortcutsByAction.set(actionType, shortcutEntry)
 					this.#shortcutsByKey.set(shortcut.toLowerCase(), shortcutEntry)
 				}
@@ -152,7 +152,7 @@ export class Shortcuts {
 
 	#registerDefaults() {
 		DEFAULT_SHORTCUTS.forEach(({actionType, type, shortcut}) => {
-			const action = this.#getDefaultActionForDescription(actionType)
+			let action = this.#getDefaultActionForDescription(actionType)
 			if (action) {
 				this.register(shortcut, type, actionType, action)
 			}
@@ -202,8 +202,8 @@ export class Shortcuts {
 		document.addEventListener(
 			"wheel",
 			(event) => {
-				const { zoom } = omnislate.context.state
-				const target = event.target as HTMLElement
+				let { zoom } = omnislate.context.state
+				let target = event.target as HTMLElement
 				if (target.getAttribute("view") === "timeline") {
 					if (event.ctrlKey) {
 						event.preventDefault()
@@ -224,16 +224,16 @@ export class Shortcuts {
 	}
 
 	listShortcuts(type?: string): {shortcut: string; actionType: ActionType}[] {
-		const currentShortcuts = Array.from(this.#shortcutsByAction.values())
+		let currentShortcuts = Array.from(this.#shortcutsByAction.values())
 
 		// Sort based on the order defined in DEFAULT_SHORTCUTS
-		const sorted = DEFAULT_SHORTCUTS.map(({actionType}) => actionType)
+		let sorted = DEFAULT_SHORTCUTS.map(({actionType}) => actionType)
 
 		return currentShortcuts
 			.filter((shortcut) => !type || shortcut.type === type)
 			.sort((a, b) => {
-				const indexA = sorted.indexOf(a.actionType)
-				const indexB = sorted.indexOf(b.actionType)
+				let indexA = sorted.indexOf(a.actionType)
+				let indexB = sorted.indexOf(b.actionType)
 				return indexA - indexB
 			})
 			.map(({shortcut, actionType}) => ({
@@ -243,7 +243,7 @@ export class Shortcuts {
 	}
 }
 
-export const DEFAULT_SHORTCUTS: {actionType: ActionType; type: string; shortcut: string}[] = [
+export let DEFAULT_SHORTCUTS: {actionType: ActionType; type: string; shortcut: string}[] = [
 	{ actionType: "Copy", type: "basic", shortcut: "ctrl+c" },
 	{ actionType: "Paste", type: "basic", shortcut: "ctrl+v" },
 	{ actionType: "Undo", type: "basic", shortcut: "ctrl+z" },
