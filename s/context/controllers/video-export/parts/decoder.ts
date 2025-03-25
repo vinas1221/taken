@@ -31,10 +31,10 @@ export class Decoder {
 	}
 
 	async get_and_draw_decoded_frame(effects: AnyEffect[], timestamp: number) {
-		let effects_at_timestamp = this.compositor.get_effects_relative_to_timecode(effects, timestamp)
-		for(let effect of sort_effects_by_track(effects_at_timestamp)) {
+		const effects_at_timestamp = this.compositor.get_effects_relative_to_timecode(effects, timestamp)
+		for(const effect of sort_effects_by_track(effects_at_timestamp)) {
 			if(effect.kind === "video") {
-				let {frame, frame_id} = await this.#get_frame_from_video(effect, timestamp)
+				const {frame, frame_id} = await this.#get_frame_from_video(effect, timestamp)
 				this.compositor.managers.videoManager.draw_decoded_frame(effect, frame)
 				frame.close()
 				this.decoded_frames.delete(frame_id)
@@ -47,12 +47,12 @@ export class Decoder {
 			this.#extract_frames_from_video(effect, timestamp)
 		}
 		return new Promise((resolve) => {
-			let decoded = this.#find_closest_effect_frame(effect)
+			const decoded = this.#find_closest_effect_frame(effect)
 			if(decoded) {
 				resolve(decoded)
 			} else {
-				let interval = setInterval(() => {
-					let decoded = this.#find_closest_effect_frame(effect)
+				const interval = setInterval(() => {
+					const decoded = this.#find_closest_effect_frame(effect)
 					if(decoded) {
 						resolve(decoded)
 						clearInterval(interval)
@@ -64,11 +64,11 @@ export class Decoder {
 
 	async #extract_frames_from_video(effect: VideoEffect, timestamp: number) {
 		this.actions.set_export_status("demuxing")
-		let worker = new Worker(new URL("./decode_worker.js", import.meta.url), {type: "module"})
+		const worker = new Worker(new URL("./decode_worker.js", import.meta.url), {type: "module"})
 		this.#workers.push(worker)
 		worker.addEventListener("message", (msg) => {
 			if(msg.data.action === "new-frame") {
-				let id = generate_id()
+				const id = generate_id()
 				this.decoded_frames.set(id, {...msg.data.frame, frame_id: id})
 			}
 			if(msg.data.action === "end") {
@@ -84,10 +84,10 @@ export class Decoder {
 			}
 		})
 
-		let transition = this.compositor.managers.transitionManager.getTransitionByEffect(effect)
-		let {incoming, outgoing} = this.compositor.managers.transitionManager.getTransitionDurationPerEffect(transition, effect)
+		const transition = this.compositor.managers.transitionManager.getTransitionByEffect(effect)
+		const {incoming, outgoing} = this.compositor.managers.transitionManager.getTransitionDurationPerEffect(transition, effect)
 
-		let file = await this.media.get_file(effect.file_hash)
+		const file = await this.media.get_file(effect.file_hash)
 		worker.postMessage({
 			action: "demux",
 			props: {
@@ -110,7 +110,7 @@ export class Decoder {
 	}
 
 	#find_closest_effect_frame(effect: VideoEffect) {
-		let frame = Array.from(this.decoded_frames.values()).filter(frame => frame.effect_id === effect.id).sort((a, b) => a.timestamp - b.timestamp)[0]
+		const frame = Array.from(this.decoded_frames.values()).filter(frame => frame.effect_id === effect.id).sort((a, b) => a.timestamp - b.timestamp)[0]
 		if(frame) {
 			return frame
 		}
