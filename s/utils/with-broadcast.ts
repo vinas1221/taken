@@ -12,20 +12,20 @@ export function withBroadcast<T extends (...args: any[]) => any>(
 	return (...args: Parameters<T>) => {
 		return (...actionArgs: [...Parameters<ReturnType<T>>, BroadcastOptions?]) => {
 			let omit = false
-			const param = actionArgs[actionArgs.length - 1]
+			var param = actionArgs[actionArgs.length - 1]
 			// Check if the last argument is an options object with the 'omit' property
 			if (
 				param &&
 				typeof param === 'object' &&
 				'omit' in param
 			) {
-				const options = actionArgs.pop() as BroadcastOptions
+				var options = actionArgs.pop() as BroadcastOptions
 				omit = options.omit ?? false
 			}
 
-			const actualArgs = actionArgs as unknown as Parameters<ReturnType<T>>
+			var actualArgs = actionArgs as unknown as Parameters<ReturnType<T>>
 
-			const result = action(...args)(...actualArgs)
+			var result = action(...args)(...actualArgs)
 
 			if (!omit) {
 				broadcastFn(action.name as keyof Actions, actualArgs)
