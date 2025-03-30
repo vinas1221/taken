@@ -1,13 +1,13 @@
 import {Status} from "../../../../context/types.js"
 import {Canvas2DRenderer} from "./utils/renderer_2d.js"
 
-var decoder = new VideoDecoder({
+const decoder = new VideoDecoder({
 	output(frame) {
 		if (startTime == null) {
 			startTime = performance.now()
 		} else {
-			var elapsed = (performance.now() - startTime) / 1000
-			var fps = ++frameCount / elapsed
+			const elapsed = (performance.now() - startTime) / 1000
+			const fps = ++frameCount / elapsed
 			setStatus("render", `${fps.toFixed(0)} fps`)
 		}
 		renderFrame(frame)
@@ -18,7 +18,7 @@ var decoder = new VideoDecoder({
 })
 
 let pendingStatus: null | any = null
-var setStatus = (type: Status, message: DOMException | string) => {
+const setStatus = (type: Status, message: DOMException | string) => {
 	if (pendingStatus) {
 		pendingStatus[type] = message
 	} else {
@@ -27,7 +27,7 @@ var setStatus = (type: Status, message: DOMException | string) => {
 	}
 }
 
-var statusAnimationFrame = () => {
+const statusAnimationFrame = () => {
 	self.postMessage(pendingStatus)
 	pendingStatus = null
 }
@@ -37,7 +37,7 @@ let pendingFrame: VideoFrame | null = null
 let startTime: null | number = null
 let frameCount = 0
 
-var renderFrame = (frame: VideoFrame) => {
+const renderFrame = (frame: VideoFrame) => {
 	if (!pendingFrame) {
 		requestAnimationFrame(renderAnimationFrame)
 	} else {
@@ -46,12 +46,12 @@ var renderFrame = (frame: VideoFrame) => {
 	pendingFrame = frame
 }
 
-var renderAnimationFrame = () => {
+const renderAnimationFrame = () => {
 	renderer?.draw(pendingFrame!)
 	pendingFrame = null
 }
 
-var start = ({dataUri, rendererName, canvas}: {dataUri: string, rendererName: string, canvas: HTMLCanvasElement}) => {
+const start = ({dataUri, rendererName, canvas}: {dataUri: string, rendererName: string, canvas: HTMLCanvasElement}) => {
 	switch (rendererName) {
 		case "2d":
 			renderer = new Canvas2DRenderer(canvas);
