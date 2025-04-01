@@ -9,30 +9,30 @@ import {calculate_start_position} from "../../../utils/calculate_start_position.
 import lowQualitySvg from "../../../../../icons/material-design-icons/low-quality.svg.js"
 import {calculate_effect_track_placement} from "../../../utils/calculate_effect_track_placement.js"
 
-export const Effect = shadow_view(use => (timeline: GoldElement, any_effect: AnyEffect, content: TemplateResult, style?: CSSResultGroup, inline_css?: string) => {
+export let Effect = shadow_view(use => (timeline: GoldElement, any_effect: AnyEffect, content: TemplateResult, style?: CSSResultGroup, inline_css?: string) => {
 	use.styles([style ?? css``, styles])
 	use.watch(() => use.context.state)
-	const state = use.context.state
-	const effect = use.context.state.effects.find(effect => effect.id === any_effect.id) ?? any_effect
-	const isVisible = state.tracks.find((_, i) => i === effect.track)?.visible
-	const isLocked = state.tracks.find((_, i) => i === effect.track)?.locked
-	const [[x, y], setCords] = use.state<V2 | [null, null]>([null, null])
-	const zoom = use.context.state.zoom
-	const controller = use.context.controllers.timeline
-	const media_controller = use.context.controllers.media
-	const effectDragHandler = use.context.controllers.timeline.effectDragHandler
-	const handler = controller.effectTrimHandler
-	const [fileNotFound, setFileNotFound] = use.state(false)
-	const [timelineScrollLeft, setTimelineScrollLeft] = use.state(0)
-	const [previewPosition, setPreviewPosition] = use.state<{start: null | number; startAtPosition: null | number; end: number | null}>({
+	let state = use.context.state
+	let effect = use.context.state.effects.find(effect => effect.id === any_effect.id) ?? any_effect
+	let isVisible = state.tracks.find((_, i) => i === effect.track)?.visible
+	let isLocked = state.tracks.find((_, i) => i === effect.track)?.locked
+	let [[x, y], setCords] = use.state<V2 | [null, null]>([null, null])
+	let zoom = use.context.state.zoom
+	let controller = use.context.controllers.timeline
+	let media_controller = use.context.controllers.media
+	let effectDragHandler = use.context.controllers.timeline.effectDragHandler
+	let handler = controller.effectTrimHandler
+	let [fileNotFound, setFileNotFound] = use.state(false)
+	let [timelineScrollLeft, setTimelineScrollLeft] = use.state(0)
+	let [previewPosition, setPreviewPosition] = use.state<{start: null | number; startAtPosition: null | number; end: number | null}>({
 		start: null,
 		startAtPosition: null,
 		end: null
 	})
 
 	// collaboration
-	const [fileProgress, setFileProgress] = use.state(0)
-	const [isFileProxy, setIsProxy] = use.state(false)
+	let [fileProgress, setFileProgress] = use.state(0)
+	let [isFileProxy, setIsProxy] = use.state(false)
 
 	use.mount(() => handler.onDrop(({effectId}) => {
 		if(effectId === effect.id) {
@@ -56,16 +56,16 @@ export const Effect = shadow_view(use => (timeline: GoldElement, any_effect: Any
 	}))
 
 	use.mount(() => {
-		const dispose1 = collaboration.onFileProgress(({hash, progress}) => {
+		let dispose1 = collaboration.onFileProgress(({hash, progress}) => {
 			if(any_effect.kind !== "text") {
 				if(hash === any_effect.file_hash) {
 					setFileProgress(progress)
 				}
 			}
 		})
-		const dispose = media_controller.on_media_change(({files, action}) => {
+		let dispose = media_controller.on_media_change(({files, action}) => {
 			if(action === "added") {
-				for(const media of files) {
+				for(let media of files) {
 					if(any_effect.kind !== "text" && media.hash === any_effect.file_hash) {
 						setFileNotFound(false)
 						if(media.kind === "video") {
@@ -75,24 +75,24 @@ export const Effect = shadow_view(use => (timeline: GoldElement, any_effect: Any
 				}
 			}
 		})
-		const set_scroll = () => setTimelineScrollLeft(timeline.scrollLeft)
+		let set_scroll = () => setTimelineScrollLeft(timeline.scrollLeft)
 		timeline.addEventListener("scroll", set_scroll)
 		return () => {removeEventListener("scroll", set_scroll); dispose(); dispose1()}
 	})
 
 	use.once(async () => {
 		if(any_effect.kind !== "text") {
-			const file = await media_controller.get_file(any_effect.file_hash)
+			let file = await media_controller.get_file(any_effect.file_hash)
 			if(!file) {setFileNotFound(true)}
 		}
 	})
 
-	const drag_events = {
+	let drag_events = {
 		effect_drag_listener() {
-			const dispose = effectDragHandler.onEffectDrag((e) => {
-				const isDragged = e.grabbed.effect.id === effect.id
+			let dispose = effectDragHandler.onEffectDrag((e) => {
+				let isDragged = e.grabbed.effect.id === effect.id
 				if(isDragged) {
-					const center_of_effect: V2 = [
+					let center_of_effect: V2 = [
 						e.position.coordinates[0] - e.grabbed.offset.x,
 						e.position.coordinates[1] - e.grabbed.offset.y
 					]
@@ -103,12 +103,12 @@ export const Effect = shadow_view(use => (timeline: GoldElement, any_effect: Any
 		},
 		start(event: PointerEvent) {
 			use.context.controllers.timeline.set_selected_effect(effect, use.context.state)
-			const timelineElement = timeline.shadowRoot?.querySelector(".timeline-relative")
-			const bounds = timelineElement?.getBoundingClientRect()
+			let timelineElement = timeline.shadowRoot?.querySelector(".timeline-relative")
+			let bounds = timelineElement?.getBoundingClientRect()
 			if(bounds && !handler.grabbed) {
-				const x = event.clientX - bounds.left
-				const y = event.clientY - bounds.top
-				const at = {coordinates: [x >= 0 ? x : 0, y >= 0 ? y : 0], indicator: null} satisfies At
+				let x = event.clientX - bounds.left
+				let y = event.clientY - bounds.top
+				let at = {coordinates: [x >= 0 ? x : 0, y >= 0 ? y : 0], indicator: null} satisfies At
 				effectDragHandler.start({effect, offset: {x: event.offsetX, y: event.offsetY}}, at)
 			}
 		},
@@ -121,8 +121,8 @@ export const Effect = shadow_view(use => (timeline: GoldElement, any_effect: Any
 	}
 
 	use.mount(() => {
-		const dispose = drag_events.effect_drag_listener()
-		const dispose1 = handler.onDragOver(({start_at_position, effectId, start, end}) => {
+		let dispose = drag_events.effect_drag_listener()
+		let dispose1 = handler.onDragOver(({start_at_position, effectId, start, end}) => {
 			if(effectId === effect.id) {
 				setPreviewPosition({
 					start,
@@ -131,11 +131,11 @@ export const Effect = shadow_view(use => (timeline: GoldElement, any_effect: Any
 				})
 			}
 		})
-		const dropevents = (e: PointerEvent) => {
+		let dropevents = (e: PointerEvent) => {
 			drag_events.drop(e)
 			handler.trim_drop(e, use.context.state)
 		}
-		const endevents = (e: PointerEvent) => {
+		let endevents = (e: PointerEvent) => {
 			drag_events.end()
 			handler.trim_end(e, use.context.state)
 		}
@@ -144,7 +144,7 @@ export const Effect = shadow_view(use => (timeline: GoldElement, any_effect: Any
 		return () => {removeEventListener("pointerup", dropevents); removeEventListener("pointercancel", endevents); dispose(); dispose1()}
 	})
 
-	const render_trim_handle = (side: "left" | "right") => {
+	let render_trim_handle = (side: "left" | "right") => {
 		return html`
 			<span
 				@pointerup=${(e: PointerEvent) => handler.trim_drop(e, use.context.state)}
@@ -158,9 +158,9 @@ export const Effect = shadow_view(use => (timeline: GoldElement, any_effect: Any
 			`
 	}
 
-	const grabbed = effectDragHandler.grabbed?.effect === effect
+	let grabbed = effectDragHandler.grabbed?.effect === effect
 
-	const renderPreview = () => {
+	let renderPreview = () => {
 		return html`
 			<div
 				?data-grabbed=${grabbed}
@@ -183,7 +183,7 @@ export const Effect = shadow_view(use => (timeline: GoldElement, any_effect: Any
 		`
 	}
 
-	const effectLeft = timelineScrollLeft - (x ?? calculate_start_position(effect.start_at_position, zoom))
+	let effectLeft = timelineScrollLeft - (x ?? calculate_start_position(effect.start_at_position, zoom))
 
 	return html`
 		${renderPreview()}
