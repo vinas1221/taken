@@ -25,7 +25,7 @@ declare global {
 }
 
 declare global {
-	let PIXI: typeof import("pixi.js")
+	const PIXI: typeof import("pixi.js")
 }
 
 export interface GLTransition {
