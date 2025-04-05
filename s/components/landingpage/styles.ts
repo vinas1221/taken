@@ -105,8 +105,8 @@ export default css`
 	display: flex;
 	flex-direction: column;
 	font-size: 16px;
-	color: var(--text-primary);
-	background: var(--bg-primary);
+	color: const(--text-primary);
+	background: const(--bg-primary);
 	overflow-x: hidden;
 }
 
@@ -153,7 +153,7 @@ h2:after {
 	transform: translateX(-50%);
 	width: 60px;
 	height: 3px;
-	background: var(--primary-gradient);
+	background: const(--primary-gradient);
 	border-radius: 3px;
 }
 
@@ -169,7 +169,7 @@ nav {
 	width: 90%;
 	max-width: 1200px;
 	align-self: center;
-	border-radius: var(--radius-large);
+	border-radius: const(--radius-large);
 	margin: 1em auto;
 	z-index: 10;
 	display: flex;
@@ -178,12 +178,12 @@ nav {
 	justify-content: space-between;
 	align-items: center;
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-	border: 1px solid var(--border-medium);
-	transition: var(--transition-standard);
+	border: 1px solid const(--border-medium);
+	transition: const(--transition-standard);
 }
 
 nav:hover {
-	border: 1px solid var(--border-hover);
+	border: 1px solid const(--border-hover);
 }
 
 nav .logo {
@@ -207,13 +207,13 @@ nav .menu[data-opened] {
 	right: 20px;
 	top: 70px;
 	gap: 1em;
-	border-radius: var(--radius-large);
+	border-radius: const(--radius-large);
 	background: rgba(15, 15, 15, 0.95);
 	backdrop-filter: blur(12px);
 	padding: 1.5em;
 	font-family: Poppins-Regular;
-	box-shadow: var(--shadow-medium);
-	border: 1px solid var(--border-medium);
+	box-shadow: const(--shadow-medium);
+	border: 1px solid const(--border-medium);
 	animation: fadeIn 0.3s ease;
 }
 
@@ -221,7 +221,7 @@ nav a {
 	text-decoration: none;
 	color: white;
 	cursor: pointer;
-	transition: var(--transition-standard);
+	transition: const(--transition-standard);
 	position: relative;
 	font-size: 1rem;
 }
@@ -233,7 +233,7 @@ nav a:not(.try):after {
 	height: 2px;
 	bottom: -4px;
 	left: 0;
-	background: var(--primary-gradient);
+	background: const(--primary-gradient);
 	transition: width 0.3s ease;
 }
 
@@ -269,13 +269,13 @@ nav .nav {
 	justify-content: center;
 	justify-self: start;
 	gap: 0.5em;
-	background: var(--primary-gradient);
+	background: const(--primary-gradient);
 	color: white;
 	padding: 0.8em 2em;
-	border-radius: var(--radius-small);
+	border-radius: const(--radius-small);
 	font-weight: bold;
 	font-size: 1rem;
-	transition: var(--transition-standard);
+	transition: const(--transition-standard);
 	box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 	text-decoration: none;
 	border: none;
@@ -291,12 +291,12 @@ nav .nav {
 	align-items: center;
 	justify-content: center;
 	font-weight: bold;
-	border-radius: var(--radius-small);
+	border-radius: const(--radius-small);
 	color: white;
 	border: 2px solid rgba(255, 255, 255, 0.2);
 	font-size: 1rem;
 	gap: 8px;
-	transition: var(--transition-standard);
+	transition: const(--transition-standard);
 	background: rgba(88, 101, 242, 0.1);
 	text-decoration: none;
 	padding: 0.8em 2em;
@@ -320,10 +320,10 @@ nav .nav {
 	align-items: center;
 	box-shadow: black 0px -5vw 15vw 5vw inset, black 0 -5vw 5vw 0 inset;
 	gap: 2.5em;
-	background: radial-gradient(100% 100% at var(--g3-3-x-position) var(--g3-3-y-position), rgba(255, 255, 255, 0.2) -80%, transparent), 
-							radial-gradient(100% 100% at var(--g3-1-x-position) var(--g3-1-y-position), #000000 -71%, transparent), 
-							radial-gradient(100% 100% at var(--g3-2-x-position) var(--g3-2-y-position), #5e43e0 -52%, transparent), 
-							var(--bg-primary);
+	background: radial-gradient(100% 100% at const(--g3-3-x-position) const(--g3-3-y-position), rgba(255, 255, 255, 0.2) -80%, transparent), 
+							radial-gradient(100% 100% at const(--g3-1-x-position) const(--g3-1-y-position), #000000 -71%, transparent), 
+							radial-gradient(100% 100% at const(--g3-2-x-position) const(--g3-2-y-position), #5e43e0 -52%, transparent), 
+							const(--bg-primary);
 	animation-name: g-3;
 	animation-iteration-count: infinite;
 	animation-duration: 15s;
@@ -340,7 +340,7 @@ nav .nav {
 	left: 0;
 	width: 100%;
 	height: 150px;
-	background: linear-gradient(to top, var(--bg-primary), transparent);
+	background: linear-gradient(to top, const(--bg-primary), transparent);
 	z-index: 1;
 }
 
@@ -365,7 +365,7 @@ nav .nav {
 .welcome p {
 	color: white;
 	padding: 0.5em 1.5em;
-	border-radius: var(--radius-full);
+	border-radius: const(--radius-full);
 	font-size: 1em;
 	border: 1px solid rgba(255, 255, 255, 0.3);
 	background: rgba(0, 0, 0, 0.3);
@@ -394,7 +394,7 @@ nav .nav {
 /* Section styles */
 .abilities, .collaboration, .transitions, .differences, .developers, .coming-soon {
 	position: relative;
-	background: var(--bg-primary);
+	background: const(--bg-primary);
 	padding: 5em 3em;
 }
 
@@ -438,7 +438,7 @@ nav .nav {
 	font-family: Poppins-ExtraLight;
 	font-size: 1.1em;
 	margin-bottom: 2em;
-	color: var(--text-primary);
+	color: const(--text-primary);
 	max-width: 800px;
 	margin-left: auto;
 	margin-right: auto;
@@ -453,17 +453,17 @@ nav .nav {
 	height: 100px;
 	gap: 0.8em;
 	padding: 1.5em;
-	border-radius: var(--radius-large);
-	background: var(--bg-card);
-	border: 1px solid var(--border-light);
-	transition: var(--transition-standard);
+	border-radius: const(--radius-large);
+	background: const(--bg-card);
+	border: 1px solid const(--border-light);
+	transition: const(--transition-standard);
 }
 
 .abilities .item:hover {
 	transform: translateY(-5px);
 	background: rgba(40, 40, 40, 0.7);
-	border-color: var(--border-medium);
-	box-shadow: var(--shadow-small);
+	border-color: const(--border-medium);
+	box-shadow: const(--shadow-small);
 }
 
 .abilities .item img {
@@ -498,23 +498,23 @@ nav .nav {
 }
 
 .abilities .item-more {
-	background: var(--bg-card);
-	border-radius: var(--radius-large);
+	background: const(--bg-card);
+	border-radius: const(--radius-large);
 	padding: 2em;
-	transition: var(--transition-standard);
-	border: 1px solid var(--border-light);
+	transition: const(--transition-standard);
+	border: 1px solid const(--border-light);
 }
 
 .abilities .item-more:hover {
 	transform: translateY(-5px);
-	box-shadow: var(--shadow-medium);
-	border-color: var(--border-medium);
+	box-shadow: const(--shadow-medium);
+	border-color: const(--border-medium);
 }
 
 .abilities .item-more h3 {
 	margin-bottom: 0.5em;
 	font-size: 1.5em;
-	background: var(--primary-gradient);
+	background: const(--primary-gradient);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
@@ -528,9 +528,9 @@ nav .nav {
 
 .abilities .item-more video, .abilities .item-more img {
 	width: 300px;
-	border-radius: var(--radius-medium);
+	border-radius: const(--radius-medium);
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-	border: 1px solid var(--border-medium);
+	border: 1px solid const(--border-medium);
 }
 
 .abilities .export {
@@ -543,12 +543,12 @@ nav .nav {
 	padding: 3em;
 	border-radius: 20px;
 	color: white;
-	background: radial-gradient(100% 100% at var(--g3-3-x-position) var(--g3-3-y-position), rgba(255, 255, 255, 0.2) -80%, transparent), 
-							radial-gradient(100% 100% at var(--g3-1-x-position) var(--g3-1-y-position), #000000 -71%, transparent), 
-							radial-gradient(100% 100% at var(--g3-2-x-position) var(--g3-2-y-position), #5e43e0 -52%, transparent), 
-							var(--bg-primary);
-	box-shadow: var(--shadow-large);
-	border: 1px solid var(--border-light);
+	background: radial-gradient(100% 100% at const(--g3-3-x-position) const(--g3-3-y-position), rgba(255, 255, 255, 0.2) -80%, transparent), 
+							radial-gradient(100% 100% at const(--g3-1-x-position) const(--g3-1-y-position), #000000 -71%, transparent), 
+							radial-gradient(100% 100% at const(--g3-2-x-position) const(--g3-2-y-position), #5e43e0 -52%, transparent), 
+							const(--bg-primary);
+	box-shadow: const(--shadow-large);
+	border: 1px solid const(--border-light);
 	position: relative;
 	overflow: hidden;
 }
@@ -568,9 +568,9 @@ nav .nav {
 .abilities .export video {
 	max-width: 350px;
 	width: 100%;
-	border-radius: var(--radius-large);
+	border-radius: const(--radius-large);
 	box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-	border: 1px solid var(--border-medium);
+	border: 1px solid const(--border-medium);
 	position: relative;
 	z-index: 1;
 }
@@ -614,7 +614,7 @@ nav .nav {
 	display: inline-block;
 	width: 8px;
 	height: 8px;
-	background: var(--primary-gradient);
+	background: const(--primary-gradient);
 	border-radius: 50%;
 	margin-right: 12px;
 }
@@ -682,7 +682,7 @@ nav .nav {
 	font-family: Poppins-Regular;
 	font-size: 1.1em;
 	line-height: 1.6;
-	color: var(--text-secondary);
+	color: const(--text-secondary);
 	margin-bottom: 2.5em;
 	max-width: 500px;
 	text-align: left;
@@ -700,18 +700,18 @@ nav .nav {
 	display: flex;
 	align-items: flex-start;
 	gap: 1.5em;
-	background: var(--bg-card);
-	border-radius: var(--radius-large);
+	background: const(--bg-card);
+	border-radius: const(--radius-large);
 	padding: 1.5em;
-	border: 1px solid var(--border-light);
-	transition: var(--transition-standard);
+	border: 1px solid const(--border-light);
+	transition: const(--transition-standard);
 }
 
 .collab-features li:hover {
 	transform: translateY(-5px);
 	background: rgba(40, 40, 40, 0.7);
-	border-color: var(--border-medium);
-	box-shadow: var(--shadow-small);
+	border-color: const(--border-medium);
+	box-shadow: const(--shadow-small);
 }
 
 .feature-icon {
@@ -721,7 +721,7 @@ nav .nav {
 	width: 50px;
 	height: 50px;
 	background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
-	border-radius: var(--radius-medium);
+	border-radius: const(--radius-medium);
 }
 
 .feature-icon svg {
@@ -738,7 +738,7 @@ nav .nav {
 .feature-text h3 {
 	font-size: 1.2em;
 	margin-bottom: 0.5em;
-	background: var(--primary-gradient);
+	background: const(--primary-gradient);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
@@ -747,7 +747,7 @@ nav .nav {
 	font-family: Poppins-ExtraLight;
 	font-size: 0.95em;
 	line-height: 1.5;
-	color: var(--text-secondary);
+	color: const(--text-secondary);
 }
 
 .collab-demo {
@@ -862,8 +862,8 @@ nav .nav {
 /* .cursor-2 { background-color: #ff3366; animation-delay: 1s; } */
 
 @keyframes moveCursor {
-	from { left: var(--start); }
-	to { left: var(--end); }
+	from { left: const(--start); }
+	to { left: const(--end); }
 }
 
 .collab-visual {
@@ -928,14 +928,14 @@ nav .nav {
 	font-family: Poppins-Regular;
 	font-size: 1.1em;
 	line-height: 1.6;
-	color: var(--text-secondary);
+	color: const(--text-secondary);
 }
 
 .transitions-header .gl-link {
 	color: #a5b4fc;
 	text-decoration: none;
 	position: relative;
-	transition: var(--transition-standard);
+	transition: const(--transition-standard);
 }
 
 .transitions-header .gl-link:after {
@@ -989,11 +989,11 @@ nav .nav {
 	flex-direction: column;
 	align-items: flex-start;
 	gap: 1.5em;
-	background: var(--bg-card);
-	border-radius: var(--radius-large);
+	background: const(--bg-card);
+	border-radius: const(--radius-large);
 	padding: 1.5em;
-	border: 1px solid var(--border-light);
-	transition: var(--transition-standard);
+	border: 1px solid const(--border-light);
+	transition: const(--transition-standard);
 
 	& .flex {
 		display: flex;
@@ -1005,8 +1005,8 @@ nav .nav {
 .transition-features .feature:hover {
 	transform: translateY(-5px);
 	background: rgba(40, 40, 40, 0.7);
-	border-color: var(--border-medium);
-	box-shadow: var(--shadow-small);
+	border-color: const(--border-medium);
+	box-shadow: const(--shadow-small);
 }
 
 .transition-features .feature-content {
@@ -1028,7 +1028,7 @@ nav .nav {
 	color: white;
 	text-decoration: none;
 	font-size: 0.95rem;
-	transition: var(--transition-standard);
+	transition: const(--transition-standard);
 }
 
 .transitions-cta .transitions-link svg {
@@ -1052,16 +1052,16 @@ nav .nav {
 
 .video-container {
 	position: relative;
-	border-radius: var(--radius-large);
+	border-radius: const(--radius-large);
 	overflow: hidden;
-	box-shadow: var(--shadow-large);
-	border: 1px solid var(--border-medium);
+	box-shadow: const(--shadow-large);
+	border: 1px solid const(--border-medium);
 }
 
 .video-container video {
 	width: 100%;
 	display: block;
-	border-radius: var(--radius-large);
+	border-radius: const(--radius-large);
 }
 
 .video-container .transition-counter {
@@ -1094,9 +1094,9 @@ nav .nav {
 	height: 40px;
 	border-radius: 8px;
 	background: rgba(30, 30, 30, 0.8);
-	border: 1px solid var(--border-medium);
+	border: 1px solid const(--border-medium);
 	cursor: pointer;
-	transition: var(--transition-standard);
+	transition: const(--transition-standard);
 }
 
 .transitions-gallery .transition-thumbnail img {
@@ -1107,7 +1107,7 @@ nav .nav {
 
 .transitions-gallery .transition-thumbnail:hover {
 	transform: translateY(-3px);
-	border-color: var(--border-hover);
+	border-color: const(--border-hover);
 }
 
 .transitions-gallery .transition-thumbnail.active {
@@ -1125,7 +1125,7 @@ nav .nav {
 	font-size: 0.8em;
 	color: white;
 	z-index: 9;
-	transition: var(--transition-standard);
+	transition: const(--transition-standard);
 }
 
 .more-transitions:hover {
@@ -1139,7 +1139,7 @@ nav .nav {
 	right: 0;
 	width: 400px;
 	background: rgba(20, 20, 20, 0.95);
-	border-radius: var(--radius-medium);
+	border-radius: const(--radius-medium);
 	border: 1px solid rgba(255, 255, 255, 0.1);
 	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 	padding: 1em;
@@ -1211,8 +1211,8 @@ nav .nav {
 	backdrop-filter: blur(5px);
 	transition: all 0.5s ease;
 	padding: 1.5em;
-	border-radius: var(--radius-large);
-	border: 1px solid var(--border-hover);
+	border-radius: const(--radius-large);
+	border: 1px solid const(--border-hover);
 	background: rgba(0, 0, 0, 0.7);
 	margin-top: 200px;
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -1273,7 +1273,7 @@ nav .nav {
 }
 
 .differences .free .try {
-	background: var(--secondary-gradient);
+	background: const(--secondary-gradient);
 	font-size: 1.5em;
 	box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
 }
@@ -1306,7 +1306,7 @@ nav .nav {
 	text-align: center;
 	font-size: 1.1em;
 	line-height: 1.6;
-	color: var(--text-secondary);
+	color: const(--text-secondary);
 }
 
 .differences .more {
@@ -1318,17 +1318,17 @@ nav .nav {
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-	background: var(--bg-card);
-	border-radius: var(--radius-large);
-	border: 1px solid var(--border-light);
-	transition: var(--transition-standard);
+	background: const(--bg-card);
+	border-radius: const(--radius-large);
+	border: 1px solid const(--border-light);
+	transition: const(--transition-standard);
 }
 
 .differences .more:hover {
 	transform: translateY(-5px);
 	background: rgba(40, 40, 40, 0.7);
-	border-color: var(--border-medium);
-	box-shadow: var(--shadow-medium);
+	border-color: const(--border-medium);
+	box-shadow: const(--shadow-medium);
 }
 
 .differences .more svg {
@@ -1336,7 +1336,7 @@ nav .nav {
 	height: 80px;
 	color: #6366f1;
 	opacity: 0.9;
-	transition: var(--transition-standard);
+	transition: const(--transition-standard);
 }
 
 .differences .more:hover svg {
@@ -1347,7 +1347,7 @@ nav .nav {
 .differences .more h3 {
 	font-size: 1.5em;
 	margin-bottom: 0.5em;
-	background: var(--primary-gradient);
+	background: const(--primary-gradient);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
@@ -1356,7 +1356,7 @@ nav .nav {
 	font-size: 1em;
 	line-height: 1.6;
 	text-align: center;
-	color: var(--text-secondary);
+	color: const(--text-secondary);
 	padding: 0;
 }
 
@@ -1364,19 +1364,19 @@ nav .nav {
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	border-radius: var(--radius-large);
+	border-radius: const(--radius-large);
 	align-items: center;
-	background: var(--bg-card);
-	border: 1px solid var(--border-light);
+	background: const(--bg-card);
+	border: 1px solid const(--border-light);
 	overflow: hidden;
-	transition: var(--transition-standard);
+	transition: const(--transition-standard);
 	flex: 1;
 }
 
 .differences .item:hover {
 	transform: translateY(-5px);
-	border-color: var(--border-medium);
-	box-shadow: var(--shadow-medium);
+	border-color: const(--border-medium);
+	box-shadow: const(--shadow-medium);
 }
 
 .differences .item img {
@@ -1396,7 +1396,7 @@ nav .nav {
 	font-family: Poppins-ExtraLight;
 	text-align: center;
 	line-height: 1.6;
-	color: var(--text-secondary);
+	color: const(--text-secondary);
 }
 
 /* Coming Soon section */
@@ -1416,7 +1416,7 @@ nav .nav {
 
 .coming-soon-header .feature-badge {
 	font-size: 0.4em;
-	background: var(--secondary-gradient);
+	background: const(--secondary-gradient);
 	color: white;
 	padding: 0.4em 0.8em;
 	border-radius: 20px;
@@ -1432,7 +1432,7 @@ nav .nav {
 	font-family: Poppins-Regular;
 	font-size: 1.1em;
 	line-height: 1.6;
-	color: var(--text-secondary);
+	color: const(--text-secondary);
 	margin-top: 1.5em;
 }
 
@@ -1474,7 +1474,7 @@ nav .nav {
 	width: 60px;
 	height: 60px;
 	background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
-	border-radius: var(--radius-medium);
+	border-radius: const(--radius-medium);
 	margin-bottom: 1.5em;
 	border: 1px solid rgba(99, 102, 241, 0.2);
 }
@@ -1488,7 +1488,7 @@ nav .nav {
 .feature-content h3 {
 	font-size: 2em;
 	margin-bottom: 0.8em;
-	background: var(--primary-gradient);
+	background: const(--primary-gradient);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
@@ -1497,7 +1497,7 @@ nav .nav {
 	font-family: Poppins-Regular;
 	font-size: 1.1em;
 	line-height: 1.6;
-	color: var(--text-secondary);
+	color: const(--text-secondary);
 	margin-bottom: 1.5em;
 	max-width: 500px;
 	min-height: 120px;
@@ -1549,11 +1549,11 @@ nav .nav {
 	gap: 0.8em;
 	padding: 0.8em 1.5em;
 	background: rgba(20, 20, 20, 0.6);
-	border: 1px solid var(--border-medium);
+	border: 1px solid const(--border-medium);
 	border-radius: 8px;
 	color: white;
 	text-decoration: none;
-	transition: var(--transition-standard);
+	transition: const(--transition-standard);
 }
 
 .coming-soon-cta a svg {
@@ -1565,9 +1565,9 @@ nav .nav {
 
 .coming-soon-cta a:hover {
 	background: rgba(30, 30, 30, 0.8);
-	border-color: var(--border-hover);
+	border-color: const(--border-hover);
 	transform: translateY(-3px);
-	box-shadow: var(--shadow-small);
+	box-shadow: const(--shadow-small);
 }
 
 .coming-soon-cta a:hover svg {
@@ -1598,7 +1598,7 @@ nav .nav {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	background: var(--bg-primary);
+	background: const(--bg-primary);
 	position: relative;
 	padding: 5em 3em;
 }
@@ -1611,7 +1611,7 @@ nav .nav {
 
 .developers h2 .coming-soon-badge {
 	font-size: 0.4em;
-	background: var(--secondary-gradient);
+	background: const(--secondary-gradient);
 	color: white;
 	padding: 0.4em 0.8em;
 	border-radius: 20px;
@@ -1628,16 +1628,16 @@ nav .nav {
 	align-items: center;
 	flex: 1;
 	flex-direction: column;
-	border-radius: var(--radius-large);
-	background: var(--bg-card);
-	border: 1px solid var(--border-light);
-	transition: var(--transition-standard);
+	border-radius: const(--radius-large);
+	background: const(--bg-card);
+	border: 1px solid const(--border-light);
+	transition: const(--transition-standard);
 }
 
 .developers .item h3 {
 	font-size: 2em;
 	margin-bottom: 0.8em;
-	background: var(--primary-gradient);
+	background: const(--primary-gradient);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	text-align: center;
@@ -1649,7 +1649,7 @@ nav .nav {
 	margin-bottom: 2em;
 	text-align: center;
 	line-height: 1.6;
-	color: var(--text-secondary);
+	color: const(--text-secondary);
 }
 
 .developers .dev-features {
@@ -1675,9 +1675,9 @@ nav .nav {
 	width: 60px;
 	height: 60px;
 	background: rgba(20, 20, 20, 0.6);
-	border-radius: var(--radius-medium);
-	border: 1px solid var(--border-medium);
-	transition: var(--transition-standard);
+	border-radius: const(--radius-medium);
+	border: 1px solid const(--border-medium);
+	transition: const(--transition-standard);
 }
 
 .developers .dev-features .feature-icon svg {
@@ -1689,8 +1689,8 @@ nav .nav {
 .developers .dev-features .feature:hover .feature-icon {
 	transform: translateY(-5px);
 	background: rgba(30, 30, 30, 0.8);
-	border-color: var(--border-hover);
-	box-shadow: var(--shadow-small);
+	border-color: const(--border-hover);
+	box-shadow: const(--shadow-small);
 }
 
 .developers .dev-features .feature span {
@@ -1721,10 +1721,10 @@ nav .nav {
 	gap: 2em;
 	width: 100%;
 	background: rgba(20, 20, 20, 0.8);
-	border-radius: var(--radius-large);
+	border-radius: const(--radius-large);
 	padding: 2em;
-	border: 1px solid var(--border-light);
-	box-shadow: var(--shadow-medium);
+	border: 1px solid const(--border-light);
+	box-shadow: const(--shadow-medium);
 }
 
 .developers .api .concept:first-child {
@@ -1738,14 +1738,14 @@ nav .nav {
 .developers .api .concept {
 	flex: 1 1 auto;
 	position: relative;
-	transition: var(--transition-standard);
+	transition: const(--transition-standard);
 }
 
 .developers .api .concepts img {
-	border-radius: var(--radius-medium);
+	border-radius: const(--radius-medium);
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-	border: 1px solid var(--border-medium);
-	transition: var(--transition-standard);
+	border: 1px solid const(--border-medium);
+	transition: const(--transition-standard);
 	width: 100%;
 }
 
@@ -1759,13 +1759,13 @@ nav .nav {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border-radius: var(--radius-medium);
+	border-radius: const(--radius-medium);
 	opacity: 0.7;
-	transition: var(--transition-standard);
+	transition: const(--transition-standard);
 }
 
 .developers .api .overlay-content {
-	background: var(--primary-gradient);
+	background: const(--primary-gradient);
 	color: white;
 	padding: 0.5em 1em;
 	border-radius: 8px;
@@ -1808,11 +1808,11 @@ nav .nav {
 	gap: 0.8em;
 	padding: 0.8em 1.5em;
 	background: rgba(20, 20, 20, 0.6);
-	border: 1px solid var(--border-medium);
+	border: 1px solid const(--border-medium);
 	border-radius: 8px;
 	color: white;
 	text-decoration: none;
-	transition: var(--transition-standard);
+	transition: const(--transition-standard);
 }
 
 .developers .dev-cta a svg {
@@ -1824,8 +1824,8 @@ nav .nav {
 
 .developers .dev-cta a:hover {
 	background: rgba(30, 30, 30, 0.8);
-	border-color: var(--border-hover);
-	box-shadow: var(--shadow-small);
+	border-color: const(--border-hover);
+	box-shadow: const(--shadow-small);
 }
 
 .developers .dev-cta a:hover svg {
@@ -1892,7 +1892,7 @@ nav .nav {
 
 /* Developer Section Styles */
 .developers {
-	background: var(--bg-primary);
+	background: const(--bg-primary);
 	padding: 8em 3em;
 	position: relative;
 }
@@ -1921,7 +1921,7 @@ nav .nav {
 
 .developers .coming-soon-badge {
 	font-size: 0.4em;
-	background: var(--secondary-gradient);
+	background: const(--secondary-gradient);
 	color: white;
 	padding: 0.4em 0.8em;
 	border-radius: 20px;
@@ -1936,7 +1936,7 @@ nav .nav {
 	max-width: 800px;
 	margin: 0 auto 4em;
 	font-size: 1.2em;
-	color: var(--text-secondary);
+	color: const(--text-secondary);
 	line-height: 1.6;
 }
 
@@ -1951,11 +1951,11 @@ nav .nav {
 
 /* Feature Cards */
 .dev-feature-card {
-	background: var(--bg-card);
-	border-radius: var(--radius-large);
-	border: 1px solid var(--border-light);
+	background: const(--bg-card);
+	border-radius: const(--radius-large);
+	border: 1px solid const(--border-light);
 	overflow: hidden;
-	transition: var(--transition-standard);
+	transition: const(--transition-standard);
 	height: 100%;
 	display: flex;
 	flex-direction: column;
@@ -1963,13 +1963,13 @@ nav .nav {
 
 .dev-feature-card:hover {
 	transform: translateY(-5px);
-	border-color: var(--border-medium);
-	box-shadow: var(--shadow-medium);
+	border-color: const(--border-medium);
+	box-shadow: const(--shadow-medium);
 }
 
 .feature-header {
 	padding: 1.5em;
-	border-bottom: 1px solid var(--border-light);
+	border-bottom: 1px solid const(--border-light);
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -1978,7 +1978,7 @@ nav .nav {
 .feature-header h3 {
 	font-size: 1.4em;
 	margin: 0;
-	background: var(--primary-gradient);
+	background: const(--primary-gradient);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
@@ -2009,7 +2009,7 @@ nav .nav {
 	padding-left: 1.5em;
 	margin-bottom: 0.8em;
 	line-height: 1.5;
-	color: var(--text-secondary);
+	color: const(--text-secondary);
 }
 
 .dev-feature-card.main-feature {
@@ -2034,7 +2034,7 @@ nav .nav {
 /* Sub-feature Sections */
 .sub-feature {
 	margin-top: 2em;
-	border-top: 1px solid var(--border-light);
+	border-top: 1px solid const(--border-light);
 	padding-top: 1.5em;
 }
 
@@ -2044,7 +2044,7 @@ nav .nav {
 	display: flex;
 	align-items: center;
 	gap: 0.5em;
-	color: var(--text-primary);
+	color: const(--text-primary);
 }
 
 .sub-feature .eta {
@@ -2059,7 +2059,7 @@ nav .nav {
 	font-weight: bold;
 	font-size: 0.9em;
 	margin-bottom: 0.5em;
-	color: var(--text-secondary);
+	color: const(--text-secondary);
 	display: flex;
 	align-items: center;
 	gap: 0.5em;
@@ -2077,7 +2077,7 @@ nav .nav {
 /* Code Preview Styles */
 .code-preview {
 	background: rgba(0, 0, 0, 0.3);
-	border-radius: var(--radius-medium);
+	border-radius: const(--radius-medium);
 	padding: 1em;
 	margin-top: auto;
 	overflow: hidden;
@@ -2091,7 +2091,7 @@ nav .nav {
 	left: 0;
 	width: 100%;
 	height: 3px;
-	background: var(--primary-gradient);
+	background: const(--primary-gradient);
 }
 
 .code-preview.cli:before {
@@ -2122,8 +2122,8 @@ nav .nav {
 
 .template-preview img {
 	max-width: 100%;
-	border-radius: var(--radius-medium);
-	border: 1px solid var(--border-medium);
+	border-radius: const(--radius-medium);
+	border: 1px solid const(--border-medium);
 }
 
 /* CTA Section */
@@ -2141,11 +2141,11 @@ nav .nav {
 	gap: 0.8em;
 	padding: 0.8em 1.5em;
 	background: rgba(20, 20, 20, 0.6);
-	border: 1px solid var(--border-medium);
+	border: 1px solid const(--border-medium);
 	border-radius: 8px;
 	color: white;
 	text-decoration: none;
-	transition: var(--transition-standard);
+	transition: const(--transition-standard);
 }
 
 .dev-cta a svg {
@@ -2157,9 +2157,9 @@ nav .nav {
 
 .dev-cta a:hover {
 	background: rgba(30, 30, 30, 0.8);
-	border-color: var(--border-hover);
+	border-color: const(--border-hover);
 	transform: translateY(-3px);
-	box-shadow: var(--shadow-small);
+	box-shadow: const(--shadow-small);
 }
 
 .dev-cta a:hover svg {
@@ -2333,7 +2333,7 @@ footer:hover .footer-logo-background img {
 	flex-direction: column;
 	align-items: center;
 	gap: 1em;
-	color: var(--text-secondary);
+	color: const(--text-secondary);
 }
 
 .creator-credit .github-link {
@@ -2342,7 +2342,7 @@ footer:hover .footer-logo-background img {
 	gap: 0.4em;
 	color: #a5b4fc;
 	text-decoration: none;
-	transition: var(--transition-standard);
+	transition: const(--transition-standard);
 	padding: 0.4em 0.8em;
 	background: rgba(99, 102, 241, 0.1);
 	border-radius: 20px;
