@@ -34,8 +34,8 @@ export class Media extends Map<string, AnyMedia> {
 			console.log("success")
 		}
 		this.#database_request.onupgradeneeded = (event) => {
-			const database = (event.target as IDBRequest).result as IDBDatabase
-			const objectStore = database.createObjectStore("files", {keyPath: "hash"})
+			let database = (event.target as IDBRequest).result as IDBDatabase
+			let objectStore = database.createObjectStore("files", {keyPath: "hash"})
 			objectStore!.createIndex("file", "file", { unique: true })
 			objectStore!.transaction.oncomplete = (event) => {
 				console.log("complete")
@@ -51,7 +51,7 @@ export class Media extends Map<string, AnyMedia> {
 			if(this.#opened) {
 				resolve(true)
 			} else {
-				const interval = setInterval(() => {
+				let interval = setInterval(() => {
 					if(this.#opened) {
 						resolve(true)
 						clearInterval(interval)
@@ -66,7 +66,7 @@ export class Media extends Map<string, AnyMedia> {
 			if(this.#files_ready) {
 				resolve(true)
 			} else {
-				const interval = setInterval(() => {
+				let interval = setInterval(() => {
 					if(this.#files_ready) {
 						resolve(true)
 						clearInterval(interval)
@@ -91,14 +91,14 @@ export class Media extends Map<string, AnyMedia> {
 	async #get_imported_files(): Promise<AnyMedia[]> {
 		return new Promise(async (resolve, reject) => {
 			await this.#is_db_opened()
-			const transaction = this.#database_request.result.transaction(["files"])
-			const files_handles_store = transaction.objectStore("files")
-			const request = files_handles_store.getAll()
+			let transaction = this.#database_request.result.transaction(["files"])
+			let files_handles_store = transaction.objectStore("files")
+			let request = files_handles_store.getAll()
 
 			request.onsuccess = async () => {
 				try {
-					const files: AnyMedia[] = request.result || []
-					for(const file of files) {
+					let files: AnyMedia[] = request.result || []
+					for(let file of files) {
 						this.set(file.hash, file)
 					}
 					this.#files_ready = true
@@ -115,9 +115,9 @@ export class Media extends Map<string, AnyMedia> {
 	}
 
 	async delete_file(hash: string) {
-		const media = this.get(hash)
+		let media = this.get(hash)
 		return new Promise((resolve) => {
-			const request = this.#database_request.result
+			let request = this.#database_request.result
 				.transaction(["files"], "readwrite")
 				.objectStore("files")
 				.delete(hash)
@@ -129,18 +129,18 @@ export class Media extends Map<string, AnyMedia> {
 	}
 
 	async getVideoFileMetadata(file: File) {
-		const info = await getMediaInfo() as MediaInfo
-		const metadata = await info.analyzeData(
+		let info = await getMediaInfo() as MediaInfo
+		let metadata = await info.analyzeData(
 			file.size,
 			makeReadChunk(file)
 		)
-		const videoTrack = metadata.media?.track.find(track => track["@type"] === "Video")
+		let videoTrack = metadata.media?.track.find(track => track["@type"] === "Video")
 		if(videoTrack?.["@type"] === "Video") {
-			const duration = videoTrack.Source_Duration ? videoTrack.Source_Duration * 1000 : videoTrack.Duration! * 1000
-			const frames = Math.round(videoTrack.FrameRate! * (videoTrack.Source_Duration ?? videoTrack.Duration!))
-			const fps = videoTrack.FrameRate!
-			const width = videoTrack.Sampled_Width
-			const height = videoTrack.Sampled_Height
+			let duration = videoTrack.Source_Duration ? videoTrack.Source_Duration * 1000 : videoTrack.Duration! * 1000
+			let frames = Math.round(videoTrack.FrameRate! * (videoTrack.Source_Duration ?? videoTrack.Duration!))
+			let fps = videoTrack.FrameRate!
+			let width = videoTrack.Sampled_Width
+			let height = videoTrack.Sampled_Height
 			return {fps, duration, frames, width, height}
 		} else {
 			throw Error("File is not a video")
@@ -149,25 +149,25 @@ export class Media extends Map<string, AnyMedia> {
 
 	// syncing files for collaboration (no permament storing to db)
 	async syncFile(file: File, hash: string, proxy?: boolean, isHost?: boolean) {
-		const alreadyAdded = this.get(hash)
+		let alreadyAdded = this.get(hash)
 		if(alreadyAdded && proxy) {return}
 		if(file.type.startsWith("image")) {
-			const media = {file, hash, kind: "image"} satisfies AnyMedia
+			let media = {file, hash, kind: "image"} satisfies AnyMedia
 			this.set(hash, media)
 			if(isHost) {
 				this.import_file(file, hash, proxy)
 			} else this.on_media_change.publish({files: [media], action: "added"})
 		}
 		else if(file.type.startsWith("video")) {
-			const {frames, duration, fps} = await this.getVideoFileMetadata(file)
-			const media = {file, hash, kind: "video", frames, duration, fps, proxy: proxy ?? false} satisfies AnyMedia
+			let {frames, duration, fps} = await this.getVideoFileMetadata(file)
+			let media = {file, hash, kind: "video", frames, duration, fps, proxy: proxy ?? false} satisfies AnyMedia
 			this.set(hash, media)
 			if(isHost) {
 				this.import_file(file, hash, proxy)
 			} else this.on_media_change.publish({files: [media], action: "added"})
 		}
 		else if(file.type.startsWith("audio")) {
-			const media = {file, hash, kind: "audio"} satisfies AnyMedia
+			let media = {file, hash, kind: "audio"} satisfies AnyMedia
 			this.set(hash, media)
 			if(isHost) {
 				this.import_file(file, hash, proxy)
@@ -178,34 +178,34 @@ export class Media extends Map<string, AnyMedia> {
 	async import_file(input: HTMLInputElement | File, proxyHash?: string, isProxy?: boolean) {
 		this.#files_ready = false
 		this.on_media_change.publish({files: [], action: "placeholder"})
-		const imported_file = input instanceof File ? input : input.files?.[0]
-		const metadata = imported_file?.type.startsWith('video')
+		let imported_file = input instanceof File ? input : input.files?.[0]
+		let metadata = imported_file?.type.startsWith('video')
 			? await this.getVideoFileMetadata(imported_file)
 			: null
 		if(imported_file) {
-			const hash = proxyHash ?? await quick_hash(imported_file)
+			let hash = proxyHash ?? await quick_hash(imported_file)
 			if(isProxy === false && proxyHash) {await this.delete_file(proxyHash)}
-			const transaction = this.#database_request.result.transaction(["files"], "readwrite")
-			const files_store = transaction.objectStore("files")
-			const check_if_duplicate = files_store.count(hash)
+			let transaction = this.#database_request.result.transaction(["files"], "readwrite")
+			let files_store = transaction.objectStore("files")
+			let check_if_duplicate = files_store.count(hash)
 			check_if_duplicate!.onsuccess = () => {
-				const not_duplicate = check_if_duplicate.result === 0
+				let not_duplicate = check_if_duplicate.result === 0
 				if(not_duplicate) {
 					if(imported_file.type.startsWith("image")) {
-						const media = {file: imported_file, hash, kind: "image"} satisfies AnyMedia
+						let media = {file: imported_file, hash, kind: "image"} satisfies AnyMedia
 						files_store.add(media)
 						this.set(hash, media)
 						this.on_media_change.publish({files: [media], action: "added"})
 					}
 					else if(imported_file.type.startsWith("video")) {
-						const {frames, duration, fps} = metadata!
-						const media = {file: imported_file, hash, kind: "video", frames, duration, fps, proxy: isProxy ?? false} satisfies AnyMedia
+						let {frames, duration, fps} = metadata!
+						let media = {file: imported_file, hash, kind: "video", frames, duration, fps, proxy: isProxy ?? false} satisfies AnyMedia
 						files_store.add(media)
 						this.set(hash, media)
 						this.on_media_change.publish({files: [media], action: "added"})
 					}
 					else if(imported_file.type.startsWith("audio")) {
-						const media = {file: imported_file, hash, kind: "audio"} satisfies AnyMedia
+						let media = {file: imported_file, hash, kind: "audio"} satisfies AnyMedia
 						files_store.add(media)
 						this.set(hash, media)
 						this.on_media_change.publish({files: [media], action: "added"})
@@ -218,14 +218,14 @@ export class Media extends Map<string, AnyMedia> {
 	}
 
 	create_video_thumbnail(video: HTMLVideoElement): Promise<string> {
-		const canvas = document.createElement("canvas")
+		let canvas = document.createElement("canvas")
 		canvas.width = 150
 		canvas.height = 50
-		const ctx = canvas.getContext("2d")
+		let ctx = canvas.getContext("2d")
 		video.currentTime = 1000/60
-		const f = (resolve: (url: string) => void) => {
+		let f = (resolve: (url: string) => void) => {
 			ctx?.drawImage(video, 0, 0, 150, 50)
-			const url = canvas.toDataURL()
+			let url = canvas.toDataURL()
 			resolve(url)
 			removeEventListener("seeked", () => f(resolve))
 		}
@@ -235,9 +235,9 @@ export class Media extends Map<string, AnyMedia> {
 	}
 
 	create_image_elements(files: ImageFile[]) {
-		const images: Image[] = files.map(({file, hash}) => {
-			const image = document.createElement("img")
-			const url = URL.createObjectURL(file)
+		let images: Image[] = files.map(({file, hash}) => {
+			let image = document.createElement("img")
+			let url = URL.createObjectURL(file)
 			image.src = url
 			return {element: image, file, hash, kind: "image", url}
 		})
@@ -245,9 +245,9 @@ export class Media extends Map<string, AnyMedia> {
 	}
 
 	create_audio_elements(files: AudioFile[]) {
-		const audios: Audio[] = files.map(({file, hash}) => {
-			const audio = document.createElement("audio")
-			const url = URL.createObjectURL(file)
+		let audios: Audio[] = files.map(({file, hash}) => {
+			let audio = document.createElement("audio")
+			let url = URL.createObjectURL(file)
 			audio.src = url
 			audio.load()
 			return {element: audio, file, hash, kind: "audio", url}
@@ -256,12 +256,12 @@ export class Media extends Map<string, AnyMedia> {
 	}
 
 	async create_video_elements(files: VideoFile[]) {
-		const videos: Video[] = []
-		for(const {file, hash, frames, duration, fps, proxy} of files) {
-			const video = document.createElement('video')
+		let videos: Video[] = []
+		for(let {file, hash, frames, duration, fps, proxy} of files) {
+			let video = document.createElement('video')
 			video.src = URL.createObjectURL(file)
 			video.load()
-			const thumbnail = await this.create_video_thumbnail(video)
+			let thumbnail = await this.create_video_thumbnail(video)
 			videos.push({element: video, file, hash, kind: "video", thumbnail, frames, duration, fps, proxy})
 		}
 		return videos
