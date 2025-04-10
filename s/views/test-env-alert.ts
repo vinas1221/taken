@@ -1,6 +1,6 @@
 import {html} from "@benev/slate"
 
-export const TestEnvAlert = html`
+export let TestEnvAlert = html`
 	<sl-alert
 		class="test-env-alert"
 		variant="warning"
