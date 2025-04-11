@@ -1,6 +1,6 @@
 import {css} from "@benev/slate"
 
-export const styles = css`
+export let styles = css`
 :host {
 	display: flex;
 	align-items: center;
