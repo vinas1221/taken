@@ -2,11 +2,11 @@ import {html} from "@benev/slate"
 
 import {light_view} from "../../../../context/context.js"
 
-export const AddTrackIndicator = light_view(use => (index: number) => {
-	const drag = use.context.controllers.timeline.effectDragHandler
-	const [indicator, setIndicator] = use.state(false)
+export let AddTrackIndicator = light_view(use => (index: number) => {
+	let drag = use.context.controllers.timeline.effectDragHandler
+	let [indicator, setIndicator] = use.state(false)
 
-	const drag_events = {
+	let drag_events = {
 		drop(e: DragEvent) {
 			setIndicator(false)
 		},
