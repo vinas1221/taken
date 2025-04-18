@@ -24,7 +24,7 @@ interface PropsToUpdate {
 	duration: number
 }
 
-export var transitions = window.GLTransitions
+export const transitions = window.GLTransitions
 
 export class TransitionManager {
 	timeline = gsap.timeline({
@@ -52,8 +52,8 @@ export class TransitionManager {
 	}
 
 	#getObject(effect: VideoEffect | ImageEffect) {
-		var videoObject = this.compositor.managers.videoManager.get(effect.id)?.sprite
-		var imageObject = this.compositor.managers.imageManager.get(effect.id)?.sprite
+		const videoObject = this.compositor.managers.videoManager.get(effect.id)?.sprite
+		const imageObject = this.compositor.managers.imageManager.get(effect.id)?.sprite
 		if (videoObject) {
 			return videoObject
 		} else if (imageObject) {
@@ -67,10 +67,10 @@ export class TransitionManager {
 	}
 
 	selectTransition(transition: Transition, recreate?: boolean) {
-		var halfDuration = transition.duration / 2
+		const halfDuration = transition.duration / 2
 		this.selected = transition.id
-		var alreadyAdded = this.getTransition(transition.id)
-		var sameSelected = alreadyAdded?.transition.name === transition.transition.name
+		const alreadyAdded = this.getTransition(transition.id)
+		const sameSelected = alreadyAdded?.transition.name === transition.transition.name
 
 		if(alreadyAdded && !sameSelected) {
 			this.removeTransition(transition.id)
@@ -98,10 +98,10 @@ export class TransitionManager {
 		// This ensures that on the receiving side the latest effect properties are used.
 		return {
 			apply: async (state: State) => {
-				var incoming = state.effects.find(e => e.id === transition.incoming.id) as VideoEffect | ImageEffect | undefined
-				var outgoing = state.effects.find(e => e.id === transition.outgoing.id) as VideoEffect | ImageEffect | undefined
+				const incoming = state.effects.find(e => e.id === transition.incoming.id) as VideoEffect | ImageEffect | undefined
+				const outgoing = state.effects.find(e => e.id === transition.outgoing.id) as VideoEffect | ImageEffect | undefined
 				if(!incoming || !outgoing) {return}
-				var alreadyAdded = this.getTransition(transition.id)
+				const alreadyAdded = this.getTransition(transition.id)
 				if(!alreadyAdded || recreate) {
 					this.#selectTransition(
 						{...transition, incoming, outgoing},
@@ -120,16 +120,16 @@ export class TransitionManager {
 
 	async updateTransition(state: State, propsToUpdate?: PropsToUpdate) {
 		if (this.selected && propsToUpdate) {
-			var newFullDuration = normalizeTransitionDuration(
+			const newFullDuration = normalizeTransitionDuration(
 				propsToUpdate.duration,
 				1000 / state.timebase
 			)
 
-			var transition = this.getTransition(this.selected)
+			const transition = this.getTransition(this.selected)
 			if (transition) {
-				var incoming = state.effects.find(e => e.id === transition.incoming.id)!
-				var outgoing = state.effects.find(e => e.id === transition.outgoing.id)!
-				var delta = (transition.duration - newFullDuration) / 2
+				const incoming = state.effects.find(e => e.id === transition.incoming.id)!
+				const outgoing = state.effects.find(e => e.id === transition.outgoing.id)!
+				const delta = (transition.duration - newFullDuration) / 2
 
 				this.actions.set_transition_duration(newFullDuration, this.selected)
 
@@ -165,7 +165,7 @@ export class TransitionManager {
 	}
 
 	removeTransition(id: string, recreate?: boolean) {
-		var transition = this.getTransition(id)
+		const transition = this.getTransition(id)
 		if(!recreate) {this.actions.remove_transition(id)}
 		this.#transitions.get(id)?.destroy()
 		this.#transitions.delete(id)
@@ -177,7 +177,7 @@ export class TransitionManager {
 	}
 
 	#fragmentShader(fragment: string) {
-		var fragmentShader = `
+		const fragmentShader = `
 			precision highp float;
 			varying vec2 vTextureCoord;
 			varying vec2 _uv;
@@ -208,8 +208,8 @@ export class TransitionManager {
 
 	async #selectTransition(transition: Transition, state: State, recreate?: boolean) {
 		if(recreate) {this.removeTransition(transition.id, recreate)}
-		var incoming = this.#getObject(transition.incoming)
-		var outgoing = this.#getObject(transition.outgoing)
+		const incoming = this.#getObject(transition.incoming)
+		const outgoing = this.#getObject(transition.outgoing)
 
 		if (incoming && outgoing) {
 			let rtFrom = PIXI.RenderTexture.create({ width: 1920, height: 1080 })
@@ -218,19 +218,19 @@ export class TransitionManager {
 			this.compositor.app.renderer.render(outgoing, { renderTexture: rtFrom })
 			this.compositor.app.renderer.render(incoming, { renderTexture: rtTo })
 
-			var transitionSprite = new PIXI.Sprite()
+			const transitionSprite = new PIXI.Sprite()
 			transitionSprite.width = this.compositor.app.stage.width
 			transitionSprite.height = this.compositor.app.stage.height
 			transitionSprite.zIndex = omnislate.context.state.tracks.length - transition.incoming.track
 
-			var updateRT = () => {
+			const updateRT = () => {
 				this.compositor.app.renderer.render(outgoing, { renderTexture: rtFrom })
 				this.compositor.app.renderer.render(incoming, { renderTexture: rtTo })
 			}
 
 			let incomingTween: GSAPTween
 
-			var updateTransitionTexture = () => {
+			const updateTransitionTexture = () => {
 				if(incomingTween !== undefined) {
 					if(incomingTween.progress() > 0 && incomingTween.progress() < 1) {
 						incoming.alpha = 1
@@ -242,19 +242,19 @@ export class TransitionManager {
 				}
 			}
 
-			var showTransition = () => {
+			const showTransition = () => {
 				incoming.alpha = 0
 				outgoing.alpha = 0
 				this.compositor.app.stage.addChild(transitionSprite)
 			}
 
-			var hideTransition = () => {
+			const hideTransition = () => {
 				incoming.alpha = 1
 				outgoing.alpha = 1
 				this.compositor.app.stage.removeChild(transitionSprite)
 			}
 
-			var filter = new PIXI.Filter(
+			const filter = new PIXI.Filter(
 				vertexShader,
 				//@ts-ignore
 				this.#fragmentShader(transition.transition.glsl),
@@ -269,18 +269,18 @@ export class TransitionManager {
 				}
 			)
 
-			for(var uniform in transition.transition.defaultParams) {
+			for(const uniform in transition.transition.defaultParams) {
 				//@ts-ignore
 				filter.uniforms[uniform] = transition.transition.defaultParams[uniform]
 			}
 
 			transitionSprite.filters = [filter]
-			var isTransitionActive = get_effect_at_timestamp(transition.incoming, state.timecode) || get_effect_at_timestamp(transition.outgoing, state.timecode)
+			const isTransitionActive = get_effect_at_timestamp(transition.incoming, state.timecode) || get_effect_at_timestamp(transition.outgoing, state.timecode)
 			if(isTransitionActive) {
 				this.compositor.app.stage.addChild(transitionSprite)
 			}
-			var startMargin = 10
-			var endMargin = 20
+			const startMargin = 10
+			const endMargin = 20
 
 			incomingTween = gsap.fromTo(
 				//@ts-ignore
@@ -301,23 +301,23 @@ export class TransitionManager {
 				}
 			)
 
-			var startTime = (transition.incoming.start_at_position - (transition.duration / 2) - startMargin) / 1000
+			const startTime = (transition.incoming.start_at_position - (transition.duration / 2) - startMargin) / 1000
 			this.timeline.add(incomingTween, startTime)
 			if(!recreate) {this.actions.add_transition(transition)}
 			this.compositor.app.stage.sortChildren()
 
-			var update = () => {
-				var t = this.getTransition(transition.id)
+			const update = () => {
+				const t = this.getTransition(transition.id)
 				if(t) {
-					var incoming = omnislate.context.state.effects.find(e => e.id === t.incoming.id)!
-					var startTime = (incoming.start_at_position - (t.duration / 2) - startMargin) / 1000
+					const incoming = omnislate.context.state.effects.find(e => e.id === t.incoming.id)!
+					const startTime = (incoming.start_at_position - (t.duration / 2) - startMargin) / 1000
 					incomingTween.startTime(startTime)
 					incomingTween.duration((t.duration + endMargin) / 1000)
 					updateTransitionTexture()
 				}
 			}
 			
-			var destroy = () => {
+			const destroy = () => {
 				transitionSprite.destroy()
 				rtFrom.destroy()
 				rtTo.destroy()
@@ -340,8 +340,8 @@ export class TransitionManager {
 		let reverseTriggered = false
 
 		return function(this: GSAPTweenVars) {
-			var currentTime = this.time()
-			var isReversing = currentTime < previousTime
+			const currentTime = this.time()
+			const isReversing = currentTime < previousTime
 			tick()
 
 			if (
@@ -412,20 +412,20 @@ export class TransitionManager {
 	}
 
 	findTouchingClips (clips: AnyEffect[]) {
-		var clipsByTrack: Record<number, AnyEffect[]> = clips.reduce((acc, clip) => {
+		const clipsByTrack: Record<number, AnyEffect[]> = clips.reduce((acc, clip) => {
 			acc[clip.track] = acc[clip.track] || []
 			acc[clip.track].push(clip)
 			return acc
 		}, {} as Record<number, AnyEffect[]>)
 
-		var touchingClips: {outgoing: TransitionAbleEffect; incoming: TransitionAbleEffect; position: number}[] = []
+		const touchingClips: {outgoing: TransitionAbleEffect; incoming: TransitionAbleEffect; position: number}[] = []
 
 		Object.values(clipsByTrack).forEach(trackClips => {
-			var sortedClips = trackClips.sort((a, b) => a.start_at_position - b.start_at_position)
+			const sortedClips = trackClips.sort((a, b) => a.start_at_position - b.start_at_position)
 			for (let i = 0; i < sortedClips.length - 1; i++) {
-				var currentClip = sortedClips[i]
-				var nextClip = sortedClips[i + 1]
-				var currentClipEnd = currentClip.start_at_position + (currentClip.end - currentClip.start)
+				const currentClip = sortedClips[i]
+				const nextClip = sortedClips[i + 1]
+				const currentClipEnd = currentClip.start_at_position + (currentClip.end - currentClip.start)
 				if (
 					currentClipEnd === nextClip.start_at_position &&
 					['image', 'video'].includes(currentClip.kind) &&
@@ -443,8 +443,8 @@ export class TransitionManager {
 	}
 
 	removeTransitionFromNoLongerTouchingEffects(state: State) {
-		var touchingClips = this.findTouchingClips(state.effects)
-		var stillTouchingIds = new Set<string>()
+		const touchingClips = this.findTouchingClips(state.effects)
+		const stillTouchingIds = new Set<string>()
 
 		touchingClips.forEach(({outgoing, incoming}) => {
 			stillTouchingIds.add(outgoing.id)
@@ -459,7 +459,7 @@ export class TransitionManager {
 	}
 }
 
-var vertexShader = `
+const vertexShader = `
 	attribute vec2 aVertexPosition;
 	varying vec2 _uv;                          // gl-transition
 	uniform mat3 projectionMatrix;
@@ -492,7 +492,7 @@ var vertexShader = `
 //   resizeMode?: "cover" | "contain" | "stretch",
 // };
 
-// var resizeModes: { [_: string]: any } = {
+// const resizeModes: { [_: string]: any } = {
 //   cover: (r: string) =>
 //     `.5+(uv-.5)*vec2(min(ratio/${r},1.),min(${r}/ratio,1.))`,
 //   contain: (r: string) =>
